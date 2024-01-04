@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### application ###
-!/src/main/resources/application.properties
+application-security.properties
