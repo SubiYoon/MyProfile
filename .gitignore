@@ -34,3 +34,6 @@ build/
 
 ### application ###
 application-security.properties
+
+### DB file ###
+postgreSQL
