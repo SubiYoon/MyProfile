@@ -23,14 +23,27 @@ public class FileUtil {
      */
     public static void saveFile(MultipartFile multipartFile, String path) {
         String fileName = multipartFile.getOriginalFilename();
+        String[] slitFileName = multipartFile.getOriginalFilename().split(".");
+        File file = new File(path);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+
+        FileOutputStream fos;
         try {
             byte[] fileBytes = multipartFile.getBytes();
-            FileOutputStream fos = new FileOutputStream(path + fileName);
+            file = new File(path + fileName);
+            for(int i=1; ; i++){
+                if(file.exists()){
+                    file = new File(path + slitFileName[0] + "(" + i + ")");
+                } else {
+                    fos = new FileOutputStream(file.getAbsolutePath());
+                    break;
+                }
+            }
 
             fos.write(fileBytes);
             fos.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
