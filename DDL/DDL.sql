@@ -1,34 +1,40 @@
--- 프로필
-create table abcd.abcd.yoon_dong_sup
+create table yoon_dong_sup
 (
-    name        varchar not null
+    name                    varchar not null
         constraint yoon_dong_sup_pk
             primary key,
-    birth_year  integer,
-    sex         varchar,
-    addr        varchar,
-    addr_detail varchar,
-    image       varchar,
-    regist_ts   date default now(),
-    update_ts   date
+    birth_year              integer,
+    sex                     varchar,
+    addr                    varchar,
+    addr_detail             varchar,
+    simple_introduce_myself varchar,
+    detail_introduce_myself varchar,
+    image                   varchar,
+    regist_ts               date,
+    update_ts               date
 );
 
-comment on table abcd.yoon_dong_sup is '윤동섭';
+comment on table yoon_dong_sup is '윤동섭';
 
-comment on column abcd.yoon_dong_sup.name is '이름';
+comment on column yoon_dong_sup.name is '이름';
 
-comment on column abcd.yoon_dong_sup.birth_year is '출생년도';
+comment on column yoon_dong_sup.birth_year is '출생년도';
 
-comment on column abcd.yoon_dong_sup.sex is '성별';
+comment on column yoon_dong_sup.sex is '성별';
 
-comment on column abcd.yoon_dong_sup.addr is '주소';
+comment on column yoon_dong_sup.addr is '주소';
 
-comment on column abcd.yoon_dong_sup.addr_detail is '상세주소';
+comment on column yoon_dong_sup.addr_detail is '주소상세';
 
-comment on column abcd.yoon_dong_sup.image is '증명사진';
+comment on column yoon_dong_sup.simple_introduce_myself is '한줄자기소개';
 
-alter table abcd.yoon_dong_sup
+comment on column yoon_dong_sup.detail_introduce_myself is '상세자기소개';
+
+comment on column yoon_dong_sup.image is '증명사진';
+
+alter table yoon_dong_sup
     owner to root;
+
 
 -- 경력
 create table abcd.career

@@ -1,4 +1,4 @@
-package profile.introduce.myself.Main.controller;
+package profile.introduce.myself.main.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
