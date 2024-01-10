@@ -37,3 +37,6 @@ application-security.properties
 
 ### DB file ###
 postgreSQL
+
+### macOS ###
+.DS_store
