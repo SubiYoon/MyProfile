@@ -1,4 +1,4 @@
-package profile.introduce.myself.vo;
+package profile.introduce.myself.main.vo;
 
 import lombok.Data;
 
