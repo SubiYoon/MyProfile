@@ -3,6 +3,6 @@
 
 <mapper namespace="profile.introduce.myself.main.mapper.MainMapper">
     <select id="selectMyInfo" resultType="SampleVo">
-        select * from abcd.yoon_dong_sup
+        select * from introduce.my_profile
     </select>
 </mapper>
