@@ -39,4 +39,4 @@ application-security.properties
 postgreSQL
 
 ### macOS ###
-.DS_store
+.DS_Store
