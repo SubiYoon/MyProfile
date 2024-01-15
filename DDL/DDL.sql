@@ -1,3 +1,6 @@
+create database myself
+    with owner root;
+
 create schema introduce;
 
 alter schema introduce owner to root;
