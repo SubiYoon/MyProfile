@@ -10,6 +10,7 @@ create table introduce.my_profile
     name                    varchar not null
         constraint my_profile_pk
             primary key,
+    password                varchar not null,
     birth_year              integer,
     sex                     varchar,
     addr                    varchar,
@@ -24,6 +25,8 @@ create table introduce.my_profile
 comment on table introduce.my_profile is '프로필';
 
 comment on column introduce.my_profile.name is '이름';
+
+comment on column introduce.my_profile.password is '비밀번호';
 
 comment on column introduce.my_profile.birth_year is '출생년도';
 
