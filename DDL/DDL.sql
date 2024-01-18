@@ -10,6 +10,7 @@ create table introduce.my_profile
     name                    varchar not null
         constraint my_profile_pk
             primary key,
+    password                varchar not null,
     birth_year              integer,
     sex                     varchar,
     addr                    varchar,
@@ -24,6 +25,8 @@ create table introduce.my_profile
 comment on table introduce.my_profile is '프로필';
 
 comment on column introduce.my_profile.name is '이름';
+
+comment on column introduce.my_profile.password is '비밀번호';
 
 comment on column introduce.my_profile.birth_year is '출생년도';
 
@@ -196,6 +199,6 @@ alter table introduce.my_stack
 
 -- 자신의 정보를 입력하고 쿼리를 날리세요.(간단한 소개, 상세 소개, 증명사진자리 세가지는 나중에 기능 생성후 삽입예정 작성 안하셔도 됩니다.)
 INSERT INTO introduce.my_profile
-(name, birth_year, sex, addr, addr_detail, simple_introduce_myself, detail_introduce_myself, image, regist_ts, update_ts)
-VALUES ('홍길동', 2024, '남자', '서울시', '어딘가', '간단 소개', '상세 소개', '증명사진', now(), now());
+(name, password, birth_year, sex, addr, addr_detail, simple_introduce_myself, detail_introduce_myself, image, regist_ts, update_ts)
+VALUES ('홍길동', '비밀번호', 2024, '남자', '서울시', '어딘가', '간단 소개', '상세 소개', '증명사진', now(), now());
 commit;

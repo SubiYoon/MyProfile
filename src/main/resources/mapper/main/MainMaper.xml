@@ -3,6 +3,15 @@
 
 <mapper namespace="profile.introduce.myself.main.mapper.MainMapper">
     <select id="selectMyInfo" resultType="SampleVo">
-        select * from introduce.my_profile
+        SELECT
+            NAME
+            , BIRTH_YEAR
+            , SEX
+            , ADDR
+            , ADDR_DETAIL
+            , SIMPLE_INTRODUCE_MYSELF
+            , DETAIL_INTRODUCE_MYSELF
+            , IMAGE
+        FROM INTRODUCE.MY_PROFILE
     </select>
 </mapper>

@@ -42,4 +42,7 @@ postgreSQL
 .DS_Store
 
 ### compile ###
-src/main/resources/static/assets
+src/main/resources/static
+
+### log ###
+logs

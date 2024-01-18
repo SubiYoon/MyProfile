@@ -27,6 +27,7 @@ export default defineConfig({
                 drop_debugger: true
             }
         },
-        outDir: "../src/main/resources/static"
+        outDir: "../src/main/resources/static",
+        emptyOutDir: true
     }
 })
