@@ -5,7 +5,7 @@ import axios from 'axios'
 
 async function test() {
     try {
-        const res = await axios.get('main')
+        const res = await axios.get('/api/main')
         console.log(res)
     } catch (error) {
         console.log(error)

@@ -8,8 +8,9 @@ export default defineConfig({
     plugins: [vue()],
     server: {
         proxy: {
-            'http://localhost:5173': {
-                target: 'http://localhost:7777'
+            '/api': {
+                target: 'http://localhost:7777',
+                rewrite: (path) => path.replace(/^\/api/, '')
             }
         }
     },
@@ -26,6 +27,7 @@ export default defineConfig({
                 drop_debugger: true
             }
         },
-        outDir: '../src/main/resources/static'
+        outDir: '../src/main/resources/static',
+        emptyOutDir: true
     }
 })

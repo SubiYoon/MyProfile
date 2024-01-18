@@ -1,0 +1,48 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!-- 어디에 출력할지 설정 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="INFO_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 파일을 저장할 경로를 정한다 -->
+        <fileName>./logs/myProfile.log</fileName>
+        <!-- 레벨별 필터링이 필요없을 경우 filter class 관련된 부분을 삭제하면 됨-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>INFO</level>-->
+<!--            <onMatch>ACCEPT</onMatch> &lt;!&ndash; 해당 레벨만 기록한다. &ndash;&gt;-->
+<!--            <onMismatch>DENY</onMismatch> &lt;!&ndash; 다른 수준의 레벨은 기록하지 않는다.(상위 레벨도 기록 안함), 상위 수준의 레벨에 대한 기록을 원하면 ACCEPT 로 하면 기록된다. &ndash;&gt;-->
+<!--        </filter>-->
+        <!-- 해당 패턴 네이밍으로 현재 로그가 기록됨 -->
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+        <!-- 해당 패턴 네이밍으로 이전 파일이 기록됨 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/myProfile.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 한 파일의 최대 용량 -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 한 파일의 최대 저장 기한 -->
+            <maxHistory>180</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="jdbc" level="OFF"/>
+    <logger name="jdbc.sqlonly" level="DEBUG"/>            <!-- SQL 로그만 출력 -->
+    <logger name="jdbc.sqltiming" level="OFF"/>        <!-- SQL 소요시간 출력 -->
+    <logger name="jdbc.audit" level="OFF"/>
+    <logger name="jdbc.resultset" level="OFF"/>          <!-- ResultSet을 포함한 모든 JDBC 호출 정보를 출력 -->
+    <logger name="jdbc.resultsettable" level="OFF"/>     <!-- SQL 결과 데이터를 Table형식으로 출력 -->
+    <logger name="jdbc.connection" level="OFF"/>         <!-- 커넥션 연결/종료 정보 출력 -->
+
+    <!-- 사용할 레벨의 로그를 설정 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="INFO_LOG" />
+    </root>
+</configuration>

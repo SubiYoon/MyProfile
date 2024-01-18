@@ -12,6 +12,4 @@ public class SampleVo {
     private String simpleIntroduceMyself;
     private String detailIntroduceMyself;
     private String image;
-    private String registTs;
-    private String updateTs;
 }
