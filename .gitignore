@@ -42,7 +42,9 @@ postgreSQL
 .DS_Store
 
 ### compile ###
-src/main/resources/static
+src/main/webapp/index.html
+src/main/webapp/favicon.ico
+src/main/webapp/assets
 
 ### log ###
 logs

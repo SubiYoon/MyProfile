@@ -1,13 +1,13 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router"
-import HelloWorld from "./components/HelloWorld.vue"
-import axios from "axios"
+import { RouterLink, RouterView } from 'vue-router'
+import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios'
 
 const mode = import.meta.env.MODE
 
 async function test() {
     try {
-        const res = await axios.get("/api/main")
+        const res = await axios.get('/api/main')
         console.log(res)
     } catch (error) {
         console.log(error)
