@@ -6,12 +6,12 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('@/views/HomeView.vue')
+            component: () => import('@/views/HomeView.vue'),
         },
         {
-            path: '/sign-in',
+            path: '/login',
             name: 'signIn',
-            component: () => import('@/views/SignInView.vue')
+            component: () => import('@/views/SignInView.vue'),
         },
         {
             path: '/admin',
@@ -19,9 +19,9 @@ const router = createRouter({
             // route level code-splitting
             // this generates a separate chunk (About.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
-            component: () => import('@/views/SignInView.vue')
-        }
-    ]
+            component: () => import('@/views/SignInView.vue'),
+        },
+    ],
 })
 
 router.beforeEach((to, from, next) => {

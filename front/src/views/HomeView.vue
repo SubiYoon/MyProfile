@@ -7,7 +7,7 @@
             <div>
                 <nav>
                     <RouterLink to="/">Home</RouterLink>
-                    <RouterLink to="/sign-in" class="text-black">sign-in</RouterLink>
+                    <RouterLink to="/login" class="text-black">login</RouterLink>
                 </nav>
             </div>
         </header>
