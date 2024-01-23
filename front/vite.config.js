@@ -11,28 +11,28 @@ export default defineConfig({
             '^/api': {
                 target: 'http://localhost:7777',
                 changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, '')
+                // rewrite: (path) => path.replace(/^\/api/, ''),
             },
             '/static': {
-                target: 'http://localhost:7777'
-            }
+                target: 'http://localhost:7777',
+            },
         },
-        port: 3000
+        port: 3000,
     },
     resolve: {
         alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
+            '@': fileURLToPath(new URL('./src', import.meta.url)),
+        },
     },
     build: {
         minify: 'terser',
         terserOptions: {
             compress: {
                 drop_console: true,
-                drop_debugger: true
-            }
+                drop_debugger: true,
+            },
         },
         outDir: '../src/main/webapp',
-        emptyOutDir: true
-    }
+        emptyOutDir: true,
+    },
 })

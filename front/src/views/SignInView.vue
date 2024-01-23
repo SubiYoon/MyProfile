@@ -93,9 +93,9 @@ async function submitHandler() {
                 @input-change="validateInput"
             />
             <!-- 서버로부터 받은 메시지 -->
-            <div :class="messages.form.type">
+            <p :class="messages.form.type">
                 {{ messages.form.value }}
-            </div>
+            </p>
             <div>
                 <button>로그인</button>
             </div>
