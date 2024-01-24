@@ -34,14 +34,16 @@
 
     <logger name="jdbc" level="OFF"/>
     <logger name="jdbc.sqlonly" level="DEBUG"/>            <!-- SQL 로그만 출력 -->
-    <logger name="jdbc.sqltiming" level="OFF"/>        <!-- SQL 소요시간 출력 -->
+    <logger name="jdbc.sqltiming" level="OFF"/>           <!-- SQL 소요시간 출력 -->
     <logger name="jdbc.audit" level="OFF"/>
     <logger name="jdbc.resultset" level="OFF"/>          <!-- ResultSet을 포함한 모든 JDBC 호출 정보를 출력 -->
     <logger name="jdbc.resultsettable" level="OFF"/>     <!-- SQL 결과 데이터를 Table형식으로 출력 -->
     <logger name="jdbc.connection" level="OFF"/>         <!-- 커넥션 연결/종료 정보 출력 -->
+    <logger name="com.zaxxer.hikari" level="OFF"/>
+    <logger name="profile.introduce.myself" level="DEBUG"/>
 
     <!-- 사용할 레벨의 로그를 설정 -->
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="INFO_LOG" />
     </root>

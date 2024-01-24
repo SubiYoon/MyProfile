@@ -18,7 +18,7 @@ public class MainController {
 
     @RequestMapping("main")
     public void mainTest() throws Exception {
-        logger.info("테스트");
+        logger.debug("Vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
 
         SampleVo sampleVo = mainService.selectMyInfo();
         System.out.println(sampleVo.toString());
