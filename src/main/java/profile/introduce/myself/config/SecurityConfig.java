@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -53,12 +55,13 @@ public class SecurityConfig {
                         //나머지 요청은 전부 허용
                         .anyRequest().permitAll()
                 )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 //로그인 폼 방식 적용
                 .formLogin(form -> form
                         //로그인 폼 URL
                         .loginPage("/login")
-                        //성공시 "/"페이지로 이동
                         .loginProcessingUrl("/profile/login")
+                        //성공시 "/"페이지로 이동
                         .defaultSuccessUrl("/", true)
                         //인증 인가 필요없이 허용
                         .permitAll()
@@ -72,7 +75,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    CorsConfigurationSource corsFilter() {
+    public CorsConfigurationSource corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         // 쿠키 or 인증토큰을 포함하는 요청을 승인여부
         config.setAllowCredentials(true);
