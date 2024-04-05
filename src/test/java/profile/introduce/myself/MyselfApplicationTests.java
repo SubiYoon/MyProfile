@@ -30,12 +30,12 @@ class MyselfApplicationTests {
     @Test
     void insertMyInfo() throws Exception{
         UserVo userVo = new UserVo(
-                "홍길동"
-                , encode("비밀번호")
-                , 2024
+                "박지수"
+                , encode("1234")
+                , 1991
                 , "남자"
-                , "서울시"
-                , "강남구 어딘가"
+                , "청주시"
+                , "청주시"
                 , "간단소개"
                 , "상세소개"
                 , "사진(추후추가)"
