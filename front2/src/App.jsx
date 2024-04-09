@@ -17,6 +17,16 @@ const GlobalStyle = createGlobalStyle`
             min-width: 300px; /* 모바일 최소 넓이 */
         }
     }
+    @font-face {
+        font-family: "mainFont2";
+        font-weight: 50;
+        src: url("/assets/font/mainFont2.ttf") format("truetype");
+    }
+    @font-face {
+        font-family: "mainFont";
+        font-weight: 50;
+        src: url("/assets/font/mainFont.ttf") format("truetype");
+    }
 `;
 
 function App() {
@@ -65,7 +75,11 @@ function App() {
             <Wrapper ref={outerDivRef}>
                 <Header />
                 <Section>
-                    <Overlay>테스트 화면입니다</Overlay>
+                    <Overlay>
+                        <MainFont>Yoon Dong Sub</MainFont>
+                        <MainFont2>Park Ji Su</MainFont2>
+                        <MainFont3>PROJECT</MainFont3>
+                    </Overlay>
                 </Section>
                 <Section>
                     <Introduction>Page 2</Introduction>
@@ -148,13 +162,39 @@ const Dot = styled.div`
 const Overlay = styled.div`
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    width: 90%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
-    font-size: 24px;
+    color: #3b5bdb;
     pointer-events: none; // Overlay 위에서 마우스 이벤트를 무시하도록 설정
+    flex-direction: column;
+    text-shadow: 8px 8px 8px black;
+   
 `;
+
+const MainFont = styled.div`
+    width: 100%;
+    font-family: "mainFont2";
+    font-weight: bolder;
+    font-size: 8rem;
+    text-align: left;
+`
+
+const MainFont2 = styled.div`
+    width: 100%;
+    font-family: "mainFont2";
+    font-weight: bolder;
+    font-size: 8rem;
+    text-align: center;
+`
+
+const MainFont3 = styled.div`
+    width: 100%;
+    font-weight: bolder;
+    color: #364fc7;
+    font-size: 10rem;
+    font-family: "mainFont";
+    text-align: right;
+`
