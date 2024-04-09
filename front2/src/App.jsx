@@ -2,7 +2,22 @@ import React, { useRef, useEffect, useState } from "react";
 import './App.css';
 import Header from "./components/layout/Header.jsx";
 import { RecoilRoot } from "recoil";
-import styled from "styled-components";
+import { styled, createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+    html, body {
+        overflow-y: hidden;
+        //min-height: 600px; /* 최소 높이 */
+        //min-width: 800px; /* 최소 넓이 */
+        
+    }
+    @media screen and (max-width: 768px) {
+        html, body {
+            min-height: 400px; /* 모바일 최소 높이 */
+            min-width: 300px; /* 모바일 최소 넓이 */
+        }
+    }
+`;
 
 function App() {
     const DIVIDER_HEIGHT = 5;
@@ -12,85 +27,45 @@ function App() {
         const wheelHandler = (e) => {
             e.preventDefault();
             const { deltaY } = e;
-            const { scrollTop } = outerDivRef.current; // 스크롤 위쪽 끝부분 위치
-            const pageHeight = window.innerHeight; // 화면 세로길이, 100vh와 같습니다.
+            const { scrollTop } = outerDivRef.current;
+            const pageHeight = window.innerHeight;
 
+            let nextPage = currentPage;
             if (deltaY > 0) {
-                // 스크롤 내릴 때
-                if (scrollTop >= 0 && scrollTop < pageHeight) {
-                    //현재 1페이지
-                    outerDivRef.current.scrollTo({
-                        top: pageHeight + DIVIDER_HEIGHT,
-                        left: 0,
-                        behavior: "smooth",
-                    });
-                    setCurrentPage(2);
-                } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
-                    //현재 2페이지
-                    outerDivRef.current.scrollTo({
-                        top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-                        left: 0,
-                        behavior: "smooth",
-                    });
-                    setCurrentPage(3);
-                } else {
-                    // 현재 3페이지
-                    outerDivRef.current.scrollTo({
-                        top: pageHeight * 2 + DIVIDER_HEIGHT * 2,
-                        left: 0,
-                        behavior: "smooth",
-                    });
-                }
+                nextPage = Math.min(currentPage + 1, 3);
             } else {
-                // 스크롤 올릴 때
-                if (scrollTop >= 0 && scrollTop < pageHeight) {
-                    //현재 1페이지
-                    outerDivRef.current.scrollTo({
-                        top: 0,
-                        left: 0,
-                        behavior: "smooth",
-                    });
-                } else if (scrollTop >= pageHeight && scrollTop < pageHeight * 2) {
-                    //현재 2페이지
-                    outerDivRef.current.scrollTo({
-                        top: 0,
-                        left: 0,
-                        behavior: "smooth",
-                    });
-                    setCurrentPage(1);
-                } else {
-                    // 현재 3페이지
-                    outerDivRef.current.scrollTo({
-                        top: pageHeight + DIVIDER_HEIGHT,
-                        left: 0,
-                        behavior: "smooth",
-                    });
-                    setCurrentPage(2);
-                }
+                nextPage = Math.max(currentPage - 1, 1);
             }
+
+            const scrollToTop = (page) => {
+                outerDivRef.current.scrollTo({
+                    top: (page - 1) * pageHeight + (page - 1) * DIVIDER_HEIGHT,
+                    left: 0,
+                    behavior: "smooth",
+                });
+            };
+
+            setCurrentPage(nextPage);
+            scrollToTop(nextPage);
         };
+
         const outerDivRefCurrent = outerDivRef.current;
         outerDivRefCurrent.addEventListener("wheel", wheelHandler);
         return () => {
             outerDivRefCurrent.removeEventListener("wheel", wheelHandler);
         };
-    }, []);
+    }, [currentPage]);
 
     return (
         <RecoilRoot>
+            <GlobalStyle />
+            <Video autoPlay loop muted>
+                <source src="/assets/videos/main.mp4" type="video/mp4" />
+            </Video>
             <Wrapper ref={outerDivRef}>
                 <Header />
-                <DotContainer>
-                    <DotBox>
-                        <Dot currentPage={currentPage} num={1}/>
-                        <Dot currentPage={currentPage} num={2}/>
-                        <Dot currentPage={currentPage} num={3}/>
-                    </DotBox>
-                </DotContainer>
                 <Section>
-                    <Video autoPlay loop muted>
-                        <source src="/assets/videos/main.mp4" type="video/mp4" />
-                    </Video>
+                    <Overlay>테스트 화면입니다</Overlay>
                 </Section>
                 <Section>
                     <Introduction>Page 2</Introduction>
@@ -98,6 +73,13 @@ function App() {
                 <Section>
                     <Introduction>Page 3</Introduction>
                 </Section>
+                <DotContainer>
+                    <DotBox>
+                        <Dot currentPage={currentPage} num={1} />
+                        <Dot currentPage={currentPage} num={2} />
+                        <Dot currentPage={currentPage} num={3} />
+                    </DotBox>
+                </DotContainer>
             </Wrapper>
         </RecoilRoot>
     );
@@ -108,8 +90,6 @@ export default App;
 const Wrapper = styled.div`
     overflow-y: hidden; // 스크롤바 숨김
     height: 100vh; // 컨테이너의 높이를 뷰포트 높이로 설정
-    //min-height: 800px;
-    min-width: 1180px;
 `;
 
 const Section = styled.div`
@@ -118,15 +98,17 @@ const Section = styled.div`
     align-items: center;
     width: 100%;
     height: 100%; // 각 섹션의 높이는 뷰포트 높이와 동일
-    background-color: gray;
     color: white;
-    ::-webkit-scrollbar {
-        display: none;
+    position: relative; // Overlay를 올려놓기 위해 부모 요소에 position: relative; 추가
 `;
 
 const Video = styled.video`
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    z-index: -1; // 페이지 컨텐츠 위에 표시되도록 설정
     object-fit: cover;
 `;
 
@@ -139,8 +121,8 @@ const Introduction = styled.div`
 `;
 
 const DotContainer = styled.div`
-    position: fixed; 
-    top: 45%; 
+    position: fixed;
+    top: 45%;
     right: 24px;
 `;
 
@@ -161,4 +143,18 @@ const Dot = styled.div`
     background-color: ${({ currentPage, num }) => (currentPage === num ? "black" : "transparent")};
     transition-duration: 1000px;
     transition: background-color 0.5s;
+`;
+
+const Overlay = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    pointer-events: none; // Overlay 위에서 마우스 이벤트를 무시하도록 설정
 `;
