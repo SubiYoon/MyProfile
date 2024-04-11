@@ -29,7 +29,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  const DIVIDER_HEIGHT = 5;
   const outerDivRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -37,7 +36,6 @@ function App() {
   const testOnClick = async () => {
     try {
       const response = await axios.get('/main');
-      // NAME 속성의 값을 출력
       setData(response.data);
     } catch (error) {
       alert('에러');
@@ -45,39 +43,22 @@ function App() {
   };
 
   useEffect(() => {
-    const wheelHandler = (e) => {
-      e.preventDefault();
-      const { deltaY } = e;
-      const { scrollTop } = outerDivRef.current;
-      const pageHeight = window.innerHeight;
+    const scrollHandler = () => {
+      const { scrollTop, scrollHeight, clientHeight } = outerDivRef.current;
+      const scrollFraction = scrollTop / (scrollHeight - clientHeight);
+      const totalPages = 3; // 전체 페이지 수
 
-      let nextPage = currentPage;
-      if (deltaY > 0) {
-        nextPage = Math.min(currentPage + 1, 3);
-      } else {
-        nextPage = Math.max(currentPage - 1, 1);
-      }
-
-      const scrollToTop = (page) => {
-        outerDivRef.current.scrollTo({
-          top: (page - 1) * pageHeight + (page - 1) * DIVIDER_HEIGHT,
-          left: 0,
-          behavior: 'smooth',
-        });
-      };
-
-      setCurrentPage(nextPage);
-      scrollToTop(nextPage);
+      // 현재 스크롤 위치에 따라 현재 페이지 계산
+      const currentPage = Math.ceil(scrollFraction * totalPages);
+      setCurrentPage(currentPage);
     };
 
     const outerDivRefCurrent = outerDivRef.current;
-    outerDivRefCurrent.addEventListener('wheel', wheelHandler, {
-      passive: false,
-    });
+    outerDivRefCurrent.addEventListener('scroll', scrollHandler);
     return () => {
-      outerDivRefCurrent.removeEventListener('wheel', wheelHandler);
+      outerDivRefCurrent.removeEventListener('scroll', scrollHandler);
     };
-  }, [currentPage]);
+  }, []);
 
   return (
     <RecoilRoot>
@@ -101,7 +82,14 @@ function App() {
           </Introduction>
         </Section>
         <Section>
-          <Introduction>Page 3</Introduction>
+          <Introduction>
+            <p>Content for Page 2</p>
+          </Introduction>
+        </Section>
+        <Section>
+          <Introduction>
+            <p>Content for Page 3</p>
+          </Introduction>
         </Section>
         <Dot currentpage={currentPage} />
       </Wrapper>
@@ -112,8 +100,9 @@ function App() {
 export default App;
 
 const Wrapper = styled.div`
-  overflow-y: hidden;
+  overflow-y: auto; /* 세로 스크롤이 필요할 때만 스크롤이 표시됩니다. */
   height: 100vh;
+  //scroll-behavior: smooth; /* 페이지 전환 시 부드러운 스크롤을 적용합니다. */
 `;
 
 const Section = styled.div`
@@ -121,7 +110,7 @@ const Section = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   color: white;
   position: relative;
 `;
