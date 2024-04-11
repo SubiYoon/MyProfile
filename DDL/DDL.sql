@@ -196,4 +196,6 @@ comment on column introduce.my_stack.stack_img is '스택_이미지';
 alter table introduce.my_stack
     owner to root;
 
+ALTER USER root SET search_path = introduce,public;
+
 commit;
