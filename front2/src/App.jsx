@@ -3,22 +3,21 @@ import './App.css';
 import Header from './components/layout/Header.jsx';
 import { RecoilRoot } from 'recoil';
 import { styled, createGlobalStyle } from 'styled-components';
+import axios from 'axios';
+import Dot from '@/components/layout/Dot.jsx';
 
 const GlobalStyle = createGlobalStyle`
     html, body {
         overflow-y: hidden;
-        //min-height: 600px; /* 최소 높이 */
-        //min-width: 800px; /* 최소 넓이 */
-        
     }
     @media screen and (max-width: 768px) {
         html, body {
-            min-height: 400px; /* 모바일 최소 높이 */
-            min-width: 300px; /* 모바일 최소 넓이 */
+            min-height: 400px;
+            min-width: 300px;
         }
     }
     @font-face {
-        font-family: "mainFont2";//폰트추가
+        font-family: "mainFont2";
         font-weight: 50;
         src: url("/assets/font/mainFont2.ttf") format("truetype");
     }
@@ -33,6 +32,18 @@ function App() {
   const DIVIDER_HEIGHT = 5;
   const outerDivRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [data, setData] = useState(null);
+  const testOnClick = async () => {
+    try {
+      const response = await axios.get('/main');
+      // NAME 속성의 값을 출력
+      setData(response.data);
+    } catch (error) {
+      alert('에러');
+    }
+  };
+
   useEffect(() => {
     const wheelHandler = (e) => {
       e.preventDefault();
@@ -60,7 +71,9 @@ function App() {
     };
 
     const outerDivRefCurrent = outerDivRef.current;
-    outerDivRefCurrent.addEventListener('wheel', wheelHandler);
+    outerDivRefCurrent.addEventListener('wheel', wheelHandler, {
+      passive: false,
+    });
     return () => {
       outerDivRefCurrent.removeEventListener('wheel', wheelHandler);
     };
@@ -82,18 +95,15 @@ function App() {
           </Overlay>
         </Section>
         <Section>
-          <Introduction>Page 2</Introduction>
+          <Introduction>
+            <button onClick={testOnClick}>클릭</button>
+            <p>{JSON.stringify(data)}</p>
+          </Introduction>
         </Section>
         <Section>
           <Introduction>Page 3</Introduction>
         </Section>
-        <DotContainer>
-          <DotBox>
-            <Dot currentPage={currentPage} num={1} />
-            <Dot currentPage={currentPage} num={2} />
-            <Dot currentPage={currentPage} num={3} />
-          </DotBox>
-        </DotContainer>
+        <Dot currentpage={currentPage} />
       </Wrapper>
     </RecoilRoot>
   );
@@ -102,8 +112,8 @@ function App() {
 export default App;
 
 const Wrapper = styled.div`
-  overflow-y: hidden; // 스크롤바 숨김
-  height: 100vh; // 컨테이너의 높이를 뷰포트 높이로 설정
+  overflow-y: hidden;
+  height: 100vh;
 `;
 
 const Section = styled.div`
@@ -111,9 +121,9 @@ const Section = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%; // 각 섹션의 높이는 뷰포트 높이와 동일
+  height: 100%;
   color: white;
-  position: relative; // Overlay를 올려놓기 위해 부모 요소에 position: relative; 추가
+  position: relative;
 `;
 
 const Video = styled.video`
@@ -122,7 +132,7 @@ const Video = styled.video`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1; // 페이지 컨텐츠 위에 표시되도록 설정
+  z-index: -1;
   object-fit: cover;
 `;
 
@@ -134,32 +144,6 @@ const Introduction = styled.div`
   height: 100%;
 `;
 
-const DotContainer = styled.div`
-  position: fixed;
-  top: 45%;
-  right: 24px;
-`;
-
-const DotBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: center;
-  width: 20px;
-  height: 100px;
-`;
-
-const Dot = styled.div`
-  width: 10px;
-  height: 10px;
-  border: 4px solid black;
-  border-radius: 999px;
-  background-color: ${({ currentPage, num }) =>
-    currentPage === num ? 'black' : 'transparent'};
-  transition-duration: 1000px;
-  transition: background-color 0.5s;
-`;
-
 const Overlay = styled.div`
   position: absolute;
   top: 0;
@@ -169,7 +153,7 @@ const Overlay = styled.div`
   justify-content: center;
   align-items: center;
   color: #3b5bdb;
-  pointer-events: none; // Overlay 위에서 마우스 이벤트를 무시하도록 설정
+  pointer-events: none;
   flex-direction: column;
   text-shadow: 8px 8px 8px black;
 `;
