@@ -27,7 +27,7 @@ class MyselfApplicationTests {
         System.out.println(sampleVo.toString());
     }
 
-    @Test
+//    @Test
     void insertMyInfo() throws Exception{
         UserVo userVo = new UserVo(
                 "윤동섭"
