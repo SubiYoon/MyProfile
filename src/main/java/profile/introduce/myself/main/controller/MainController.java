@@ -17,8 +17,9 @@ public class MainController {
     MainService mainService;
 
     @RequestMapping("main")
-    public void mainTest() throws Exception {
+    public SampleVo mainTest() throws Exception {
         SampleVo sampleVo = mainService.selectMyInfo();
-        System.out.println(sampleVo.toString());
+        logger.info("Data retrieved: {}", sampleVo.toString());
+        return sampleVo;
     }
 }
