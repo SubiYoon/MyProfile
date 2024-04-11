@@ -12,6 +12,6 @@
             , SIMPLE_INTRODUCE_MYSELF
             , DETAIL_INTRODUCE_MYSELF
             , IMAGE
-        FROM INTRODUCE.MY_PROFILE
+        FROM MY_PROFILE
     </select>
 </mapper>

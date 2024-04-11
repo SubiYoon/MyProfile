@@ -12,11 +12,11 @@
              , SIMPLE_INTRODUCE_MYSELF
              , DETAIL_INTRODUCE_MYSELF
              , IMAGE
-        FROM INTRODUCE.MY_PROFILE
+        FROM MY_PROFILE
         WHERE name = #{username}
     </select>
     <insert id="setMybasicProfile" parameterType="profile.introduce.myself.base.UserVo">
-        INSERT INTO INTRODUCE.MY_PROFILE
+        INSERT INTO MY_PROFILE
             (
                 NAME
                 , PASSWORD

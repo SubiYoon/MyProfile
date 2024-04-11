@@ -52,6 +52,7 @@ create table introduce.career
     carrer_seq   integer not null
         constraint career_pk
             primary key,
+    name        varchar not null,
     company      varchar not null,
     company_url  varchar,
     company_logo varchar,
@@ -66,6 +67,8 @@ create table introduce.career
 comment on table introduce.career is '경력';
 
 comment on column introduce.career.carrer_seq is '일련번호';
+
+comment on column introduce.career.name is '이름';
 
 comment on column introduce.career.company is '회사명';
 
@@ -92,6 +95,7 @@ create table introduce.project
     project_seq        integer not null
         constraint project_pk
             primary key,
+    name               varchar not null,
     career_seq         integer not null,
     project_name       varchar,
     project_term       integer,
@@ -103,6 +107,8 @@ create table introduce.project
 comment on table introduce.project is '프로젝트';
 
 comment on column introduce.project.career_seq is '경력_일련번호';
+
+comment on column introduce.project.name is '이름';
 
 comment on column introduce.project.project_seq is '일련번호';
 
@@ -121,6 +127,7 @@ create table introduce.project_detail
     project_detail_seq integer not null
         constraint project_detail_pk
             primary key,
+    name               varchar not null,
     project_seq        integer,
     detail_act_title   varchar,
     detail_act_cont    varchar,
@@ -132,6 +139,8 @@ create table introduce.project_detail
 comment on table introduce.project_detail is '프로젝트_상세';
 
 comment on column introduce.project_detail.project_detail_seq is '프로젝트_상세_일련번호';
+
+comment on column introduce.project_detail.name is '이름';
 
 comment on column introduce.project_detail.project_seq is '프로젝트_일련번호';
 
@@ -150,6 +159,7 @@ create table introduce.project_stack
     project_stack_seq integer not null
         constraint project_stack_pk
             primary key,
+    name              varchar not null,
     project_seq       integer,
     stack_kind        varchar,
     stack_img         varchar,
@@ -160,6 +170,8 @@ create table introduce.project_stack
 comment on table introduce.project_stack is '프로젝트 스택';
 
 comment on column introduce.project_stack.project_stack_seq is '프로젝트_스택_일련번호';
+
+comment on column introduce.project_stack.name is '이름';
 
 comment on column introduce.project_stack.project_seq is '프로젝트_일련번호';
 
@@ -176,6 +188,7 @@ create table introduce.my_stack
     stack_seq   integer not null
         constraint my_stack_pk
             primary key,
+    name        varchar not null,
     stack_name  varchar,
     stack_level varchar,
     stack_img   varchar,
@@ -186,6 +199,8 @@ create table introduce.my_stack
 comment on table introduce.my_stack is '나의_스택';
 
 comment on column introduce.my_stack.stack_seq is '스택_일련번호';
+
+comment on column introduce.my_stack.name is '이름';
 
 comment on column introduce.my_stack.stack_name is '스택_이름';
 
