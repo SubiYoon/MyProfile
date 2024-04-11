@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
         }
     }
     @font-face {
-        font-family: "mainFont2";
+        font-family: "mainFont2";//폰트추가
         font-weight: 50;
         src: url("/assets/font/mainFont2.ttf") format("truetype");
     }
