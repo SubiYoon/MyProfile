@@ -32,10 +32,10 @@ class MyselfApplicationTests {
         UserVo userVo = new UserVo(
                 "윤동섭"
                 , encode("1234")
-                , 1992
+                , 9999
                 , "남자"
-                , "청주시"
-                , "청주시"
+                , "서울시"
+                , "서울시"
                 , "간단소개"
                 , "상세소개"
                 , "사진(추후추가)"
