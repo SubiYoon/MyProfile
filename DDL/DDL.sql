@@ -1,9 +1,9 @@
 create database myself
-    with owner root;
+    with owner profile;
 
 create schema introduce;
 
-alter schema introduce owner to root;
+alter schema introduce owner to profile;
 
 create table introduce.my_profile
 (
@@ -43,7 +43,7 @@ comment on column introduce.my_profile.detail_introduce_myself is '상세자기�
 comment on column introduce.my_profile.image is '증명사진';
 
 alter table introduce.my_profile
-    owner to root;
+    owner to profile;
 
 
 -- 경력
@@ -87,7 +87,7 @@ comment on column introduce.career.out_level is '퇴사 직전 직책';
 comment on column introduce.career.update_ts is '수정';
 
 alter table introduce.career
-    owner to root;
+    owner to profile;
 
 -- 프로젝트
 create table introduce.project
@@ -119,7 +119,7 @@ comment on column introduce.project.project_term is '프로젝트_기간';
 comment on column introduce.project.project_contribute is '프로젝트_기여도';
 
 alter table introduce.project
-    owner to root;
+    owner to profile;
 
 -- 프로젝트 상세
 create table introduce.project_detail
@@ -151,7 +151,7 @@ comment on column introduce.project_detail.detail_act_cont is '상세_실시_내
 comment on column introduce.project_detail.detail_act_term is '상세_실시_기간';
 
 alter table introduce.project_detail
-    owner to root;
+    owner to profile;
 
 -- 프로젝트 스택
 create table introduce.project_stack
@@ -180,7 +180,7 @@ comment on column introduce.project_stack.stack_kind is '스택_종류';
 comment on column introduce.project_stack.stack_img is '스택_이미지';
 
 alter table introduce.project_stack
-    owner to root;
+    owner to profile;
 
 -- 내가 사용 가능한 스택
 create table introduce.my_stack
@@ -209,8 +209,8 @@ comment on column introduce.my_stack.stack_level is '스택_숙련도';
 comment on column introduce.my_stack.stack_img is '스택_이미지';
 
 alter table introduce.my_stack
-    owner to root;
+    owner to profile;
 
-ALTER USER root SET search_path = introduce,public;
+ALTER USER profile SET search_path = introduce,public;
 
 commit;
