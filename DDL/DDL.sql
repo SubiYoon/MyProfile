@@ -211,6 +211,28 @@ comment on column introduce.my_stack.stack_img is '스택_이미지';
 alter table introduce.my_stack
     owner to profile;
 
+create table introduce.menu
+(
+    menu_seq   integer not null
+        constraint menu_pk
+            primary key,
+    name varchar not null,
+    menu_name        varchar not null,
+    regist_ts   date default now(),
+    update_ts   date
+);
+
+comment on table introduce.menu is '메뉴';
+
+comment on column introduce.menu.menu_seq is '메뉴_일련번호';
+
+comment on column introduce.menu.name is '이름';
+
+comment on column introduce.menu.menu_name is '메뉴_이름';
+
+alter table introduce.menu
+    owner to profile;
+
 ALTER USER profile SET search_path = introduce,public;
 
 commit;
