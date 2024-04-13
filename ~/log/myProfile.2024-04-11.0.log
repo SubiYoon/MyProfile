@@ -1,0 +1,20 @@
+[2024-04-11 22:34:04:286][main] INFO  p.i.myself.MyselfApplicationTests - Starting MyselfApplicationTests using Java 17.0.8.1 with PID 67797 (started by ABCD in /Users/ABCD/Develop/MySelf)
+[2024-04-11 22:34:04:286][main] DEBUG p.i.myself.MyselfApplicationTests - Running with Spring Boot v3.2.1, Spring v6.1.2
+[2024-04-11 22:34:04:286][main] INFO  p.i.myself.MyselfApplicationTests - The following 2 profiles are active: "security", "local"
+[2024-04-11 22:34:05:900][main] WARN  o.s.s.c.a.web.builders.WebSecurity - You are asking Spring Security to ignore org.springframework.boot.autoconfigure.security.servlet.StaticResourceRequest$StaticResourceRequestMatcher@38159384. This is not recommended -- please use permitAll via HttpSecurity#authorizeHttpRequests instead.
+[2024-04-11 22:34:05:1026][main] INFO  p.i.myself.MyselfApplicationTests - Started MyselfApplicationTests in 0.833 seconds (process running for 1.222)
+[2024-04-11 22:34:06:1502][main] DEBUG p.i.m.m.m.MainMapper.selectMyInfo - ==>  Preparing: SELECT NAME , BIRTH_YEAR , SEX , ADDR , ADDR_DETAIL , SIMPLE_INTRODUCE_MYSELF , DETAIL_INTRODUCE_MYSELF , IMAGE FROM MY_PROFILE
+[2024-04-11 22:34:06:1515][main] DEBUG p.i.m.m.m.MainMapper.selectMyInfo - ==> Parameters: 
+[2024-04-11 22:34:06:1516][main] DEBUG jdbc.sqlonly -  com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+1. SELECT
+            NAME
+            , BIRTH_YEAR
+            , SEX
+            , ADDR
+            , ADDR_DETAIL
+            , SIMPLE_INTRODUCE_MYSELF
+            , DETAIL_INTRODUCE_MYSELF
+            , IMAGE
+        FROM MY_PROFILE
+
+[2024-04-11 22:34:06:1530][main] DEBUG p.i.m.m.m.MainMapper.selectMyInfo - <==      Total: 1
