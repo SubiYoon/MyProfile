@@ -1,43 +1,48 @@
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
-// import reactRefresh from '@vitejs/plugin-react-refresh';
 import viteReact from '@vitejs/plugin-react';
 import vitePluginSvgr from 'vite-plugin-svgr';
+import dotenv from 'dotenv'; // import dotenv
 
-// https://vitejs.dev/config/
-export default defineConfig({
-    plugins: [viteReact(), vitePluginSvgr()],
-    server: {
-        proxy: {
-            '^/api': {
-                target: 'https://devstat.app',
-                changeOrigin: true,
-                // rewrite: (path) => path.replace(/^\/api/, ''),
+// Load environment variables from .env file
+dotenv.config();
+
+export default ({ mode }) => {
+    const isProduction = mode === 'production';
+    const apiURL = isProduction
+        ? 'https://devstat.app'
+        : process.env.VITE_LOCAL_API_URL;
+
+    return defineConfig({
+        plugins: [viteReact(), vitePluginSvgr()],
+        server: {
+            proxy: {
+                '^/api': {
+                    target: apiURL,
+                    changeOrigin: true,
+                },
+                '/static': {
+                    target: apiURL,
+                },
             },
-            '/static': {
-                target: 'https://devstat.app',
+            port: 3000,
+        },
+        resolve: {
+            alias: {
+                '@': fileURLToPath(new URL('./src', import.meta.url)),
             },
         },
-        port: 3000,
-    },
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url)),
-        },
-    },
-    build: {
-        minify: 'terser',
-        terserOptions: {
-            compress: {
-                drop_console: true,
-                drop_debugger: true,
+        build: {
+            minify: 'terser',
+            terserOptions: {
+                compress: {
+                    drop_console: true,
+                    drop_debugger: true,
+                },
             },
+            outDir: '../../src/main/webapp',
+            emptyOutDir: true,
         },
-        // rollupOptions: {
-        //     input: '/index.jsx' // 진입점을 index.js로 설정
-        // },
-        outDir: '../../src/main/webapp',
-        emptyOutDir: true,
-    },
-    root: './src', // 프로젝트 루트 디렉토리 설정
-});
+        root: './src',
+    });
+};
