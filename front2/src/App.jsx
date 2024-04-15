@@ -2,8 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
 import { RecoilRoot } from 'recoil';
 import { styled, createGlobalStyle } from 'styled-components';
-import axios from 'axios';
-import { useCurrentPage } from './recoil.js';
 import Main from '@/pages/Main.jsx';
 
 const GlobalStyle = createGlobalStyle`
@@ -29,16 +27,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-    // const [data, setData] = useState(null);
-    // const testOnClick = async () => {
-    //     try {
-    //         const response = await axios.get('/main');
-    //         setData(response.data);
-    //     } catch (error) {
-    //         alert('에러');
-    //     }
-    // };
-
     return (
         <RecoilRoot>
             <GlobalStyle />

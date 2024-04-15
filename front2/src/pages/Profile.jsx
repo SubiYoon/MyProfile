@@ -1,5 +1,14 @@
+import { styled } from 'styled-components';
+
 const Profile = () => {
-    return <p>페이지 두번째 - 프로필 정보 나올 예정</p>;
+    return <ProfileWapper>확인</ProfileWapper>;
 };
 
 export default Profile;
+
+const ProfileWapper = styled.div`
+    width: 100%;
+    height: 100%;
+    border-style: solid;
+    padding: 16px;
+`;

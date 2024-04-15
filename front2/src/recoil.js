@@ -6,8 +6,7 @@ export const currentPageState = atom({
     default: 1, // 초기값 설정
 });
 
-// 현재 페이지 상태를 관리하는 커스텀 훅
-export const useCurrentPage = () => {
-    const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-    return { currentPage, setCurrentPage };
-};
+export const userState = atom({
+    key: 'userState',
+    default: null,
+});
