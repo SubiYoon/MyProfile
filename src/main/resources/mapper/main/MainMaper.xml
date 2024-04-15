@@ -21,4 +21,19 @@
             ,MENU_NAME
         FROM MENU
     </select>
+    <select id="selectProfile" resultType="ProfileVo">
+        select name,
+               password,
+               birth_year,
+               sex,
+               addr,
+               addr_detail,
+               simple_introduce_myself,
+               detail_introduce_myself,
+               image,
+               regist_ts,
+               update_ts
+        from my_profile;
+
+    </select>
 </mapper>
