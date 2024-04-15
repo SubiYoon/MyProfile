@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axiosInstance from '../../../axiosInstance.js';
 import { useRecoilState } from 'recoil';
 import { currentPageState } from '@/recoil.js';
@@ -7,10 +7,41 @@ import { currentPageState } from '@/recoil.js';
 const Header = ({ onMenuClick }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+    const [menuData, setMenuData] = useState([]);
+
+    useEffect(() => {
+        // GET 요청을 보내는 함수 정의
+        const fetchMenuData = async () => {
+            try {
+                const response = await axiosInstance.get('api/menu');
+                // 성공적으로 데이터를 받아온 경우
+                setMenuData(response.data);
+                console.log('메뉴다', menuData);
+            } catch (error) {
+                // 오류 처리
+                console.error('Error fetching menu data:', error);
+            }
+        };
+
+        // 페이지가 로드될 때 메뉴 데이터를 가져오도록 설정
+        fetchMenuData();
+    }, []); // 빈 배열을 넘겨줘서 컴포넌트가 마운트될 때 한 번만 실행
 
     const handleButtonClick = (page) => {
         setCurrentPage(page);
         onMenuClick(page);
+    };
+
+    //menu 가져오기
+    const menuButtons = () => {
+        return menuData.map((item) => (
+            <MenuButton
+                key={item.menuSeq}
+                onClick={() => handleButtonClick(item.menuSeq)}
+            >
+                {item.menuName}
+            </MenuButton>
+        ));
     };
 
     return (
@@ -23,17 +54,7 @@ const Header = ({ onMenuClick }) => {
                         <Icon src="/assets/icons/close.svg" />
                     )}
                 </IconDiv>
-                <HeaderBox open={menuOpen}>
-                    <MenuButton onClick={() => handleButtonClick(1)}>
-                        메뉴 1
-                    </MenuButton>
-                    <MenuButton onClick={() => handleButtonClick(2)}>
-                        메뉴 2
-                    </MenuButton>
-                    <MenuButton onClick={() => handleButtonClick(3)}>
-                        메뉴 3
-                    </MenuButton>
-                </HeaderBox>
+                <HeaderBox open={menuOpen}>{menuButtons()}</HeaderBox>
             </HeaderContainer>
         </HeaderWrapper>
     );

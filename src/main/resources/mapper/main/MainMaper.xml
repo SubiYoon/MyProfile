@@ -14,4 +14,11 @@
             , IMAGE
         FROM MY_PROFILE
     </select>
+
+    <select id="selectMenu" resultType="menuVo">
+        SELECT
+            MENU_SEQ
+            ,MENU_NAME
+        FROM MENU
+    </select>
 </mapper>
