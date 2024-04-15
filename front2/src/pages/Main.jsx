@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { currentPageState } from '../recoil.js';
+import { currentPageState, userState } from '../recoil.js';
 import Header from '@/components/layout/Header.jsx';
 import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
@@ -11,6 +11,16 @@ const Main = () => {
     const outerDivRef = useRef(null);
     const sectionRefs = [useRef(null), useRef(null), useRef(null)];
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+
+    const [userGb, setUserGb] = useRecoilState(userState);
+    const url = document.location.href;
+    const urlGb = url.split('/')[3];
+
+    //url 상태 확인
+    useEffect(() => {
+        setUserGb(urlGb);
+        console.log('상태확인', userGb);
+    }, [userGb]);
 
     useEffect(() => {
         const scrollHandler = () => {
@@ -82,8 +92,8 @@ const Introduction = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
 `;
 
 const Overlay = styled.div`

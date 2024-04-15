@@ -216,7 +216,6 @@ create table introduce.menu
     menu_seq   integer not null
         constraint menu_pk
             primary key,
-    name varchar not null,
     menu_name        varchar not null,
     regist_ts   date default now(),
     update_ts   date
@@ -225,8 +224,6 @@ create table introduce.menu
 comment on table introduce.menu is '메뉴';
 
 comment on column introduce.menu.menu_seq is '메뉴_일련번호';
-
-comment on column introduce.menu.name is '이름';
 
 comment on column introduce.menu.menu_name is '메뉴_이름';
 
