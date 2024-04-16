@@ -43,8 +43,7 @@
     <logger name="profile.introduce.myself" level="DEBUG"/>
 
     <!-- 사용할 레벨의 로그를 설정 -->
-    <logger name="profile.introduce.myself" level="DEBUG"/>
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="INFO_LOG" />
     </root>
