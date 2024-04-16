@@ -57,14 +57,14 @@ const Main = () => {
                 </Overlay>
             </Section>
             <Section ref={sectionRefs[1]}>
-                <Introduction>
+                <SectionBox>
                     <Profile />
-                </Introduction>
+                </SectionBox>
             </Section>
             <Section ref={sectionRefs[2]}>
-                <Introduction>
+                <SectionBox>
                     <Histroy />
-                </Introduction>
+                </SectionBox>
             </Section>
             <Dot currentpage={currentPage} />
         </Wrapper>
@@ -88,7 +88,7 @@ const Section = styled.div`
     position: relative;
 `;
 
-const Introduction = styled.div`
+const SectionBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;

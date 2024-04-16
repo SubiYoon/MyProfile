@@ -10,22 +10,16 @@ const Header = ({ onMenuClick }) => {
     const [menuData, setMenuData] = useState([]);
 
     useEffect(() => {
-        // GET 요청을 보내는 함수 정의
         const fetchMenuData = async () => {
             try {
                 const response = await axiosInstance.get('api/menu');
-                // 성공적으로 데이터를 받아온 경우
                 setMenuData(response.data);
-                console.log('메뉴다', menuData);
             } catch (error) {
-                // 오류 처리
                 console.error('Error fetching menu data:', error);
             }
         };
-
-        // 페이지가 로드될 때 메뉴 데이터를 가져오도록 설정
         fetchMenuData();
-    }, []); // 빈 배열을 넘겨줘서 컴포넌트가 마운트될 때 한 번만 실행
+    }, []);
 
     const handleButtonClick = (page) => {
         setCurrentPage(page);

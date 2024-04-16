@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import profile.introduce.myself.main.service.MainService;
 import profile.introduce.myself.main.vo.MenuVo;
+import profile.introduce.myself.main.vo.ProfileVo;
 import profile.introduce.myself.main.vo.SampleVo;
 
 import java.util.List;
@@ -31,5 +32,10 @@ public class MainController {
     @GetMapping("/menu")
     public List<MenuVo> menu() throws Exception {
         return mainService.selectMenu();
+    }
+
+    @GetMapping("/profile")
+    public List<ProfileVo> profile() throws Exception {
+        return mainService.selectProfile();
     }
 }
