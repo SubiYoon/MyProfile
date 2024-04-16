@@ -18,7 +18,6 @@ const Dot = ({ onMenuClick }) => {
                         return data;
                     });
                 setMenuData(response.data);
-                console.log(menuData);
             } catch (error) {
                 // console.error('Error fetching menu data:', error);
             }

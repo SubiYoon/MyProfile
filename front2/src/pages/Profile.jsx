@@ -2,39 +2,39 @@ import { styled } from 'styled-components';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance.js';
 import { useRecoilState } from 'recoil';
-import { currentPageState } from '@/recoil.js';
+import { currentPageState, userState } from '@/recoil.js';
 
 const Profile = () => {
-    const [profileData, setProfileData] = useState([]);
+    const [profileData, setProfileData] = useState(null); // 초기 상태를 null로 설정
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+    const [userGb, setUserGb] = useRecoilState(userState);
 
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const response = await axiosInstance.get('api/profile');
-                console.log(response.data);
-                setProfileData(response.data);
+                const response = await axiosInstance.get(`api/name/${userGb}`);
+                setProfileData(response.data.profile);
             } catch (error) {
                 console.error('Error fetching menu data:', error);
             }
         };
         fetchProfileData();
-    }, [setProfileData]);
+    }, []);
 
     return (
         <>
-            {profileData.map((item) => (
-                <ProfileWrapper key={item.name} $currentPage={currentPage}>
+            {profileData && (
+                <ProfileWrapper $currentPage={currentPage}>
                     <ProfileContainer>
                         <PhotoBox>
-                            <Photo src={item.image} />
+                            <Photo src={profileData.image} />
                         </PhotoBox>
                         <PersonalData>
                             <ProfileHeader>
-                                {item.simpleIntroduceMyself}
+                                {profileData.simpleIntroduceMyself}
                             </ProfileHeader>
                             <ProfileContent>
-                                {item.detailIntroduceMyself
+                                {profileData.detailIntroduceMyself
                                     .split('.')
                                     .map((sentence, index, array) => (
                                         <div key={index}>
@@ -49,11 +49,10 @@ const Profile = () => {
                     </ProfileContainer>
                     <IntroductionContainer></IntroductionContainer>
                 </ProfileWrapper>
-            ))}
+            )}
         </>
     );
 };
-
 export default Profile;
 
 const ProfileWrapper = styled.div`
@@ -111,7 +110,7 @@ const ProfileHeader = styled.p`
     font-size: 42px;
     color: #364fc7;
     border-bottom-style: solid;
-    box-shadow: 4px 6px 6px rgba(0, 0, 0, 0.4); /* 쉐도우 효과 조정 */
+    box-shadow: 4px 6px 6px rgba(0, 0, 0, 0.4);
 `;
 
 const ProfileContent = styled.div`
