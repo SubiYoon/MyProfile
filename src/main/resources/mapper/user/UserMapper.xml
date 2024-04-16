@@ -2,47 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="profile.introduce.myself.user.mapper.UserMapper">
-    <select id="findUserList" resultType="SampleVo">
-        SELECT
-            NAME
-             , BIRTH_YEAR
-             , SEX
-             , ADDR
-             , ADDR_DETAIL
-             , SIMPLE_INTRODUCE_MYSELF
-             , DETAIL_INTRODUCE_MYSELF
-             , IMAGE
-        FROM MY_PROFILE
-        WHERE name = #{username}
-    </select>
-    <insert id="setMybasicProfile" parameterType="profile.introduce.myself.base.UserVo">
-        INSERT INTO MY_PROFILE
-            (
-                NAME
-                , PASSWORD
-                , BIRTH_YEAR
-                , SEX
-                , ADDR
-                , ADDR_DETAIL
-                , SIMPLE_INTRODUCE_MYSELF
-                , DETAIL_INTRODUCE_MYSELF
-                , IMAGE
-                , REGIST_TS
-                , UPDATE_TS
-            )
-        VALUES
-            (
-                #{name}
-                , #{password}
-                , #{birthYear}
-                , #{sex}
-                , #{addr}
-                , #{addrDetail}
-                , #{simpleIntroduceMyself}
-                , #{detailIntroduceMyself}
-                , #{image}
-                , now()
-                , now()
-            )
-    </insert>
 </mapper>
