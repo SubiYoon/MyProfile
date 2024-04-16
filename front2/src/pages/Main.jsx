@@ -11,6 +11,16 @@ const Main = () => {
     const sectionRefs = [useRef(null), useRef(null), useRef(null)];
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
 
+    //url로 유저 받아오기 ABCD, parkjs를 붙여야함
+    const [userGb, setUserGb] = useRecoilState(userState);
+    const url = document.location.href;
+    const urlGb = url.split('/')[3];
+
+    //url 상태 확인
+    useEffect(() => {
+        setUserGb(urlGb);
+    }, [userGb]);
+
     useEffect(() => {
         const scrollHandler = () => {
             const { scrollTop, scrollHeight, clientHeight } =
@@ -52,9 +62,7 @@ const Main = () => {
                 </Overlay>
             </Section>
             <Section ref={sectionRefs[1]}>
-                <SectionBox>
-                    <Profile />
-                </SectionBox>
+                <SectionBox>{userGb !== null ? <Profile /> : null}</SectionBox>
             </Section>
             <Section ref={sectionRefs[2]}>
                 <SectionBox>
