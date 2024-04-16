@@ -7,13 +7,12 @@ import Main from '@/pages/Main.jsx';
 const GlobalStyle = createGlobalStyle`
     html, body {
         overflow-y: hidden;
+        //overflow-x: auto;
+        //최소값 설정
+        min-height: 800px;
+        min-width: 1600px;
     }
-    @media screen and (max-width: 768px) {
-        html, body {
-            min-height: 400px;
-            min-width: 300px;
-        }
-    }
+    
     @font-face {
         font-family: "mainFont2";
         font-weight: 50;
