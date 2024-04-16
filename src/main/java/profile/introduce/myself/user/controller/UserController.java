@@ -1,6 +1,7 @@
 package profile.introduce.myself.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import profile.introduce.myself.user.service.UserService;
@@ -15,8 +16,8 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("profile")
-    Map<String, Object> chooseProfile(String name){
+    @RequestMapping("/name/{name}")
+    Map<String, Object> chooseProfile(@PathVariable("name")  String name){
         String realName = "";
         if("ABCD".equals(name)){
             realName = "윤동섭";
