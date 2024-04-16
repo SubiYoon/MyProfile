@@ -26,6 +26,6 @@
                REGIST_TS,
                UPDATE_TS
         FROM MY_STACK
-        WHERE NAME = ${name}
+        WHERE NAME = #{name}
     </select>
 </mapper>
