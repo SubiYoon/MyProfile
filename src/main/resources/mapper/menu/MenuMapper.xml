@@ -4,8 +4,9 @@
 <mapper namespace="profile.introduce.myself.menu.mapper.MenuMapper">
     <select id="selectMenu" resultType="MenuVo">
         SELECT
-            NO,
+            MENU_SEQ,
             MENU_NAME
         FROM MENU
+        ORDER BY MENU_SEQ;
     </select>
 </mapper>

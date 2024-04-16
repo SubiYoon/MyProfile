@@ -206,7 +206,7 @@ comment on column introduce.my_stack.stack_name is '스택_이름';
 
 comment on column introduce.my_stack.stack_level is '스택_숙련도';
 
-comment on column introduce.my_stack.stack_img is '스택_이미지';
+comment on column introduce.my_stack.stack_image is '스택_이미지';
 
 alter table introduce.my_stack
     owner to profile;
