@@ -1,19 +1,24 @@
 import { styled } from 'styled-components';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance.js';
 import { useRecoilState } from 'recoil';
 import { currentPageState, userState } from '@/recoil.js';
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null); // 초기 상태를 null로 설정
+    const [stackData, setStackData] = useState([]);
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
     const [userGb, setUserGb] = useRecoilState(userState);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
                 const response = await axiosInstance.get(`api/name/${userGb}`);
                 setProfileData(response.data.profile);
+                setStackData(response.data.stack);
+                console.log('프로필', profileData);
+                console.log('스택', stackData);
             } catch (error) {
                 console.error('Error fetching menu data:', error);
             }
@@ -21,9 +26,19 @@ const Profile = () => {
         fetchProfileData();
     }, []);
 
+    // 이미지 슬라이딩을 위한 함수
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImageIndex(
+                (prevIndex) => (prevIndex + 1) % stackData.length,
+            );
+        }, 5000); // 5초마다 이미지 변경
+        return () => clearInterval(interval);
+    }, [stackData]);
+
     return (
         <>
-            {profileData && (
+            {profileData && stackData && (
                 <ProfileWrapper $currentPage={currentPage}>
                     <ProfileContainer>
                         <PhotoBox>
@@ -47,7 +62,20 @@ const Profile = () => {
                             </ProfileContent>
                         </PersonalData>
                     </ProfileContainer>
-                    <IntroductionContainer></IntroductionContainer>
+                    <IntroductionContainer>
+                        <StackImageBox>
+                            {stackData.map((item, index) => (
+                                <StackImage
+                                    key={item.stackSeq}
+                                    src={item.stackImage}
+                                    index={index}
+                                    style={{
+                                        left: `${(index - currentImageIndex) * 340}px`,
+                                    }}
+                                />
+                            ))}
+                        </StackImageBox>
+                    </IntroductionContainer>
                 </ProfileWrapper>
             )}
         </>
@@ -78,8 +106,10 @@ const ProfileContainer = styled.div`
 
 const IntroductionContainer = styled.div`
     float: right;
-    width: 800px;
-    border-style: solid;
+    margin-left: 42px;
+    width: 900px;
+    display: flex;
+    justify-content: right;
 `;
 
 const PhotoBox = styled.div`
@@ -117,4 +147,20 @@ const ProfileContent = styled.div`
     padding-top: 32px;
     font-size: 24px;
     color: black;
+`;
+
+const StackImageBox = styled.div`
+    position: relative;
+    width: 340px;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 12px;
+`;
+
+const StackImage = styled.img`
+    width: 340px;
+    height: 120px;
+    position: absolute;
+    left: ${({ index }) => index * 340}px;
+    transition: left 1s ease;
 `;
