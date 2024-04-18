@@ -17,7 +17,7 @@
         FROM MY_PROFILE
         WHERE NAME = #{name}
     </select>
-    <select id="chooseStack" resultType="profile.introduce.myself.user.vo.MyStackVo">
+    <select id="getStackList" resultType="profile.introduce.myself.user.vo.MyStackVo">
         SELECT STACK_SEQ,
                NAME,
                STACK_NAME,

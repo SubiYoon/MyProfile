@@ -7,6 +7,8 @@ import profile.introduce.myself.user.service.UserService;
 import profile.introduce.myself.user.vo.MyStackVo;
 import profile.introduce.myself.user.vo.ProfileVo;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -19,7 +21,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public MyStackVo chooseStack(String name) {
-        return userMapper.chooseStack(name);
+    public List<MyStackVo> getStackList(String name) {
+        return userMapper.getStackList(name);
     }
 }

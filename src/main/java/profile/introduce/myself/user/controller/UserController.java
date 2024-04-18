@@ -33,7 +33,7 @@ public class UserController {
         Map<String, Object> result = new HashMap<>();
 
         result.put("profile", userService.chooseProfile(realName));
-        result.put("stack", userService.chooseStack(name));
+        result.put("stack", userService.getStackList(name));
         return result;
     }
 

@@ -4,9 +4,11 @@ import org.apache.ibatis.annotations.Mapper;
 import profile.introduce.myself.user.vo.MyStackVo;
 import profile.introduce.myself.user.vo.ProfileVo;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     ProfileVo chooseProfile(String name);
 
-    MyStackVo chooseStack(String name);
+    List<MyStackVo> getStackList(String name);
 }
