@@ -1,18 +1,18 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
 import { RecoilRoot } from 'recoil';
 import { styled, createGlobalStyle } from 'styled-components';
 import Main from '@/pages/Main.jsx';
+import Error from '@/pages/Error.jsx'; // Error 컴포넌트를 임포트합니다.
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Router와 Routes를 가져옵니다.
 
 const GlobalStyle = createGlobalStyle`
     html, body {
         overflow-y: hidden;
-        //overflow-x: auto;
-        //최소값 설정
         min-height: 800px;
         min-width: 1600px;
     }
-    
+
     @font-face {
         font-family: "mainFont2";
         font-weight: 50;
@@ -27,24 +27,16 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
     return (
-        <RecoilRoot>
-            <GlobalStyle />
-            <Video autoPlay loop muted>
-                <source src="/assets/videos/main.mp4" type="video/mp4" />
-            </Video>
-            <Main />
-        </RecoilRoot>
+        <BrowserRouter>
+            <RecoilRoot>
+                <GlobalStyle />
+                <Routes>
+                    <Route path="/:urlGb" element={<Main />} />
+                    <Route path="*" element={<Error />} />
+                </Routes>
+            </RecoilRoot>
+        </BrowserRouter>
     );
 }
 
 export default App;
-
-const Video = styled.video`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    object-fit: cover;
-`;

@@ -2,27 +2,31 @@ import React, { useEffect, useRef } from 'react';
 import { currentPageState, userState } from '../recoil.js';
 import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
+import Error from '@/pages/Error.jsx';
 import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
 import Histroy from '@/pages/History.jsx';
+import { useParams } from 'react-router-dom';
 
 const Main = () => {
     const outerDivRef = useRef(null);
     const sectionRefs = [useRef(null), useRef(null), useRef(null)];
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-
     //url로 유저 받아오기 ABCD, parkjs를 붙여야함
     const [userGb, setUserGb] = useRecoilState(userState);
-    const url = document.location.href;
-    const urlGb = url.split('/')[3];
+
+    const { urlGb } = useParams();
+
+    console.log('파람', urlGb);
 
     //url 상태 확인
     useEffect(() => {
         setUserGb(urlGb);
-    }, [userGb]);
+    }, [urlGb]); // userGb 대신에 urlGb를 의존성으로 설정해야 합니다.
 
     useEffect(() => {
         const scrollHandler = () => {
+            if (!outerDivRef.current) return; // outerDivRef.current가 null인 경우에 대한 예외처리 추가
             const { scrollTop, scrollHeight, clientHeight } =
                 outerDivRef.current;
             const scrollFraction = scrollTop / (scrollHeight - clientHeight);
@@ -41,11 +45,12 @@ const Main = () => {
         };
 
         const outerDivRefCurrent = outerDivRef.current;
+        if (!outerDivRefCurrent) return; // outerDivRef.current가 null인 경우에 대한 예외처리 추가
         outerDivRefCurrent.addEventListener('scroll', scrollHandler);
         return () => {
             outerDivRefCurrent.removeEventListener('scroll', scrollHandler);
         };
-    }, [currentPage, setCurrentPage]);
+    }, [currentPage, setCurrentPage]); // 외부 의존성 배열에 currentPage와 setCurrentPage 추가
 
     const handleMenuClick = (page) => {
         setCurrentPage(page);
@@ -53,28 +58,54 @@ const Main = () => {
     };
 
     return (
-        <Wrapper ref={outerDivRef}>
-            <Section ref={sectionRefs[0]}>
-                <Overlay $currentPage={currentPage}>
-                    <MainFont>Yoon Dong Sub</MainFont>
-                    <MainFont2>Park Ji Su</MainFont2>
-                    <MainFont3>PROJECT</MainFont3>
-                </Overlay>
-            </Section>
-            <Section ref={sectionRefs[1]}>
-                <SectionBox>{userGb !== null ? <Profile /> : null}</SectionBox>
-            </Section>
-            <Section ref={sectionRefs[2]}>
-                <SectionBox>
-                    <Histroy />
-                </SectionBox>
-            </Section>
-            <Dot onMenuClick={handleMenuClick} />
-        </Wrapper>
+        <>
+            {urlGb === 'parkjs' || urlGb === 'ABCD' ? (
+                <>
+                    <Video autoPlay loop muted>
+                        <source
+                            src="/assets/videos/main.mp4"
+                            type="video/mp4"
+                        />
+                    </Video>
+                    <Wrapper ref={outerDivRef}>
+                        <Section ref={sectionRefs[0]}>
+                            <Overlay $currentPage={currentPage}>
+                                <MainFont>Yoon Dong Sub</MainFont>
+                                <MainFont2>Park Ji Su</MainFont2>
+                                <MainFont3>PROJECT</MainFont3>
+                            </Overlay>
+                        </Section>
+                        <Section ref={sectionRefs[1]}>
+                            <SectionBox>
+                                {userGb !== null ? <Profile /> : null}
+                            </SectionBox>
+                        </Section>
+                        <Section ref={sectionRefs[2]}>
+                            <SectionBox>
+                                <Histroy />
+                            </SectionBox>
+                        </Section>
+                        <Dot onMenuClick={handleMenuClick} />
+                    </Wrapper>
+                </>
+            ) : (
+                <Error />
+            )}
+        </>
     );
 };
 
 export default Main;
+
+const Video = styled.video`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+`;
 
 const Wrapper = styled.div`
     overflow-y: auto;
