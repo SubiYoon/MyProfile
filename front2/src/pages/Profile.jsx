@@ -48,7 +48,7 @@ const Profile = () => {
                                     src={item.stackImage}
                                     index={index}
                                     style={{
-                                        left: `${(index - currentImageIndex) * 150}px`,
+                                        left: `${(index - currentImageIndex) * 600}px`,
                                     }}
                                 />
                             ))}
@@ -79,6 +79,14 @@ const Profile = () => {
                             <ProfileIcon src="/assets/icons/name.svg" />
                             <ProfileText>{profileData.name}</ProfileText>
                         </NameBox>
+                        <NameBox>
+                            <ProfileIcon src="/assets/icons/email.svg" />
+                            <ProfileText>{profileData.email}</ProfileText>
+                        </NameBox>
+                        {/*<NameBox>*/}
+                        {/*    <ProfileIcon src="/assets/icons/name.svg" />*/}
+                        {/*    <ProfileText>{profileData.name}</ProfileText>*/}
+                        {/*</NameBox>*/}
                     </IntroductionContainer>
                 </ProfileWrapper>
             )}
@@ -89,8 +97,8 @@ export default Profile;
 
 const ProfileWrapper = styled.div`
     display: flex;
-    width: 1200px;
-    height: 840px;
+    width: 1600px;
+    height: 800px;
     background-color: rgba(255, 255, 255, 0.92);
     border-radius: 16px;
     padding: 16px;
@@ -114,14 +122,13 @@ const IntroductionContainer = styled.div`
     width: 900px;
     display: table-cell;
     vertical-align: middle;
+    padding: 120px;
 `;
 
 const PhotoBox = styled.div`
-    position: absolute;
-    top: 60px;
-    margin-left: 120px;
     width: 220px;
     height: 220px;
+    margin: auto;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 6px 6px 6px gray;
@@ -134,11 +141,10 @@ const Photo = styled.img`
 
 const PersonalData = styled.div`
     width: 100%;
-    height: 70%;
+    height: 60%;
     font-family: 'mainFont2';
     color: #282828;
-    padding-top: 160px;
-    //padding: 8px;
+    padding: 4px;
     overflow: hidden;
 `;
 
@@ -149,40 +155,36 @@ const ProfileHeader = styled.p`
 `;
 
 const ProfileContent = styled.div`
-    padding-top: 32px;
+    padding-top: 14px;
     font-size: 24px;
     color: black;
 `;
 
 const StackImageBox = styled.div`
     position: relative;
-    width: 150px;
+    width: 600px;
     height: 80px;
     overflow: hidden;
-    border-radius: 12px;
-    float: right;
-    left: 0px;
-    z-index: 1;
 `;
 
 const StackImage = styled.img`
-    width: 150px;
+    width: 180px;
     height: 80px;
     position: absolute;
-    left: ${({ index }) => index * 150}px;
+    left: ${({ index }) => index * 240}px;
     transition: left 1s ease;
 `;
 const NameBox = styled.div`
     display: flex;
-    padding: 24px;
     width: 100%;
     display: flex;
+    margin-bottom: 12px;
     //justify-content: center;
     font-family: profileFont;
 `;
 
 const ProfileText = styled.span`
-    font-size: 28px;
+    font-size: 24px;
     text-align: left;
     color: black;
 `;
@@ -190,5 +192,5 @@ const ProfileText = styled.span`
 const ProfileIcon = styled.img`
     width: 40px;
     height: 40px;
-    margin-right: 12px;
+    margin-right: 24px;
 `;
