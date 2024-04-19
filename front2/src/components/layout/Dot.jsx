@@ -116,7 +116,7 @@ const Dots = styled.div`
     height: 10px;
     margin-top: 16px;
     margin-bottom: 8px;
-    border: 3px solid #3b5bdb;
+    border: 3px solid white;
     border-radius: 999px;
     background-color: ${({ $currentPage, $num }) =>
         $currentPage === $num ? 'white' : 'transparent'};

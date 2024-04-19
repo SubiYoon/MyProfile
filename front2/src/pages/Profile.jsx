@@ -41,6 +41,18 @@ const Profile = () => {
             {profileData && stackData && (
                 <ProfileWrapper $currentPage={currentPage}>
                     <ProfileContainer>
+                        <StackImageBox>
+                            {stackData.map((item, index) => (
+                                <StackImage
+                                    key={item.stackSeq}
+                                    src={item.stackImage}
+                                    index={index}
+                                    style={{
+                                        left: `${(index - currentImageIndex) * 150}px`,
+                                    }}
+                                />
+                            ))}
+                        </StackImageBox>
                         <PhotoBox>
                             <Photo src={profileData.image} />
                         </PhotoBox>
@@ -63,18 +75,10 @@ const Profile = () => {
                         </PersonalData>
                     </ProfileContainer>
                     <IntroductionContainer>
-                        <StackImageBox>
-                            {stackData.map((item, index) => (
-                                <StackImage
-                                    key={item.stackSeq}
-                                    src={item.stackImage}
-                                    index={index}
-                                    style={{
-                                        left: `${(index - currentImageIndex) * 340}px`,
-                                    }}
-                                />
-                            ))}
-                        </StackImageBox>
+                        <NameBox>
+                            <ProfileIcon src="/assets/icons/name.svg" />
+                            <ProfileText>{profileData.name}</ProfileText>
+                        </NameBox>
                     </IntroductionContainer>
                 </ProfileWrapper>
             )}
@@ -85,8 +89,8 @@ export default Profile;
 
 const ProfileWrapper = styled.div`
     display: flex;
-    width: 1600px;
-    height: 800px;
+    width: 1200px;
+    height: 840px;
     background-color: rgba(255, 255, 255, 0.92);
     border-radius: 16px;
     padding: 16px;
@@ -108,14 +112,16 @@ const IntroductionContainer = styled.div`
     float: right;
     margin-left: 42px;
     width: 900px;
-    display: flex;
-    justify-content: right;
+    display: table-cell;
+    vertical-align: middle;
 `;
 
 const PhotoBox = styled.div`
+    position: absolute;
+    top: 60px;
+    margin-left: 120px;
     width: 220px;
     height: 220px;
-    margin: auto;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 6px 6px 6px gray;
@@ -128,19 +134,18 @@ const Photo = styled.img`
 
 const PersonalData = styled.div`
     width: 100%;
-    height: 60%;
+    height: 70%;
     font-family: 'mainFont2';
-    padding: 8px;
-    margin-top: 24px;
+    color: #282828;
+    padding-top: 160px;
+    //padding: 8px;
     overflow: hidden;
 `;
 
 const ProfileHeader = styled.p`
     text-align: center;
     font-size: 42px;
-    color: #364fc7;
-    border-bottom-style: solid;
-    box-shadow: 4px 6px 6px rgba(0, 0, 0, 0.4);
+    text-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
 `;
 
 const ProfileContent = styled.div`
@@ -151,16 +156,39 @@ const ProfileContent = styled.div`
 
 const StackImageBox = styled.div`
     position: relative;
-    width: 340px;
-    height: 120px;
+    width: 150px;
+    height: 80px;
     overflow: hidden;
     border-radius: 12px;
+    float: right;
+    left: 0px;
+    z-index: 1;
 `;
 
 const StackImage = styled.img`
-    width: 340px;
-    height: 120px;
+    width: 150px;
+    height: 80px;
     position: absolute;
-    left: ${({ index }) => index * 340}px;
+    left: ${({ index }) => index * 150}px;
     transition: left 1s ease;
+`;
+const NameBox = styled.div`
+    display: flex;
+    padding: 24px;
+    width: 100%;
+    display: flex;
+    //justify-content: center;
+    font-family: profileFont;
+`;
+
+const ProfileText = styled.span`
+    font-size: 28px;
+    text-align: left;
+    color: black;
+`;
+
+const ProfileIcon = styled.img`
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
 `;

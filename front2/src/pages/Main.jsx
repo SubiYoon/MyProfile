@@ -63,7 +63,7 @@ const Main = () => {
                 <>
                     <Video autoPlay loop muted>
                         <source
-                            src="/assets/videos/main.mp4"
+                            src="/assets/videos/black.mp4"
                             type="video/mp4"
                         />
                     </Video>
@@ -139,7 +139,6 @@ const Overlay = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #3b5bdb;
     pointer-events: none;
     flex-direction: column;
     text-shadow: 8px 8px 8px black;
@@ -170,7 +169,6 @@ const MainFont3 = styled.div`
     width: 100%;
     margin-top: 60px;
     font-weight: bolder;
-    color: #364fc7;
     font-size: 200px;
     font-family: 'mainFont';
     text-align: right;
