@@ -12,6 +12,7 @@
                SIMPLE_INTRODUCE_MYSELF,
                DETAIL_INTRODUCE_MYSELF,
                IMAGE,
+               EMAIL,
                REGIST_TS,
                UPDATE_TS
         FROM MY_PROFILE
