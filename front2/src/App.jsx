@@ -12,17 +12,6 @@ const GlobalStyle = createGlobalStyle`
         min-height: 800px;
         min-width: 1600px;
     }
-
-    @font-face {
-        font-family: "mainFont2";
-        font-weight: 50;
-        src: url("/assets/font/mainFont2.ttf") format("truetype");
-    }
-    @font-face {
-        font-family: "mainFont";
-        font-weight: 50;
-        src: url("/assets/font/mainFont.ttf") format("truetype");
-    }
 `;
 
 function App() {
