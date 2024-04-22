@@ -88,7 +88,7 @@ const MenuButton = styled.button`
     background-color: transparent;
     border: none;
     color: white;
-    font-family: 'mainFont2';
+    font-family: 'mainFont';
     font-size: 20px;
     text-shadow: 8px 8px 8px black;
     opacity: ${({ $currentPage, $num }) => ($currentPage === $num ? 1 : 0)};

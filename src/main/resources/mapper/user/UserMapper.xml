@@ -13,6 +13,8 @@
                DETAIL_INTRODUCE_MYSELF,
                IMAGE,
                EMAIL,
+               GIT_HUB,
+               BLOG,
                REGIST_TS,
                UPDATE_TS
         FROM MY_PROFILE
@@ -24,6 +26,7 @@
                STACK_NAME,
                STACK_LEVEL,
                STACK_IMAGE,
+               CATEGORIE,
                REGIST_TS,
                UPDATE_TS
         FROM MY_STACK

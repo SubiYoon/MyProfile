@@ -14,6 +14,8 @@ public class ProfileVo {
     private String detailIntroduceMyself;
     private String image;
     private String email;
+    private String gitHub;
+    private String blog;
     private String registTs;
     private String updateTs;
 
