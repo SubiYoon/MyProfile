@@ -40,7 +40,7 @@ const Profile = () => {
     //텍스트 타이핑 효과
     useEffect(() => {
         console.log(currentPage);
-        if (profileData && currentPage === 1) {
+        if (profileData && currentPage === 2) {
             const simpleIntroTypingTimer = setTimeout(() => {
                 if (
                     simpleIntroIndex < profileData.simpleIntroduceMyself.length
@@ -153,25 +153,25 @@ const ProfileWrapper = styled.div`
         opacity 0.6s ease;
     transform-style: preserve-3d;
     transform: ${({ $currentPage }) =>
-        $currentPage === 1 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
+        $currentPage === 2 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
 `;
 
 const SideSpacer = styled.div`
     width: 230px;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
     transition:
         transform 0.6s ease,
         opacity 0.6s ease;
     transform-style: preserve-3d;
     transform: ${({ $currentPage }) =>
-        $currentPage === 1 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
+        $currentPage === 2 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
 `;
 
 const ProfileContainer = styled.div`
     height: 36%;
     min-height: 400px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.7);
     text-align: center;
 `;
 
@@ -179,7 +179,7 @@ const IntroductionContainer = styled.div`
     height: 64%;
     min-height: 500px;
     color: black;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: center;

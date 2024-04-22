@@ -18,11 +18,9 @@ const Main = () => {
 
     const [typedText, setTypedText] = useState('');
     const [textIndex, setTextIndex] = useState(0);
-    const [subTextTyped, setSubTextTyped] = useState('');
-    const [subTextIndex, setSubTextIndex] = useState(0);
+    const [subTextTyped, setSubTextTyped] = useState(false);
 
     const mainTextToType = userGb === 'ABCD' ? 'Yoon Dong Sub' : 'Park Ji Su';
-    const subTextToType = 'PORTFOLIO';
 
     const videoRef = useRef(null);
 
@@ -43,7 +41,7 @@ const Main = () => {
             const { scrollTop, scrollHeight, clientHeight } =
                 outerDivRef.current;
             const scrollFraction = scrollTop / (scrollHeight - clientHeight);
-            const totalPages = 3;
+            const totalPages = 4;
             let newPage;
 
             if (scrollTop === 0) {
@@ -77,21 +75,16 @@ const Main = () => {
                 setTypedText(mainTextToType.substring(0, textIndex + 1));
                 setTextIndex((prevIndex) => prevIndex + 1);
             }
-        }, 200);
+            // mainTextTypingTimer가 끝난 후 subTextTypingTimer 시작
+            else {
+                const subTextTypingTimer = setTimeout(() => {
+                    setSubTextTyped(true);
+                }, 90);
+            }
+        }, 160);
 
         return () => clearTimeout(mainTextTypingTimer);
     }, [textIndex, mainTextToType]);
-
-    useEffect(() => {
-        const subTextTypingTimer = setTimeout(() => {
-            if (subTextIndex < subTextToType.length) {
-                setSubTextTyped(subTextToType.substring(0, subTextIndex + 1));
-                setSubTextIndex((prevIndex) => prevIndex + 1);
-            }
-        }, 200);
-
-        return () => clearTimeout(subTextTypingTimer);
-    }, [subTextIndex, subTextToType]);
 
     return (
         <>
@@ -105,16 +98,24 @@ const Main = () => {
                     </Video>
                     <Wrapper ref={outerDivRef}>
                         <Section ref={sectionRefs[0]}>
+                            <Overlay $currentPage={currentPage}>
+                                <MainText>{typedText}</MainText>
+                                <MainText2 $subTextTyped={subTextTyped}>
+                                    PORTFOLIO
+                                </MainText2>
+                            </Overlay>
+                        </Section>
+                        <Section ref={sectionRefs[1]}>
                             <SectionBox>
                                 {userGb !== null ? <Profile /> : null}
                             </SectionBox>
                         </Section>
-                        <Section ref={sectionRefs[1]}>
+                        <Section ref={sectionRefs[2]}>
                             <SectionBox>
                                 <Skills />
                             </SectionBox>
                         </Section>
-                        <Section ref={sectionRefs[2]}>
+                        <Section ref={sectionRefs[3]}>
                             <SectionBox>
                                 <Histroy />
                             </SectionBox>
@@ -194,7 +195,11 @@ const MainText2 = styled.div`
     width: 100%;
     margin-top: 60px;
     font-weight: bolder;
-    font-size: 240px;
+    font-size: 200px;
     font-family: 'mainFont';
     text-align: right;
+    transition: transform 1s ease;
+    transform: translateX(
+        ${({ $subTextTyped }) => ($subTextTyped ? '0' : '-100vw')}
+    );
 `;

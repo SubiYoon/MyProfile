@@ -97,7 +97,12 @@ const MenuButton = styled.button`
     );
     transition:
         opacity 0.5s ease,
-        transform 0.5s ease; /* 변화에 따른 애니메이션 효과 적용 */
+        transform 0.5s ease;
+    &:hover {
+        cursor: pointer;
+        transform: translateY(0);
+        opacity: 1;
+    }
 `;
 
 const DotBox = styled.div`
@@ -108,7 +113,7 @@ const DotBox = styled.div`
     align-items: center;
     width: 30%;
     //background-color: red;
-    height: 128px;
+    height: 174px;
 `;
 
 const Dots = styled.div`
