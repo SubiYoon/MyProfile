@@ -25,9 +25,11 @@
                NAME,
                STACK_NAME,
                STACK_LEVEL,
+               STACK_DETAIL,
                STACK_IMAGE,
                CATEGORY,
                CATEGORY_LEVEL,
+               PROFILE_VIEW_YN,
                REGIST_TS,
                UPDATE_TS
         FROM MY_STACK
