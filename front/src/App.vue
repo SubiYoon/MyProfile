@@ -6,7 +6,7 @@ const mode = import.meta.env.MODE
 
 async function test() {
     try {
-        const res = await instance.get('/api/main')
+        const res = await instance.get('/api/menu')
         console.log(res)
     } catch (error) {
         console.log(error)
