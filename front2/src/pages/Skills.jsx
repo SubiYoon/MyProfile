@@ -13,7 +13,17 @@ const Skills = () => {
     const [activeSkill, setActiveSkill] = useState('Frontend');
     const [displayCheck, setDisplayCheck] = useState('');
 
-    const skills = ['Frontend', 'Backend', 'Version Contriol', 'DB'];
+    const categories = new Set();
+    let skills = [];
+    for(let i=0; i<stackData.length; i++){
+        categories.add(stackData[i].category);
+    }
+    categories.forEach(data => {
+            skills.push(data)
+    })
+
+
+
 
     const HeaderText = 'What Can I Do?';
 
@@ -63,8 +73,8 @@ const Skills = () => {
                             <SkillBox
                                 key={item.stackSeq}
                                 index={index}
-                                $isActive={clickSkill === item.categorie}
-                                $displayCheck={displayCheck === item.categorie}
+                                $isActive={clickSkill === item.category}
+                                $displayCheck={displayCheck === item.category}
                             >
                                 <StackImage src={item.stackImage} />
                                 {item.stackName}

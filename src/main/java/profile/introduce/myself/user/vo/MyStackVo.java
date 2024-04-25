@@ -9,7 +9,8 @@ public class MyStackVo {
     String stackName;
     String stackLevel;
     String stackImage;
-    String categorie;
+    String category;
+    String categoryLevel;
     String registTs;
     String updateTs;
 }
