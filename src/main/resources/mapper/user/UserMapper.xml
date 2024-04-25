@@ -25,13 +25,15 @@
                NAME,
                STACK_NAME,
                STACK_LEVEL,
-               STACK_IMAGE,
-               CATEGORIE,
                STACK_DETAIL,
+               STACK_IMAGE,
+               CATEGORY,
+               CATEGORY_LEVEL,
+               PROFILE_VIEW_YN,
                REGIST_TS,
                UPDATE_TS
         FROM MY_STACK
         WHERE NAME = #{name}
-        ORDER BY STACK_SEQ ASC
+        ORDER BY CATEGORY_LEVEL, STACK_LEVEL
     </select>
 </mapper>
