@@ -4,35 +4,43 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-    plugins: [vue()],
-    server: {
-        proxy: {
-            '^/api': {
-                target: 'http://localhost:7777',
-                changeOrigin: true,
-                // rewrite: (path) => path.replace(/^\/api/, ''),
+export default ({ mode }) => {
+    const isProduction = mode === 'production';
+    const apiURL = isProduction
+        ? 'https://devstat.app'
+        : 'http://localhost:7777';
+
+    return defineConfig({
+        base: './',
+        plugins: [vue()],
+        server: {
+            proxy: {
+                '^/api': {
+                    target: apiURL,
+                    changeOrigin: true,
+                    // rewrite: (path) => path.replace(/^\/api/, ''),
+                },
+                '/static': {
+                    target: apiURL,
+                },
             },
-            '/static': {
-                target: 'http://localhost:7777',
+            port: 3001,
+        },
+        resolve: {
+            alias: {
+                '@': fileURLToPath(new URL('./src', import.meta.url)),
             },
         },
-        port: 3000,
-    },
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url)),
-        },
-    },
-    build: {
-        minify: 'terser',
-        terserOptions: {
-            compress: {
-                drop_console: true,
-                drop_debugger: true,
+        build: {
+            minify: 'terser',
+            terserOptions: {
+                compress: {
+                    drop_console: true,
+                    drop_debugger: true,
+                },
             },
+            outDir: '../src/main/webapp/admin',
+            emptyOutDir: true,
         },
-        outDir: '../src/main/webapp',
-        emptyOutDir: true,
-    },
-})
+    })
+}
