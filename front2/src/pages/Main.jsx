@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { currentPageState, userState } from '../recoil.js';
 import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
@@ -7,34 +7,45 @@ import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
 import Histroy from '@/pages/History.jsx';
 import { useParams } from 'react-router-dom';
+import Skills from '@/pages/Skills.jsx';
 
 const Main = () => {
     const outerDivRef = useRef(null);
     const sectionRefs = [useRef(null), useRef(null), useRef(null)];
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-    //url로 유저 받아오기 ABCD, parkjs를 붙여야함
     const [userGb, setUserGb] = useRecoilState(userState);
-
     const { urlGb } = useParams();
 
-    console.log('파람', urlGb);
+    const [typedText, setTypedText] = useState('');
+    const [textIndex, setTextIndex] = useState(0);
+    const [subTextTyped, setSubTextTyped] = useState(false);
 
-    //url 상태 확인
+    const mainTextToType = userGb === 'ABCD' ? 'Yoon Dong Sub' : 'Park Ji Su';
+
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (video) {
+            video.playbackRate = 0.8; // 재생 속도를 0.2배로 설정
+        }
+    }, []);
+
     useEffect(() => {
         setUserGb(urlGb);
-    }, [urlGb]); // userGb 대신에 urlGb를 의존성으로 설정해야 합니다.
+    }, [urlGb]);
 
     useEffect(() => {
         const scrollHandler = () => {
-            if (!outerDivRef.current) return; // outerDivRef.current가 null인 경우에 대한 예외처리 추가
+            if (!outerDivRef.current) return;
             const { scrollTop, scrollHeight, clientHeight } =
                 outerDivRef.current;
             const scrollFraction = scrollTop / (scrollHeight - clientHeight);
-            const totalPages = 3; // 전체 페이지 수
+            const totalPages = 4;
             let newPage;
 
             if (scrollTop === 0) {
-                newPage = 1; // 맨 위에 있을 때는 항상 1페이지로 인식
+                newPage = 1;
             } else {
                 newPage = Math.ceil(scrollFraction * totalPages);
             }
@@ -45,34 +56,53 @@ const Main = () => {
         };
 
         const outerDivRefCurrent = outerDivRef.current;
-        if (!outerDivRefCurrent) return; // outerDivRef.current가 null인 경우에 대한 예외처리 추가
+        if (!outerDivRefCurrent) return;
         outerDivRefCurrent.addEventListener('scroll', scrollHandler);
         return () => {
             outerDivRefCurrent.removeEventListener('scroll', scrollHandler);
         };
-    }, [currentPage, setCurrentPage]); // 외부 의존성 배열에 currentPage와 setCurrentPage 추가
+    }, [currentPage, setCurrentPage]);
 
     const handleMenuClick = (page) => {
         setCurrentPage(page);
         sectionRefs[page - 1].current.scrollIntoView({ behavior: 'smooth' });
     };
 
+    //텍스트 타이핑 효과
+    useEffect(() => {
+        const mainTextTypingTimer = setTimeout(() => {
+            if (textIndex < mainTextToType.length) {
+                setTypedText(mainTextToType.substring(0, textIndex + 1));
+                setTextIndex((prevIndex) => prevIndex + 1);
+            }
+            // mainTextTypingTimer가 끝난 후 subTextTypingTimer 시작
+            else {
+                const subTextTypingTimer = setTimeout(() => {
+                    setSubTextTyped(true);
+                }, 90);
+            }
+        }, 160);
+
+        return () => clearTimeout(mainTextTypingTimer);
+    }, [textIndex, mainTextToType]);
+
     return (
         <>
             {urlGb === 'parkjs' || urlGb === 'ABCD' ? (
                 <>
-                    <Video autoPlay loop muted>
+                    <Video ref={videoRef} autoPlay loop muted>
                         <source
-                            src="/assets/videos/black.mp4"
+                            src="/assets/videos/galaxy.mp4"
                             type="video/mp4"
                         />
                     </Video>
                     <Wrapper ref={outerDivRef}>
                         <Section ref={sectionRefs[0]}>
                             <Overlay $currentPage={currentPage}>
-                                <MainFont>Yoon Dong Sub</MainFont>
-                                <MainFont2>Park Ji Su</MainFont2>
-                                <MainFont3>PROJECT</MainFont3>
+                                <MainText>{typedText}</MainText>
+                                <MainText2 $subTextTyped={subTextTyped}>
+                                    PORTFOLIO
+                                </MainText2>
                             </Overlay>
                         </Section>
                         <Section ref={sectionRefs[1]}>
@@ -81,6 +111,11 @@ const Main = () => {
                             </SectionBox>
                         </Section>
                         <Section ref={sectionRefs[2]}>
+                            <SectionBox>
+                                <Skills />
+                            </SectionBox>
+                        </Section>
+                        <Section ref={sectionRefs[3]}>
                             <SectionBox>
                                 <Histroy />
                             </SectionBox>
@@ -120,15 +155,15 @@ const Section = styled.div`
     height: 100vh;
     color: white;
     position: relative;
-    min-height: 800px;
+    min-height: 920px;
 `;
 
 const SectionBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
 `;
 
 const Overlay = styled.div`
@@ -148,28 +183,23 @@ const Overlay = styled.div`
     transition: transform 1s ease;
 `;
 
-const MainFont = styled.div`
+const MainText = styled.div`
     width: 100%;
-    font-family: 'mainFont2';
+    font-family: 'mainFont';
     font-weight: bolder;
-    font-size: 180px;
+    font-size: 200px;
     text-align: left;
 `;
 
-const MainFont2 = styled.div`
-    width: 100%;
-    font-family: 'mainFont2';
-    font-weight: bolder;
-    font-size: 180px;
-    text-align: center;
-    margin-top: 60px;
-`;
-
-const MainFont3 = styled.div`
+const MainText2 = styled.div`
     width: 100%;
     margin-top: 60px;
     font-weight: bolder;
     font-size: 200px;
     font-family: 'mainFont';
     text-align: right;
+    transition: transform 1s ease;
+    transform: translateX(
+        ${({ $subTextTyped }) => ($subTextTyped ? '0' : '-100vw')}
+    );
 `;

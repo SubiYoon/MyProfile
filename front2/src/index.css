@@ -1,22 +1,14 @@
 
 @font-face {
-  font-family: "mainFont2";
+  font-family: "profileFont";
   font-weight: 50;
-  src: url("/assets/font/mainFont2.ttf") format("truetype");
-  color: white
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
 }
 
 @font-face {
   font-family: "mainFont";
   font-weight: 50;
-  src: url("/assets/font/mainFont.ttf") format("truetype");
-  color: white
-}
-
-@font-face {
-  font-family: "profileFont";
-  font-weight: 50;
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2') format('woff2');
 }
 
 
