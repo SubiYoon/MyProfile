@@ -183,32 +183,44 @@ alter table introduce.project_stack
     owner to profile;
 
 -- 내가 사용 가능한 스택
-create table introduce.my_stack
+create table my_stack
 (
-    stack_seq   integer not null
+    stack_seq       integer generated always as identity (maxvalue 9999999 cache 9)
         constraint my_stack_pk
             primary key,
-    name        varchar not null,
-    stack_name  varchar,
-    stack_level varchar,
-    stack_img   varchar,
-    regist_ts   date default now(),
-    update_ts   date
+    name            varchar                                not null,
+    stack_name      varchar,
+    stack_level     integer,
+    stack_image     varchar,
+    regist_ts       date    default now(),
+    update_ts       date    default now(),
+    category        varchar,
+    stack_detail    varchar,
+    category_level  integer default 999999                 not null,
+    profile_view_yn varchar default 'N'::character varying not null
 );
 
-comment on table introduce.my_stack is '나의_스택';
+comment on table my_stack is '나의_스택';
 
-comment on column introduce.my_stack.stack_seq is '스택_일련번호';
+comment on column my_stack.stack_seq is '스택_일련번호';
 
-comment on column introduce.my_stack.name is '이름';
+comment on column my_stack.name is '이름';
 
-comment on column introduce.my_stack.stack_name is '스택_이름';
+comment on column my_stack.stack_name is '스택_이름';
 
-comment on column introduce.my_stack.stack_level is '스택_숙련도';
+comment on column my_stack.stack_level is '스택_순서';
 
-comment on column introduce.my_stack.stack_image is '스택_이미지';
+comment on column my_stack.stack_image is '스택_이미지';
 
-alter table introduce.my_stack
+comment on column my_stack.category is '분류';
+
+comment on column my_stack.stack_detail is '스택_설명';
+
+comment on column my_stack.category_level is '카테고리_순서';
+
+comment on column my_stack.profile_view_yn is '프로필_노출여부';
+
+alter table my_stack
     owner to profile;
 
 create table introduce.menu
