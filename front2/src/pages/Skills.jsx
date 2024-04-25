@@ -58,8 +58,8 @@ const Skills = () => {
                             <SkillBox
                                 key={item.stackSeq}
                                 index={index}
-                                $isActive={clickSkill === item.category}
-                                $displayCheck={displayCheck === item.category}
+                                $isActive={clickSkill === item.categorie}
+                                $displayCheck={displayCheck === item.categorie}
                             >
                                 <StackImage src={item.stackImage} />
                                 <SkillName>{item.stackName}</SkillName>
