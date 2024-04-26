@@ -9,7 +9,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Router와 Ro
 const GlobalStyle = createGlobalStyle`
     html, body {
         overflow-y: hidden;
-        min-height: 920px;
         min-width: 1800px;
     }
 `;

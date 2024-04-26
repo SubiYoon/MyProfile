@@ -15,15 +15,12 @@ const Skills = () => {
 
     const categories = new Set();
     let skills = [];
-    for(let i=0; i<stackData.length; i++){
+    for (let i = 0; i < stackData.length; i++) {
         categories.add(stackData[i].category);
     }
-    categories.forEach(data => {
-            skills.push(data)
-    })
-
-
-
+    categories.forEach((data) => {
+        skills.push(data);
+    });
 
     const HeaderText = 'What Can I Do?';
 

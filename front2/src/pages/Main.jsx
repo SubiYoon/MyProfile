@@ -159,10 +159,9 @@ const Section = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     color: white;
     position: relative;
-    min-height: 920px;
 `;
 
 const SectionBox = styled.div`
@@ -170,7 +169,7 @@ const SectionBox = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: auto;
 `;
 
 const Overlay = styled.div`
