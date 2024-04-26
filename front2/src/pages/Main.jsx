@@ -5,13 +5,18 @@ import Dot from '@/components/layout/Dot.jsx';
 import Error from '@/pages/Error.jsx';
 import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
-import Histroy from '@/pages/History.jsx';
+import Project from '@/pages/Project.jsx';
 import { useParams } from 'react-router-dom';
 import Skills from '@/pages/Skills.jsx';
 
 const Main = () => {
     const outerDivRef = useRef(null);
-    const sectionRefs = [useRef(null), useRef(null), useRef(null)];
+    const sectionRefs = [
+        useRef(null),
+        useRef(null),
+        useRef(null),
+        useRef(null),
+    ];
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
     const [userGb, setUserGb] = useRecoilState(userState);
     const { urlGb } = useParams();
@@ -20,6 +25,7 @@ const Main = () => {
     const [textIndex, setTextIndex] = useState(0);
     const [subTextTyped, setSubTextTyped] = useState(false);
 
+    //메인 화면 이름 구분
     const mainTextToType = userGb === 'ABCD' ? 'Yoon Dong Sub' : 'Park Ji Su';
 
     const videoRef = useRef(null);
@@ -27,7 +33,7 @@ const Main = () => {
     useEffect(() => {
         const video = videoRef.current;
         if (video) {
-            video.playbackRate = 0.8; // 재생 속도를 0.2배로 설정
+            video.playbackRate = 0.8; //비디오 재생속도
         }
     }, []);
 
@@ -41,6 +47,7 @@ const Main = () => {
             const { scrollTop, scrollHeight, clientHeight } =
                 outerDivRef.current;
             const scrollFraction = scrollTop / (scrollHeight - clientHeight);
+            //총 페이지 수 구분
             const totalPages = 4;
             let newPage;
 
@@ -75,7 +82,7 @@ const Main = () => {
                 setTypedText(mainTextToType.substring(0, textIndex + 1));
                 setTextIndex((prevIndex) => prevIndex + 1);
             }
-            // mainTextTypingTimer가 끝난 후 subTextTypingTimer 시작
+            // mainTextTypingTimer가 끝난 후 subText가 나오게 설정
             else {
                 const subTextTypingTimer = setTimeout(() => {
                     setSubTextTyped(true);
@@ -117,7 +124,7 @@ const Main = () => {
                         </Section>
                         <Section ref={sectionRefs[3]}>
                             <SectionBox>
-                                <Histroy />
+                                <Project />
                             </SectionBox>
                         </Section>
                         <Dot onMenuClick={handleMenuClick} />
