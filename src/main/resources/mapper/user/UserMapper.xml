@@ -27,9 +27,11 @@
                STACK_LEVEL,
                STACK_IMAGE,
                CATEGORIE,
+               STACK_DETAIL,
                REGIST_TS,
                UPDATE_TS
         FROM MY_STACK
         WHERE NAME = #{name}
+        ORDER BY STACK_SEQ ASC
     </select>
 </mapper>

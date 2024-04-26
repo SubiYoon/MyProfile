@@ -5,9 +5,12 @@ import { useRecoilState } from 'recoil';
 import { currentPageState, userState, stackState } from '@/recoil.js';
 
 const Profile = () => {
+    //프로필 정보
     const [profileData, setProfileData] = useState(null); // 초기 상태를 null로 설정
+    //스킬 정보
     const [stackData, setStackData] = useRecoilState(stackState);
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+    //유저 구분
     const [userGb, setUserGb] = useRecoilState(userState);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -39,7 +42,6 @@ const Profile = () => {
 
     //텍스트 타이핑 효과
     useEffect(() => {
-        console.log(currentPage);
         if (profileData && currentPage === 2) {
             const simpleIntroTypingTimer = setTimeout(() => {
                 if (
@@ -120,13 +122,19 @@ const Profile = () => {
                                 </NameBox>
                                 <NameBox>
                                     <ProfileIcon src="/assets/icons/git.svg" />
-                                    <ProfileLink href={profileData.gitHub}>
+                                    <ProfileLink
+                                        href={profileData.gitHub}
+                                        target="_blank"
+                                    >
                                         {profileData.gitHub}
                                     </ProfileLink>
                                 </NameBox>
                                 <NameBox>
                                     <ProfileIcon src="/assets/icons/blog.svg" />
-                                    <ProfileLink href={profileData.blog}>
+                                    <ProfileLink
+                                        href={profileData.blog}
+                                        target="_blank"
+                                    >
                                         {profileData.blog}
                                     </ProfileLink>
                                 </NameBox>
@@ -221,6 +229,7 @@ const ProfileText = styled.span`
 
 const ProfileLink = styled.a`
     font-size: 24px;
+    text-decoration-line: none;
 `;
 
 const ProfileIcon = styled.img`
@@ -249,7 +258,7 @@ const StackImageBox = styled.div`
 `;
 
 const StackImage = styled.img`
-    width: 180px;
+    width: 80px;
     height: 80px;
     position: absolute;
     left: ${({ index }) => index * 240}px;
