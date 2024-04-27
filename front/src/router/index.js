@@ -8,25 +8,12 @@ const router = createRouter({
             name: 'home',
             component: () => import('@/views/HomeView.vue'),
         },
-        {
-            path: '/login',
-            name: 'loginIn',
-            component: () => import('@/views/SignInView.vue'),
-        },
-        {
-            path: '/admin',
-            name: 'admin',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import('@/views/SignInView.vue'),
-        },
     ],
 })
 
 router.beforeEach((to, from, next) => {
     /* 로그인이 필요한 페이지 */
-    if (to.matched.some((record) => record.meta.requireAuth)) {
+    if (to.matched.some(record => record.meta.requireAuth)) {
         // 로그인 했는지 확인
         //   if (userStore.isLoggedIn) {
         //     next()

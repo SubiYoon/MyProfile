@@ -1,15 +1,29 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import { server } from '@/api/index.js'
+
+const id = ref('')
+const pwd = ref('')
+const resultName = ref('')
+function login() {
+    let loginData = {
+        name: id.value,
+        password: pwd.value,
+    }
+
+    server
+        .post('/api/admin/login', loginData, {})
+        .then(data => {
+            resultName.value = data.data.name
+        })
+        .catch(data => {
+            alert(data.response.data)
+        })
+}
+</script>
 
 <template>
-    <main class="text-red-500">
-        <header>
-            <button @click="test">api test</button>
-            <div>
-                <nav>
-                    <RouterLink to="/">Home</RouterLink>
-                    <RouterLink to="/login" class="text-black">login</RouterLink>
-                </nav>
-            </div>
-        </header>
-    </main>
+    <label>이름</label><input v-model="id" /> <label>비밀번호</label
+    ><input type="password" v-model="pwd" @keyup.enter="login" />
+    <button @click="login">로그인</button>
 </template>

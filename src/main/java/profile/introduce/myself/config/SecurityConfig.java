@@ -4,18 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.DelegatingSecurityContextRepository;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import profile.introduce.myself.security.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,6 +38,11 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
+    private final ProfileAuthenticationSuccessHandler profileAuthenticationSuccessHandler;
+    private final ProfileAuthenticationFailureHandler profileAuthenticationFailureHandler;
+    private final ProfileLoginAuthenticationEntryPoint profileAuthenticationEntryPoint;
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final ProfileAccessDeniedHandler profileAccessDeniedHandler;
     /**
      * Spring Security 설정
      * <ul>
@@ -51,27 +59,33 @@ public class SecurityConfig {
                 //인증 인가가 필요한 URL을 지정
                 .authorizeHttpRequests(requests -> requests
                         //특정 패턴의 URL 인증이 필요함을 표시(authenticated())
-                        .requestMatchers( "/admin/**").authenticated()
+                        .requestMatchers( "/api/**").authenticated()
                         //나머지 요청은 전부 허용
                         .anyRequest().permitAll()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-                //로그인 폼 방식 적용
-                .formLogin(form -> form
-                        //로그인 폼 URL
-                        .loginPage("/login")
-                        .loginProcessingUrl("/profile/login")
-                        //성공시 "/"페이지로 이동
-                        .defaultSuccessUrl("/", true)
-                        //인증 인가 필요없이 허용
-                        .permitAll()
-                )
-                //로그아웃에 대한 정보
-                .logout()
-                .logoutUrl("/profile/logout")
-                .invalidateHttpSession(true).deleteCookies("JSESSIONID");
+                .addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(config -> config
+                        .authenticationEntryPoint(profileAuthenticationEntryPoint)
+                        .accessDeniedHandler(profileAccessDeniedHandler));
 
         return httpSecurity.build();
+    }
+
+    @Bean
+    public ProfileAuthenticateionFilter ajaxAuthenticationFilter() throws Exception {
+        ProfileAuthenticateionFilter profileAuthenticateionFilter = new ProfileAuthenticateionFilter();
+        profileAuthenticateionFilter.setAuthenticationManager(authenticationConfiguration.getAuthenticationManager());
+        profileAuthenticateionFilter.setAuthenticationSuccessHandler(profileAuthenticationSuccessHandler);
+        profileAuthenticateionFilter.setAuthenticationFailureHandler(profileAuthenticationFailureHandler);
+
+        profileAuthenticateionFilter.setSecurityContextRepository(
+                new DelegatingSecurityContextRepository(
+                        new RequestAttributeSecurityContextRepository(),
+                        new HttpSessionSecurityContextRepository()
+                )
+        );
+
+        return profileAuthenticateionFilter;
     }
 
     @Bean
