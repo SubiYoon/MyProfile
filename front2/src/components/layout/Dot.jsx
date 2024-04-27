@@ -9,6 +9,7 @@ const Dot = ({ onMenuClick }) => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
 
     useEffect(() => {
+        console.log('메뉴 get 요청');
         const fetchMenuData = async () => {
             try {
                 const response = await axiosInstance
@@ -19,7 +20,7 @@ const Dot = ({ onMenuClick }) => {
                     });
                 setMenuData(response.data);
             } catch (error) {
-                // console.error('Error fetching menu data:', error);
+                console.error('Error fetching menu data:', error);
             }
         };
         fetchMenuData();
