@@ -35,7 +35,7 @@ public class UserController {
         LOGGER.info("유저 조회 :: " + userProfile.getName() + " 조회");
 
         result.put("profile", userProfile);
-        result.put("stack", userService.getStackList(userProfile.getName()));
+        result.put("stack", userService.getStackList(userProfile.getAlias()));
         return result;
     }
 
