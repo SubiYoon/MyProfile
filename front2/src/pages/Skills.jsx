@@ -21,8 +21,6 @@ const Skills = () => {
         skills.push(data);
     });
 
-    console.log('stack', stackData);
-
     const HeaderText = 'What Can I Do?';
 
     const onClickSkill = (skill) => {
@@ -60,8 +58,8 @@ const Skills = () => {
                             <SkillBox
                                 key={item.stackSeq}
                                 index={index}
-                                $isActive={clickSkill === item.categorie}
-                                $displayCheck={displayCheck === item.categorie}
+                                $isActive={clickSkill === item.category}
+                                $displayCheck={displayCheck === item.category}
                             >
                                 <StackImage src={item.stackImage} />
                                 <SkillName>{item.stackName}</SkillName>
