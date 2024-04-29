@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil';
 import Project from '@/pages/Project.jsx';
 import { useParams } from 'react-router-dom';
 import Skills from '@/pages/Skills.jsx';
+import Header from '@/pages/Header.jsx';
 
 const Main = () => {
     const outerDivRef = useRef(null);
@@ -20,13 +21,7 @@ const Main = () => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
     const [userGb, setUserGb] = useRecoilState(userState);
     const { urlGb } = useParams();
-
-    const [typedText, setTypedText] = useState('');
-    const [textIndex, setTextIndex] = useState(0);
-    const [subTextTyped, setSubTextTyped] = useState(false);
-
-    //메인 화면 이름 구분
-    const mainTextToType = userGb === 'ABCD' ? 'Yoon Dong Sub' : 'Park Ji Su';
+    const text = userGb === 'ABCD' ? 'Yoon Dong Sub' : 'Park Ji Su';
 
     const videoRef = useRef(null);
 
@@ -75,24 +70,7 @@ const Main = () => {
         sectionRefs[page - 1].current.scrollIntoView({ behavior: 'smooth' });
     };
 
-    //텍스트 타이핑 효과
-    useEffect(() => {
-        const mainTextTypingTimer = setTimeout(() => {
-            if (textIndex < mainTextToType.length) {
-                setTypedText(mainTextToType.substring(0, textIndex + 1));
-                setTextIndex((prevIndex) => prevIndex + 1);
-            }
-            // mainTextTypingTimer가 끝난 후 subText가 나오게 설정
-            else {
-                const subTextTypingTimer = setTimeout(() => {
-                    setSubTextTyped(true);
-                }, 90);
-            }
-        }, 160);
-
-        return () => clearTimeout(mainTextTypingTimer);
-    }, [textIndex, mainTextToType]);
-
+    console.log('메인호출');
     return (
         <>
             {urlGb === 'parkjs' || urlGb === 'ABCD' ? (
@@ -106,10 +84,7 @@ const Main = () => {
                     <Wrapper ref={outerDivRef}>
                         <Section ref={sectionRefs[0]}>
                             <Overlay $currentPage={currentPage}>
-                                <MainText>{typedText}</MainText>
-                                <MainText2 $subTextTyped={subTextTyped}>
-                                    PORTFOLIO
-                                </MainText2>
+                                <Header text={text} gb={'main'} />
                             </Overlay>
                         </Section>
                         <Section ref={sectionRefs[1]}>
@@ -173,11 +148,9 @@ const SectionBox = styled.div`
 `;
 
 const Overlay = styled.div`
-    position: absolute;
-    top: 0;
-    width: 84%;
-    height: 100%;
+    width: 90%;
     display: flex;
+    height: auto;
     justify-content: center;
     align-items: center;
     pointer-events: none;
@@ -187,25 +160,4 @@ const Overlay = styled.div`
         ${({ $currentPage }) => ($currentPage === 1 ? '0' : '-100vw')}
     );
     transition: transform 1s ease;
-`;
-
-const MainText = styled.div`
-    width: 100%;
-    font-family: 'mainFont';
-    font-weight: bolder;
-    font-size: 200px;
-    text-align: left;
-`;
-
-const MainText2 = styled.div`
-    width: 100%;
-    margin-top: 60px;
-    font-weight: bolder;
-    font-size: 200px;
-    font-family: 'mainFont';
-    text-align: right;
-    transition: transform 1s ease;
-    transform: translateX(
-        ${({ $subTextTyped }) => ($subTextTyped ? '0' : '-100vw')}
-    );
 `;

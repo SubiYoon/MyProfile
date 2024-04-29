@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { currentPageState, stackState, userState } from '@/recoil.js';
+import Header from '@/pages/Header.jsx';
 
 const Skills = () => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
     const [stackData, setStackData] = useRecoilState(stackState);
 
-    const [typedText, setTypedText] = useState('');
     const [textIndex, setTextIndex] = useState(0);
     const [clickSkill, setClickSkill] = useState('Frontend');
     const [activeSkill, setActiveSkill] = useState('Frontend');
@@ -29,30 +29,19 @@ const Skills = () => {
         setActiveSkill(skill);
         setTimeout(() => {
             setDisplayCheck(skill);
-            console.log('확인', displayCheck);
         }, 2000); // 4초 뒤에 실행되도록 4000ms로 설정
     };
-
-    //텍스트 타이핑 효과
-    useEffect(() => {
-        if (currentPage === 3) {
-            const mainTextTypingTimer = setTimeout(() => {
-                if (textIndex < HeaderText.length) {
-                    setTypedText(HeaderText.substring(0, textIndex + 1));
-                    setTextIndex((prevIndex) => prevIndex + 1);
-                }
-            }, 120);
-
-            return () => clearTimeout(mainTextTypingTimer);
-        }
-    }, [textIndex, HeaderText, currentPage]);
 
     return (
         <>
             <SideSpacer $currentPage={currentPage} />
             <SkilsWapper $currentPage={currentPage}>
                 <TitleContainer>
-                    <TitleHeader>{typedText}</TitleHeader>
+                    <TitleHeader>
+                        {currentPage === 3 ? (
+                            <Header text={HeaderText} gb={'skills'} />
+                        ) : null}
+                    </TitleHeader>
                     {skills.map((skill, index) => (
                         <TitleSkills
                             $isActive={activeSkill === skill}

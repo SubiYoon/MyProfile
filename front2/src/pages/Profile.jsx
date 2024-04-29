@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance.js';
 import { useRecoilState } from 'recoil';
 import { currentPageState, userState, stackState } from '@/recoil.js';
+import Header from '@/pages/Header.jsx';
 
 const Profile = () => {
     //프로필 정보
@@ -14,8 +15,7 @@ const Profile = () => {
     const [userGb, setUserGb] = useRecoilState(userState);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    const [typedSimpleIntro, setTypedSimpleIntro] = useState('');
-    const [simpleIntroIndex, setSimpleIntroIndex] = useState(0);
+    const [detailIntroduce, setDetailIntroduce] = useState('');
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -23,6 +23,8 @@ const Profile = () => {
                 const response = await axiosInstance.get(`api/name/${userGb}`);
                 setProfileData(response.data.profile);
                 setStackData(response.data.stack);
+                setDetailIntroduce(response.data.profile.simpleIntroduceMyself);
+                console.log('확인값', detailIntroduce);
             } catch (error) {
                 console.error('Error fetching menu data:', error);
             }
@@ -40,34 +42,17 @@ const Profile = () => {
         return () => clearInterval(interval);
     }, [stackData]);
 
-    //텍스트 타이핑 효과
-    useEffect(() => {
-        if (profileData && currentPage === 2) {
-            const simpleIntroTypingTimer = setTimeout(() => {
-                if (
-                    simpleIntroIndex < profileData.simpleIntroduceMyself.length
-                ) {
-                    setTypedSimpleIntro(
-                        profileData.simpleIntroduceMyself.substring(
-                            0,
-                            simpleIntroIndex + 1,
-                        ),
-                    );
-                    setSimpleIntroIndex((prevIndex) => prevIndex + 1);
-                }
-            }, 120); //
-
-            return () => clearTimeout(simpleIntroTypingTimer);
-        }
-    }, [simpleIntroIndex, profileData, currentPage]);
-
     return (
         <>
             <SideSpacer $currentPage={currentPage} />
             {profileData && stackData && (
                 <ProfileWrapper $currentPage={currentPage}>
                     <ProfileContainer>
-                        <ProfileHeader>{typedSimpleIntro}</ProfileHeader>
+                        {currentPage === 2 ? (
+                            <ProfileHeader>
+                                <Header text={detailIntroduce} gb={'profile'} />
+                            </ProfileHeader>
+                        ) : null}
                         <ProfileContent>
                             {profileData.detailIntroduceMyself
                                 .split('.')
@@ -177,7 +162,7 @@ const SideSpacer = styled.div`
 `;
 
 const ProfileContainer = styled.div`
-    padding: 16px;
+    padding: 2% 8% 2% 8%; // 프로필 컨테이너 패딩 %
     background-color: rgba(0, 0, 0, 0.7);
     text-align: center;
 `;
@@ -192,21 +177,8 @@ const IntroductionContainer = styled.div`
     padding: 16px;
 `;
 
-const ProfileHeader = styled.p`
-    text-align: center;
-    font-size: 64px;
-    font-weight: bolder;
-    text-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
-    font-family: 'profileFont';
-    color: white;
-    text-decoration: underline;
-    text-underline-offset: 16px;
-    text-decoration-thickness: 4px;
-`;
-
 const ProfileContent = styled.div`
     //width: 70%;
-    //background-color: black;
     font-size: 24px;
     font-family: 'profileFont';
     color: white;
@@ -284,6 +256,17 @@ const AboutBox = styled.div`
 const HeaderText = styled.span`
     font-size: 64px;
     font-weight: bolder;
+    text-decoration: underline;
+    text-underline-offset: 16px;
+    text-decoration-thickness: 4px;
+`;
+const ProfileHeader = styled.p`
+    text-align: center;
+    font-size: 64px;
+    font-weight: bolder;
+    text-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
+    font-family: 'profileFont';
+    color: white;
     text-decoration: underline;
     text-underline-offset: 16px;
     text-decoration-thickness: 4px;
