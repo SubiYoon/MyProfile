@@ -38,8 +38,8 @@
     </select>
     <select id="getUser" resultType="profile.introduce.myself.security.UserVo">
         SELECT NAME,
-            PASSWORD,
-            ROLE
+        PASSWORD,
+        ROLE
         FROM MY_PROFILE
         WHERE NAME = #{username}
     </select>
