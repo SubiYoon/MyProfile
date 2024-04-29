@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<MyStackVo> getStackList(String name) {
-        return userMapper.getStackList(name);
+    public List<MyStackVo> getStackList(String alias) {
+        return userMapper.getStackList(alias);
     }
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface UserService {
     ProfileVo chooseProfile(String alias);
-    List<MyStackVo> getStackList(String name);
+    List<MyStackVo> getStackList(String alias);
 }

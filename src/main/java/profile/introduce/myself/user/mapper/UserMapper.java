@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserMapper {
     ProfileVo chooseProfile(String alias);
 
-    List<MyStackVo> getStackList(String name);
+    List<MyStackVo> getStackList(String alias);
 
-    UserVo getUser(String username);
+    UserVo getUser(String alias);
 }

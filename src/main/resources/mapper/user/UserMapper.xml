@@ -16,6 +16,7 @@
                GIT_HUB,
                BLOG,
                ALIAS,
+               MAIN_CONTENT,
                REGIST_TS,
                UPDATE_TS
         FROM MY_PROFILE
@@ -34,7 +35,7 @@
                REGIST_TS,
                UPDATE_TS
         FROM MY_STACK
-        WHERE ALIAS = #{name}
+        WHERE ALIAS = #{alias}
         ORDER BY CATEGORY_LEVEL, STACK_LEVEL
     </select>
     <select id="getUser" resultType="profile.introduce.myself.security.UserVo">
@@ -43,6 +44,6 @@
                ROLE,
                ALIAS
         FROM MY_PROFILE
-        WHERE ALIAS = #{username}
+        WHERE ALIAS = #{alias}
     </select>
 </mapper>

@@ -23,7 +23,7 @@ function login() {
 </script>
 
 <template>
-    <label>이름</label><input v-model="id" /> <label>비밀번호</label
+    <label>닉네임</label><input v-model="id" /> <label>비밀번호</label
     ><input type="password" v-model="pwd" @keyup.enter="login" />
     <button @click="login">로그인</button>
 </template>

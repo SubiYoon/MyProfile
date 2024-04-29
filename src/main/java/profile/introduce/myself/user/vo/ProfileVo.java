@@ -13,6 +13,7 @@ public class ProfileVo {
     private String addrDetail;
     private String simpleIntroduceMyself;
     private String detailIntroduceMyself;
+    private String mainContent;
     private String image;
     private String email;
     private String gitHub;
