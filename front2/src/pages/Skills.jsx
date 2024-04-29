@@ -21,6 +21,8 @@ const Skills = () => {
         skills.push(data);
     });
 
+    console.log('stack', stackData);
+
     const HeaderText = 'What Can I Do?';
 
     const onClickSkill = (skill) => {

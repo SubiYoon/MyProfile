@@ -19,6 +19,8 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+
     @RequestMapping("/name/{name}")
     Map<String, Object> chooseProfile(@PathVariable("name")  String alias){
 

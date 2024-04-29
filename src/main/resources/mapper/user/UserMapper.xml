@@ -4,43 +4,45 @@
 <mapper namespace="profile.introduce.myself.user.mapper.UserMapper">
     <select id="chooseProfile" resultType="profile.introduce.myself.user.vo.ProfileVo">
         SELECT NAME,
-        PASSWORD,
-        BIRTH_YEAR,
-        SEX,
-        ADDR,
-        ADDR_DETAIL,
-        SIMPLE_INTRODUCE_MYSELF,
-        DETAIL_INTRODUCE_MYSELF,
-        IMAGE,
-        EMAIL,
-        GIT_HUB,
-        BLOG,
-        REGIST_TS,
-        UPDATE_TS
+               PASSWORD,
+               BIRTH_YEAR,
+               SEX,
+               ADDR,
+               ADDR_DETAIL,
+               SIMPLE_INTRODUCE_MYSELF,
+               DETAIL_INTRODUCE_MYSELF,
+               IMAGE,
+               EMAIL,
+               GIT_HUB,
+               BLOG,
+               ALIAS,
+               REGIST_TS,
+               UPDATE_TS
         FROM MY_PROFILE
-        WHERE NAME = #{name}
+        WHERE ALIAS = #{alias}
     </select>
     <select id="getStackList" resultType="profile.introduce.myself.user.vo.MyStackVo">
         SELECT STACK_SEQ,
-        NAME,
-        STACK_NAME,
-        STACK_LEVEL,
-        STACK_DETAIL,
-        STACK_IMAGE,
-        CATEGORY,
-        CATEGORY_LEVEL,
-        PROFILE_VIEW_YN,
-        REGIST_TS,
-        UPDATE_TS
+               ALIAS,
+               STACK_NAME,
+               STACK_LEVEL,
+               STACK_DETAIL,
+               STACK_IMAGE,
+               CATEGORY,
+               CATEGORY_LEVEL,
+               PROFILE_VIEW_YN,
+               REGIST_TS,
+               UPDATE_TS
         FROM MY_STACK
-        WHERE NAME = #{name}
+        WHERE ALIAS = #{name}
         ORDER BY CATEGORY_LEVEL, STACK_LEVEL
     </select>
     <select id="getUser" resultType="profile.introduce.myself.security.UserVo">
         SELECT NAME,
-        PASSWORD,
-        ROLE
+               PASSWORD,
+               ROLE,
+               ALIAS
         FROM MY_PROFILE
-        WHERE NAME = #{username}
+        WHERE ALIAS = #{username}
     </select>
 </mapper>
