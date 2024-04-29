@@ -23,7 +23,7 @@
     </select>
     <select id="getStackList" resultType="profile.introduce.myself.user.vo.MyStackVo">
         SELECT STACK_SEQ,
-               NAME,
+               ALIAS,
                STACK_NAME,
                STACK_LEVEL,
                STACK_DETAIL,
@@ -34,14 +34,15 @@
                REGIST_TS,
                UPDATE_TS
         FROM MY_STACK
-        WHERE NAME = #{name}
+        WHERE ALIAS = #{name}
         ORDER BY CATEGORY_LEVEL, STACK_LEVEL
     </select>
     <select id="getUser" resultType="profile.introduce.myself.security.UserVo">
         SELECT NAME,
             PASSWORD,
-            ROLE
+            ROLE,
+            ALIAS
         FROM MY_PROFILE
-        WHERE NAME = #{username}
+        WHERE ALIAS = #{username}
     </select>
 </mapper>
