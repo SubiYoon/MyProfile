@@ -59,7 +59,7 @@ public class SecurityConfig {
                 //인증 인가가 필요한 URL을 지정
                 .authorizeHttpRequests(requests -> requests
                         //특정 패턴의 URL 인증이 필요함을 표시(authenticated())
-                        .requestMatchers( "/api/**").authenticated()
+                        .requestMatchers( "/api/admin/**").authenticated()
                         //나머지 요청은 전부 허용
                         .anyRequest().permitAll()
                 )
