@@ -39,9 +39,9 @@
     </select>
     <select id="getUser" resultType="profile.introduce.myself.security.UserVo">
         SELECT NAME,
-            PASSWORD,
-            ROLE,
-            ALIAS
+               PASSWORD,
+               ROLE,
+               ALIAS
         FROM MY_PROFILE
         WHERE ALIAS = #{username}
     </select>

@@ -10,7 +10,7 @@ const Project = () => {
             <SideSpacer $currentPage={currentPage} />
             <ProjectWrapper $currentPage={currentPage}>
                 <HeaderContainer>
-                    <HeaderText>PROJECTS</HeaderText>
+                    <LineBox></LineBox>
                 </HeaderContainer>
                 <ProjectContainer></ProjectContainer>
             </ProjectWrapper>
@@ -23,7 +23,6 @@ export default Project;
 
 const ProjectWrapper = styled.div`
     display: flex;
-    flex-direction: column;
     width: 100%;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.92);
@@ -37,15 +36,14 @@ const ProjectWrapper = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-    height: 10%;
-    min-height: 140px;
+    width: 30%;
     background-color: rgba(0, 0, 0, 0.8);
-    text-align: center;
-    padding-top: 24px;
+    flex-direction: column;
+    padding: 16px;
 `;
 
 const ProjectContainer = styled.div`
-    height: 90%;
+    width: 70%;
     min-height: 640px;
     color: black;
     background-color: rgba(255, 255, 255, 0.1);
@@ -67,10 +65,7 @@ const SideSpacer = styled.div`
         $currentPage === 4 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
 `;
 
-const HeaderText = styled.span`
-    font-size: 64px;
-    font-weight: bolder;
-    text-decoration: underline;
-    text-underline-offset: 16px;
-    text-decoration-thickness: 4px;
+const LineBox = styled.div`
+    padding: 4px;
+    background-color: red;
 `;
