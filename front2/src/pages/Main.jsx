@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { currentPageState, userState } from '../recoil.js';
+import { currentPageState, stackState, userState } from '../recoil.js';
 import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
 import Error from '@/pages/Error.jsx';
@@ -20,6 +20,8 @@ const Main = () => {
     ];
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
     const [userGb, setUserGb] = useRecoilState(userState);
+    const [stackData, setStackData] = useRecoilState(stackState);
+
     const { urlGb } = useParams();
     const text = userGb === 'ABCD' ? 'Yoon Dong Sub' : 'Park Ji Su';
 
@@ -94,7 +96,7 @@ const Main = () => {
                         </Section>
                         <Section ref={sectionRefs[2]}>
                             <SectionBox>
-                                <Skills />
+                                {stackData.length > 0 ? <Skills /> : null}
                             </SectionBox>
                         </Section>
                         <Section ref={sectionRefs[3]}>

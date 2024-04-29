@@ -8,9 +8,8 @@ const Skills = () => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
     const [stackData, setStackData] = useRecoilState(stackState);
 
-    const [textIndex, setTextIndex] = useState(0);
-    const [clickSkill, setClickSkill] = useState('Frontend');
-    const [activeSkill, setActiveSkill] = useState('Frontend');
+    const [clickSkill, setClickSkill] = useState(stackData[0]?.category);
+    const [activeSkill, setActiveSkill] = useState(stackData[0]?.category);
     const [displayCheck, setDisplayCheck] = useState('');
 
     const categories = new Set();
@@ -102,6 +101,7 @@ const TitleContainer = styled.div`
 
 const TitleHeader = styled.p`
     font-size: 36px;
+    width: 320px;
 `;
 
 const TitleSkills = styled.p`

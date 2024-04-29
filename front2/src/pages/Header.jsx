@@ -10,15 +10,6 @@ const Header = ({ text, gb }) => {
     const [textIndex, setTextIndex] = useState(0);
     const [subTextTyped, setSubTextTyped] = useState(false);
 
-    let mainTextToType = '';
-    let pageGb = '';
-
-    // useEffect(() => {
-    //     pageGb = gb;
-    // }, [currentPage]);
-
-    //메인 화면 이름 구분
-
     //텍스트 타이핑 효과
     useEffect(() => {
         let mainTextToType = text;

@@ -162,7 +162,7 @@ const SideSpacer = styled.div`
 `;
 
 const ProfileContainer = styled.div`
-    padding: 2% 8% 2% 8%; // 프로필 컨테이너 패딩 %
+    padding: 0% 8% 2% 8%; // 프로필 컨테이너 패딩 %
     background-color: rgba(0, 0, 0, 0.7);
     text-align: center;
 `;
@@ -174,7 +174,7 @@ const IntroductionContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 16px;
+    padding: 3% 16% 6% 16%;
 `;
 
 const ProfileContent = styled.div`
@@ -186,7 +186,7 @@ const ProfileContent = styled.div`
 
 const NameBox = styled.div`
     display: flex;
-    margin-top: 16px;
+    margin-bottom: 16px;
 `;
 
 const ProfileText = styled.span`
@@ -206,7 +206,7 @@ const ProfileIcon = styled.img`
 
 const AboutContainer = styled.div`
     display: flex;
-    width: 70%;
+    width: 100%;
 `;
 
 const ImgBox = styled.div`
@@ -238,7 +238,6 @@ const PhotoBox = styled.div`
     overflow: hidden;
     box-shadow: 6px 6px 6px gray;
     float: right;
-    margin-top: 36px;
 `;
 
 const Photo = styled.img`
@@ -247,8 +246,8 @@ const Photo = styled.img`
 `;
 const AboutBox = styled.div`
     display: flex;
-    width: 100%;
     float: right;
+    width: 50%;
     flex-direction: column;
     padding-left: 60px;
 `;
