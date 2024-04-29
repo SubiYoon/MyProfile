@@ -15,10 +15,11 @@
                EMAIL,
                GIT_HUB,
                BLOG,
+               ALIAS,
                REGIST_TS,
                UPDATE_TS
         FROM MY_PROFILE
-        WHERE NAME = #{name}
+        WHERE ALIAS = #{alias}
     </select>
     <select id="getStackList" resultType="profile.introduce.myself.user.vo.MyStackVo">
         SELECT STACK_SEQ,

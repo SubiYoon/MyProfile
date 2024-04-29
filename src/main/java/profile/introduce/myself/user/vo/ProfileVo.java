@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ProfileVo {
     private String name;
+    private String alias;
     private String password;
     private String birthYear;
     private String sex;
