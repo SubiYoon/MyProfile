@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentPageState, stackState, userState } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
 
 const Skills = () => {
-    const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-    const [stackData, setStackData] = useRecoilState(stackState);
+    const currentPage = useRecoilValue(currentPageState);
+    const stackData = useRecoilValue(stackState);
 
-    const [clickSkill, setClickSkill] = useState(stackData[0]?.category);
-    const [activeSkill, setActiveSkill] = useState(stackData[0]?.category);
+    const [clickSkill, setClickSkill] = useState('');
+    const [activeSkill, setActiveSkill] = useState('');
     const [displayCheck, setDisplayCheck] = useState('');
 
     const categories = new Set();
@@ -30,6 +30,11 @@ const Skills = () => {
             setDisplayCheck(skill);
         }, 2000); // 4초 뒤에 실행되도록 4000ms로 설정
     };
+
+    useEffect(() => {
+        setClickSkill(stackData[0]?.category);
+        setActiveSkill(stackData[0]?.category);
+    }, [stackData]);
 
     return (
         <>

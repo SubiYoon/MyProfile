@@ -1,36 +1,23 @@
 import { styled } from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance.js';
-import { useRecoilState } from 'recoil';
-import { currentPageState, userState, stackState } from '@/recoil.js';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+    currentPageState,
+    userState,
+    stackState,
+    profileState,
+} from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
 
 const Profile = () => {
     //프로필 정보
-    const [profileData, setProfileData] = useState(null); // 초기 상태를 null로 설정
+    const profileData = useRecoilValue(profileState);
     //스킬 정보
-    const [stackData, setStackData] = useRecoilState(stackState);
-    const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-    //유저 구분
-    const [userGb, setUserGb] = useRecoilState(userState);
+    const stackData = useRecoilValue(stackState);
+    const currentPage = useRecoilValue(currentPageState);
+
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-    const [detailIntroduce, setDetailIntroduce] = useState('');
-
-    useEffect(() => {
-        const fetchProfileData = async () => {
-            try {
-                const response = await axiosInstance.get(`api/name/${userGb}`);
-                setProfileData(response.data.profile);
-                setStackData(response.data.stack);
-                setDetailIntroduce(response.data.profile.simpleIntroduceMyself);
-                console.log('확인값', detailIntroduce);
-            } catch (error) {
-                console.error('Error fetching menu data:', error);
-            }
-        };
-        fetchProfileData();
-    }, []);
 
     // 이미지 슬라이딩
     useEffect(() => {
@@ -45,89 +32,84 @@ const Profile = () => {
     return (
         <>
             <SideSpacer $currentPage={currentPage} />
-            {profileData && stackData && (
-                <ProfileWrapper $currentPage={currentPage}>
-                    <ProfileContainer>
-                        {currentPage === 2 ? (
-                            <ProfileHeader>
-                                <Header text={detailIntroduce} gb={'profile'} />
-                            </ProfileHeader>
-                        ) : null}
-                        <ProfileContent>
-                            {profileData.detailIntroduceMyself
-                                .split('.')
-                                .map((sentence, index, array) => (
-                                    <div key={index}>
-                                        {sentence.trim()}
-                                        {index !== array.length - 1 && '.'}
-                                    </div>
-                                ))}
-                        </ProfileContent>
-                    </ProfileContainer>
-                    <IntroductionContainer>
-                        <HeaderText>ABOUT ME</HeaderText>
-                        <StackImageBox>
-                            {stackData
-                                .filter((item) => item.profileViewYn === 'Y')
-                                .map((item, index) => (
-                                    <StackImage
-                                        key={item.stackSeq}
-                                        src={item.stackImage}
-                                        $index={index}
-                                        style={{
-                                            left: `${(index - currentImageIndex) * 600}px`,
-                                        }}
-                                    />
-                                ))}
-                        </StackImageBox>
-                        <AboutContainer>
-                            <ImgBox>
-                                <PhotoBox>
-                                    <Photo src={profileData.image} />
-                                </PhotoBox>
-                            </ImgBox>
-                            <AboutBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/name.svg" />
-                                    <ProfileText>
-                                        {profileData.name}
-                                    </ProfileText>
-                                </NameBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/home.svg" />
-                                    <ProfileText>
-                                        {profileData.addr}
-                                    </ProfileText>
-                                </NameBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/email.svg" />
-                                    <ProfileText>
-                                        {profileData.email}
-                                    </ProfileText>
-                                </NameBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/git.svg" />
-                                    <ProfileLink
-                                        href={profileData.gitHub}
-                                        target="_blank"
-                                    >
-                                        {profileData.gitHub}
-                                    </ProfileLink>
-                                </NameBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/blog.svg" />
-                                    <ProfileLink
-                                        href={profileData.blog}
-                                        target="_blank"
-                                    >
-                                        {profileData.blog}
-                                    </ProfileLink>
-                                </NameBox>
-                            </AboutBox>
-                        </AboutContainer>
-                    </IntroductionContainer>
-                </ProfileWrapper>
-            )}
+            <ProfileWrapper $currentPage={currentPage}>
+                <ProfileContainer>
+                    {currentPage === 2 ? (
+                        <ProfileHeader>
+                            <Header
+                                text={profileData.simpleIntroduceMyself}
+                                gb={'profile'}
+                            />
+                        </ProfileHeader>
+                    ) : null}
+                    <ProfileContent>
+                        {profileData.detailIntroduceMyself
+                            ?.split('.')
+                            .map((sentence, index, array) => (
+                                <div key={index}>
+                                    {sentence.trim()}
+                                    {index !== array.length - 1 && '.'}
+                                </div>
+                            ))}
+                    </ProfileContent>
+                </ProfileContainer>
+                <IntroductionContainer>
+                    <HeaderText>ABOUT ME</HeaderText>
+                    <StackImageBox>
+                        {stackData
+                            .filter((item) => item.profileViewYn === 'Y')
+                            .map((item, index) => (
+                                <StackImage
+                                    key={item.stackSeq}
+                                    src={item.stackImage}
+                                    $index={index}
+                                    style={{
+                                        left: `${(index - currentImageIndex) * 600}px`,
+                                    }}
+                                />
+                            ))}
+                    </StackImageBox>
+                    <AboutContainer>
+                        <ImgBox>
+                            <PhotoBox>
+                                <Photo src={profileData.image} />
+                            </PhotoBox>
+                        </ImgBox>
+                        <AboutBox>
+                            <NameBox>
+                                <ProfileIcon src="/assets/icons/name.svg" />
+                                <ProfileText>{profileData.name}</ProfileText>
+                            </NameBox>
+                            <NameBox>
+                                <ProfileIcon src="/assets/icons/home.svg" />
+                                <ProfileText>{profileData.addr}</ProfileText>
+                            </NameBox>
+                            <NameBox>
+                                <ProfileIcon src="/assets/icons/email.svg" />
+                                <ProfileText>{profileData.email}</ProfileText>
+                            </NameBox>
+                            <NameBox>
+                                <ProfileIcon src="/assets/icons/git.svg" />
+                                <ProfileLink
+                                    href={profileData.gitHub}
+                                    target="_blank"
+                                >
+                                    {profileData.gitHub}
+                                </ProfileLink>
+                            </NameBox>
+                            <NameBox>
+                                <ProfileIcon src="/assets/icons/blog.svg" />
+                                <ProfileLink
+                                    href={profileData.blog}
+                                    target="_blank"
+                                >
+                                    {profileData.blog}
+                                </ProfileLink>
+                            </NameBox>
+                        </AboutBox>
+                    </AboutContainer>
+                </IntroductionContainer>
+            </ProfileWrapper>
             <SideSpacer $currentPage={currentPage} />
         </>
     );
