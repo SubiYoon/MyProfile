@@ -3,6 +3,7 @@ package profile.introduce.myself.user.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,9 +30,7 @@ public class UserController {
         ProfileVo userProfile = userService.chooseProfile(alias);
 
         if(ItemCheck.isEmpty(userProfile)){
-            result.put("user", "User Not Found!!");
-
-            return result;
+            throw new UsernameNotFoundException("User Not Found!!");
         }
 
         LOGGER.info("유저 조회 :: " + userProfile.getName() + " 조회");

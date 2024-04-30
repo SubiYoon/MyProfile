@@ -11,6 +11,11 @@ export const userState = atom({
     default: null,
 });
 
+export const profileState = atom({
+    key: 'profileState',
+    default: {},
+});
+
 export const stackState = atom({
     key: 'stackState',
     default: [],

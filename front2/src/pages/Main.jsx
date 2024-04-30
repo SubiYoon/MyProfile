@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { currentPageState, stackState, userState } from '../recoil.js';
+import {
+    currentPageState,
+    profileState,
+    stackState,
+    userState,
+} from '../recoil.js';
 import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
 import Error from '@/pages/Error.jsx';
@@ -9,6 +14,7 @@ import Project from '@/pages/Project.jsx';
 import { useParams } from 'react-router-dom';
 import Skills from '@/pages/Skills.jsx';
 import Header from '@/pages/Header.jsx';
+import axiosInstance from '../../axiosInstance.js';
 
 const Main = () => {
     const outerDivRef = useRef(null);
@@ -19,11 +25,12 @@ const Main = () => {
         useRef(null),
     ];
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-    const [userGb, setUserGb] = useRecoilState(userState);
+
+    const [profileData, setProfileData] = useRecoilState(profileState);
     const [stackData, setStackData] = useRecoilState(stackState);
 
     const { urlGb } = useParams();
-    const text = userGb === 'ABCD' ? 'Yoon Dong Sub' : 'Park Ji Su';
+    const text = urlGb === 'ABCD' ? 'Yoon Dong Sub' : 'Park Ji Su';
 
     const videoRef = useRef(null);
 
@@ -35,8 +42,19 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        setUserGb(urlGb);
-    }, [urlGb]);
+        const fetchProfileData = async () => {
+            try {
+                const response = await axiosInstance.get(`api/name/${urlGb}`);
+                setProfileData(response.data.profile);
+                setStackData(response.data.stack);
+            } catch (error) {
+                console.error('Error fetching menu data:', error);
+                setProfileData(null);
+                setStackData(null);
+            }
+        };
+        fetchProfileData();
+    }, []);
 
     useEffect(() => {
         const scrollHandler = () => {
@@ -65,17 +83,18 @@ const Main = () => {
         return () => {
             outerDivRefCurrent.removeEventListener('scroll', scrollHandler);
         };
-    }, [currentPage, setCurrentPage]);
+    }, [currentPage, setCurrentPage, profileData]);
 
     const handleMenuClick = (page) => {
         setCurrentPage(page);
         sectionRefs[page - 1].current.scrollIntoView({ behavior: 'smooth' });
     };
 
-    console.log('메인호출');
     return (
         <>
-            {urlGb === 'parkjs' || urlGb === 'ABCD' ? (
+            {profileData === null ? (
+                <Error />
+            ) : (
                 <>
                     <Video ref={videoRef} autoPlay loop muted>
                         <source
@@ -91,12 +110,12 @@ const Main = () => {
                         </Section>
                         <Section ref={sectionRefs[1]}>
                             <SectionBox>
-                                {userGb !== null ? <Profile /> : null}
+                                <Profile />
                             </SectionBox>
                         </Section>
                         <Section ref={sectionRefs[2]}>
                             <SectionBox>
-                                {stackData.length > 0 ? <Skills /> : null}
+                                <Skills />
                             </SectionBox>
                         </Section>
                         <Section ref={sectionRefs[3]}>
@@ -107,8 +126,6 @@ const Main = () => {
                         <Dot onMenuClick={handleMenuClick} />
                     </Wrapper>
                 </>
-            ) : (
-                <Error />
             )}
         </>
     );
