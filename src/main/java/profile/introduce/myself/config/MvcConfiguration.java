@@ -24,7 +24,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         CacheControl cacheControl = CacheControl.maxAge(60, TimeUnit.MINUTES);
-        registry.addResourceHandler("/assets/**")
+        registry.addResourceHandler("/assets/**", "/admin/assets/**")
                 .addResourceLocations("/assets/")
                 .setCacheControl(cacheControl);
         registry.addResourceHandler("/static/**")

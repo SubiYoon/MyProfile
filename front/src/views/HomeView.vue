@@ -26,6 +26,12 @@ function logout() {
         alert(data)
     })
 }
+
+function test() {
+    server.post('/api/admin/name/ABCD').then(data => {
+        alert(data)
+    })
+}
 </script>
 
 <template>
@@ -33,4 +39,5 @@ function logout() {
     ><input type="password" v-model="pwd" @keyup.enter="login" />
     <button @click="login">로그인</button>
     <button @click="logout">로그아웃</button>
+    <button @click="test">testest</button>
 </template>

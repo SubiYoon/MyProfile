@@ -39,7 +39,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         );
 
         // 토큰이 필요없는 경우 pass
-        if (list.contains(request.getRequestURI()) || !request.getRequestURI().contains("/api/admin/**")) {
+        if (list.contains(request.getRequestURI()) || !request.getRequestURI().contains("/api/admin")) {
             filterChain.doFilter(request, response);
             return;
         }
