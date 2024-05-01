@@ -25,7 +25,7 @@ public class ProfileAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("password is not matched");
         }
 
-        return new ProfileAuthenticationToken(userVo, null, userVo.getAuthorities());
+        return new ProfileAuthenticationToken(userVo, loginPwd, userVo.getAuthorities());
     }
 
     @Override

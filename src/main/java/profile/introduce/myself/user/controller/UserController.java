@@ -1,7 +1,8 @@
 package profile.introduce.myself.user.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,16 +15,15 @@ import profile.introduce.myself.utility.ItemCheck;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
     @RequestMapping("/name/{name}")
-    Map<String, Object> chooseProfile(@PathVariable("name")  String alias){
+    public Map<String, Object> chooseProfile(@PathVariable("name")  String alias){
 
         Map<String, Object> result = new HashMap<>();
 
@@ -33,11 +33,24 @@ public class UserController {
             throw new UsernameNotFoundException("User Not Found!!");
         }
 
-        LOGGER.info("유저 조회 :: " + userProfile.getName() + " 조회");
+        log.info("유저 조회 :: " + userProfile.getName() + " 조회");
 
         result.put("profile", userProfile);
         result.put("stack", userService.getStackList(userProfile.getAlias()));
         return result;
     }
 
+    @RequestMapping("/admin/logout")
+    public Map<String, String> logout(HttpServletResponse response){
+        HashMap <String, String> result = new HashMap<>();
+
+        // JWT 토큰을 저장하고 있는 쿠키 삭제
+        Cookie jwtCookie = new Cookie("jwt", null);
+        jwtCookie.setMaxAge(0);
+        jwtCookie.setPath("/");
+        response.addCookie(jwtCookie);
+
+        result.put("result", "success");
+        return result;
+    }
 }

@@ -1,6 +1,8 @@
 package profile.introduce.myself.security;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,8 +11,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserVo implements UserDetails {
+    @Getter
+    private String alias;
+    @Getter
     private String name;
     private String password;
     private String role;
@@ -20,6 +26,19 @@ public class UserVo implements UserDetails {
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(role));
         return roles;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

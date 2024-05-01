@@ -11,6 +11,7 @@ import profile.introduce.myself.user.mapper.UserMapper;
 @Service
 @RequiredArgsConstructor
 public class ProfileUserDetailService implements UserDetailsService {
+
     @Autowired
     private UserMapper userMapper;
     @Override

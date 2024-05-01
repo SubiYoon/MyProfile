@@ -10,11 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.DelegatingSecurityContextRepository;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -43,6 +42,7 @@ public class SecurityConfig {
     private final ProfileLoginAuthenticationEntryPoint profileAuthenticationEntryPoint;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final ProfileAccessDeniedHandler profileAccessDeniedHandler;
+
     /**
      * Spring Security 설정
      * <ul>
@@ -56,13 +56,16 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsFilter()))
                 //인증 인가가 필요한 URL을 지정
                 .authorizeHttpRequests(requests -> requests
                         //특정 패턴의 URL 인증이 필요함을 표시(authenticated())
-                        .requestMatchers( "/api/admin/**").authenticated()
+                        .requestMatchers( "/api/admin/alias/**").authenticated()
                         //나머지 요청은 전부 허용
                         .anyRequest().permitAll()
                 )
+                .addFilterBefore(jwtAuthorizationFilter(), BasicAuthenticationFilter.class)
+                .sessionManagement(sesssion -> sesssion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(config -> config
                         .authenticationEntryPoint(profileAuthenticationEntryPoint)
@@ -77,15 +80,12 @@ public class SecurityConfig {
         profileAuthenticateionFilter.setAuthenticationManager(authenticationConfiguration.getAuthenticationManager());
         profileAuthenticateionFilter.setAuthenticationSuccessHandler(profileAuthenticationSuccessHandler);
         profileAuthenticateionFilter.setAuthenticationFailureHandler(profileAuthenticationFailureHandler);
-
-        profileAuthenticateionFilter.setSecurityContextRepository(
-                new DelegatingSecurityContextRepository(
-                        new RequestAttributeSecurityContextRepository(),
-                        new HttpSessionSecurityContextRepository()
-                )
-        );
-
+        profileAuthenticateionFilter.afterPropertiesSet();
         return profileAuthenticateionFilter;
+    }
+
+    @Bean JwtAuthorizationFilter jwtAuthorizationFilter() {
+        return new JwtAuthorizationFilter();
     }
 
     @Bean
@@ -102,7 +102,7 @@ public class SecurityConfig {
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("*", config);
 
         return source;
     }
