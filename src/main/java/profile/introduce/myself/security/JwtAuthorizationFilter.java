@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,14 +29,15 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
+
+    @Autowired
+    UserDetailsService userDetailsService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        UserDetailsService userDetailsService = new ProfileUserDetailService();
-
         // admin페이지 중 토큰 검사가 필요하지 않은 페이지 URL 목록
         List<String> list = List.of(
-                "/api/admin/logout"
         );
 
         // 토큰이 필요없는 경우 pass
