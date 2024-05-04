@@ -22,12 +22,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/name/{name}")
-    public Map<String, Object> chooseProfile(@PathVariable("name")  String alias){
+    @RequestMapping("/name/{alias}")
+    public Map<String, Object> getProfile(@PathVariable("alias")  String alias){
 
         Map<String, Object> result = new HashMap<>();
 
-        ProfileVo userProfile = userService.chooseProfile(alias);
+        ProfileVo userProfile = userService.getProfile(alias);
 
         if(ItemCheck.isEmpty(userProfile)){
             throw new UsernameNotFoundException("User Not Found!!");

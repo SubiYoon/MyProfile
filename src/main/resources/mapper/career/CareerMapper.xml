@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="profile.introduce.myself.career.mapper.CareerMapper">
+    <resultMap id="projectList" type="careerVo" autoMapping="true">
+        <id property="careerSeq" column="CAREER_SEQ"/>
+        <id property="alias" column="ALIAS"/>
+        <result property="company" column="COMPANY"/>
+        <result property="companyLogo" column="COMPANY_LOGO"/>
+        <result property="companyUrl" column="COMPANY_URL"/>
+        <result property="in" column="IN"/>
+        <result property="inLevel" column="IN_LEVEL"/>
+        <result property="out" column="OUT"/>
+        <result property="outLevel" column="OUT_LEVEL"/>
+        <result property="registTs" column="REGIST_TS"/>
+        <result property="updateTs" column="UPDATE_TS"/>
+        <collection property="projectList" select="selectProjectList" ofType="projectVo" javaType="list" column="alias = ALIAS"/>
+    </resultMap>
+    <select id="getCareerList" resultMap="projectList">
+        SELECT A.CAREER_SEQ,
+               A.ALIAS,
+               A.COMPANY,
+               A.COMPANY_URL,
+               A.COMPANY_LOGO,
+               A.IN,
+               A.IN_LEVEL,
+               A.OUT,
+               A.OUT_LEVEL,
+               A.REGIST_TS,
+               A.UPDATE_TS
+        FROM CAREER A
+        WHERE A.ALIAS = #{ALIAS}
+    </select>
+    <select id="selectProjectList" resultType="projectVo">
+        SELECT B.PROJECT_SEQ,
+               B.ALIAS,
+               B.CAREER_SEQ,
+               B.PROJECT_NAME,
+               B.PROJECT_TERM,
+               B.PROJECT_CONTRIBUTE,
+               B.PROJECT_NUMBER_OF_PARTICIPANTS,
+               B.REGIST_TS,
+               B.UPDATE_TS
+        FROM PROJECT B
+        WHERE B.ALIAS = 'ABCD'
+
+    </select>
+</mapper>

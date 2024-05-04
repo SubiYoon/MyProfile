@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="profile.introduce.myself.user.mapper.UserMapper">
-    <select id="chooseProfile" resultType="profile.introduce.myself.user.vo.ProfileVo">
+    <select id="getProfile" resultType="profile.introduce.myself.user.vo.ProfileVo">
         SELECT NAME,
                PASSWORD,
                BIRTH_YEAR,

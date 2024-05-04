@@ -1,11 +1,17 @@
 package profile.introduce.myself;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import profile.introduce.myself.career.mapper.CareerMapper;
 
 import java.security.MessageDigest;
 
 @SpringBootTest
 class MyselfApplicationTests {
+
+    @Autowired
+    CareerMapper careerMapper;
 
     public String encode(CharSequence rawPassword) {
         MessageDigest md = null;
@@ -21,5 +27,10 @@ class MyselfApplicationTests {
             sb.append(String.format("%2X", pwd[i])); // %2X(2자리 16진수(0~F))
         }
         return sb.toString();
+    }
+
+    @Test
+    public void testQuery(){
+        System.out.println(careerMapper.getCareerList("ABCD"));
     }
 }

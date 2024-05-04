@@ -6,6 +6,6 @@ import profile.introduce.myself.user.vo.ProfileVo;
 import java.util.List;
 
 public interface UserService {
-    ProfileVo chooseProfile(String alias);
+    ProfileVo getProfile(String alias);
     List<MyStackVo> getStackList(String alias);
 }

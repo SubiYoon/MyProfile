@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    ProfileVo chooseProfile(String alias);
+    ProfileVo getProfile(String alias);
 
     List<MyStackVo> getStackList(String alias);
 
