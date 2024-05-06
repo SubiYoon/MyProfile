@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import profile.introduce.myself.project.service.ProjectService;
+import profile.introduce.myself.project.vo.ProjectDetailVo;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -20,12 +22,15 @@ public class ProjectController {
     ProjectService projectService;
 
     @RequestMapping("{projectSeq}")
-    Map<String, Object> getProjectDetails(@PathVariable("alias") String alias, @PathVariable("projectSeq") String projectSeq, HttpServletRequest request) {
+    Map<String, Object> getProjectDetails(@PathVariable("alias") String alias, @PathVariable("projectSeq") int projectSeq, HttpServletRequest request) {
 
         Map<String, Object> result = new HashMap<>();
 
         if(request.getMethod().equals("GET")){
             log.debug("프로젝트 조회 :: " + alias + " -> seq : " + projectSeq);
+            List<ProjectDetailVo> projectDetailList = projectService.getProjectDetails(alias, projectSeq);
+
+            result.put("projectDetailList", projectDetailList);
         }
 
         return result;

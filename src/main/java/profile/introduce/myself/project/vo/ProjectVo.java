@@ -12,7 +12,7 @@ public class ProjectVo {
     private String careerSeq;
     private String projectName;
     private String projectTerm;
-    private String projectContribute;
+    private String projectContributeRate;
     private String projectNumberOfParticipants;
     private String projectStackSeqs;
     private List<ProjectDetailVo> projectDetailList;

@@ -2,4 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="profile.introduce.myself.project.mapper.ProjectMapper">
+    <select id="getPrjectDetails" resultType="profile.introduce.myself.project.vo.ProjectVo">
+        SELECT PROJECT_DETAIL_SEQ,
+               ALIAS,
+               PROJECT_SEQ,
+               DETAIL_ACT_TITLE,
+               DETAIL_ACT_CONT,
+               DETAIL_ACT_TERM,
+               REGIST_TS,
+               UPDATE_TS
+        FROM PROJECT_DETAIL
+        WHERE ALIAS = #{alias}
+          AND PROJECT_SEQ = #{projectSeq}
+    </select>
 </mapper>

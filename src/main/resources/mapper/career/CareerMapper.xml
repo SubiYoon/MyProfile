@@ -37,7 +37,7 @@
                B.CAREER_SEQ,
                B.PROJECT_NAME,
                B.PROJECT_TERM,
-               B.PROJECT_CONTRIBUTE,
+               B.PROJECT_CONTRIBUTE_RATE,
                B.PROJECT_NUMBER_OF_PARTICIPANTS,
                B.PROJECT_STACK_SEQS,
                B.REGIST_TS,
