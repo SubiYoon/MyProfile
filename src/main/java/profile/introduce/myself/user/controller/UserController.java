@@ -1,6 +1,7 @@
 package profile.introduce.myself.user.controller;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +24,22 @@ public class UserController {
     UserService userService;
 
     @RequestMapping("/name/{alias}")
-    public Map<String, Object> getProfile(@PathVariable("alias")  String alias){
+    public Map<String, Object> getProfile(@PathVariable("alias")  String alias, HttpServletRequest request){
 
         Map<String, Object> result = new HashMap<>();
 
-        ProfileVo userProfile = userService.getProfile(alias);
+        if(request.getMethod().equals("GET")){
+            ProfileVo userProfile = userService.getProfile(alias);
 
-        if(ItemCheck.isEmpty(userProfile)){
-            throw new UsernameNotFoundException("User Not Found!!");
+            if(ItemCheck.isEmpty(userProfile)){
+                throw new UsernameNotFoundException("User Not Found!!");
+            }
+
+            log.info("유저 조회 :: " + userProfile.getName() + " 조회");
+
+            result.put("profile", userProfile);
+            result.put("stack", userService.getStackList(userProfile.getAlias()));
         }
-
-        log.info("유저 조회 :: " + userProfile.getName() + " 조회");
-
-        result.put("profile", userProfile);
-        result.put("stack", userService.getStackList(userProfile.getAlias()));
         return result;
     }
 

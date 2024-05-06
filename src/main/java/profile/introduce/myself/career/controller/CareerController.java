@@ -1,5 +1,6 @@
 package profile.introduce.myself.career.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +20,12 @@ public class CareerController {
     CareerService careerService;
 
     @RequestMapping("")
-    public Map<String, Object> getCareer(@PathVariable("alias") String alias) {
+    public Map<String, Object> getCareer(@PathVariable("alias") String alias, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
 
-        result.put("careers", careerService.getCareerList(alias));
+        if(request.getMethod().equals("GET")){
+            result.put("careers", careerService.getCareerList(alias));
+        }
 
         return result;
     }
