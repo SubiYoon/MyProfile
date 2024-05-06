@@ -1,5 +1,6 @@
 package profile.introduce.myself.project.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +20,13 @@ public class ProjectController {
     ProjectService projectService;
 
     @RequestMapping("{projectSeq}")
-    Map<String, Object> getProjectDetails(@PathVariable("projectSeq") String projectSeq) {
+    Map<String, Object> getProjectDetails(@PathVariable("projectSeq") String projectSeq, HttpServletRequest request) {
 
         Map<String, Object> result = new HashMap<>();
+
+        if(request.getMethod().equals("GET")){
+
+        }
 
         return result;
     }
