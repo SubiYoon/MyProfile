@@ -24,6 +24,7 @@ public class CareerController {
         Map<String, Object> result = new HashMap<>();
 
         if(request.getMethod().equals("GET")){
+            log.debug("이력정보 조회 :: " + alias);
             result.put("careers", careerService.getCareerList(alias));
         }
 

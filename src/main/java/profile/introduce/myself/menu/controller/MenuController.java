@@ -25,6 +25,7 @@ public class MenuController {
         Map<String, Object> result = new HashMap<>();
 
         if(request.getMethod().equals("GET")){
+            log.debug("초기 메뉴 조회");
             List<MenuVo> menus = menuService.selectMenu();
 
             result.put("menus", menus);

@@ -20,12 +20,12 @@ public class ProjectController {
     ProjectService projectService;
 
     @RequestMapping("{projectSeq}")
-    Map<String, Object> getProjectDetails(@PathVariable("projectSeq") String projectSeq, HttpServletRequest request) {
+    Map<String, Object> getProjectDetails(@PathVariable("alias") String alias, @PathVariable("projectSeq") String projectSeq, HttpServletRequest request) {
 
         Map<String, Object> result = new HashMap<>();
 
         if(request.getMethod().equals("GET")){
-
+            log.debug("프로젝트 조회 :: " + alias + " -> seq : " + projectSeq);
         }
 
         return result;

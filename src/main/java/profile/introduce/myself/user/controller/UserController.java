@@ -35,7 +35,7 @@ public class UserController {
                 throw new UsernameNotFoundException("User Not Found!!");
             }
 
-            log.info("유저 조회 :: " + userProfile.getName() + " 조회");
+            log.info("유저 조회 :: " + userProfile.getName());
 
             result.put("profile", userProfile);
             result.put("stack", userService.getStackList(userProfile.getAlias()));
