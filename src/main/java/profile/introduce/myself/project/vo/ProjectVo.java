@@ -1,6 +1,9 @@
 package profile.introduce.myself.project.vo;
 
 import lombok.Data;
+import profile.introduce.myself.stack.vo.StackVo;
+
+import java.util.List;
 
 @Data
 public class ProjectVo {
@@ -11,6 +14,9 @@ public class ProjectVo {
     private String projectTerm;
     private String projectContribute;
     private String projectNumberOfParticipants;
+    private String projectStackSeqs;
+    private List<ProjectDetailVo> projectDetailList;
+    private List<StackVo> stackList;
     private String registTs;
     private String updateTs;
 }

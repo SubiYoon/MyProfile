@@ -3,7 +3,7 @@ package profile.introduce.myself;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import profile.introduce.myself.career.mapper.CareerMapper;
+import profile.introduce.myself.career.service.CareerService;
 
 import java.security.MessageDigest;
 
@@ -11,7 +11,7 @@ import java.security.MessageDigest;
 class MyselfApplicationTests {
 
     @Autowired
-    CareerMapper careerMapper;
+    CareerService careerService;
 
     public String encode(CharSequence rawPassword) {
         MessageDigest md = null;
@@ -31,6 +31,6 @@ class MyselfApplicationTests {
 
     @Test
     public void testQuery(){
-        System.out.println(careerMapper.getCareerList("ABCD"));
+        System.out.println(careerService.getCareerList("ABCD"));
     }
 }

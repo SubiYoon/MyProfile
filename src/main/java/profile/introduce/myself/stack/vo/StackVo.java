@@ -1,9 +1,9 @@
-package profile.introduce.myself.user.vo;
+package profile.introduce.myself.stack.vo;
 
 import lombok.Data;
 
 @Data
-public class MyStackVo {
+public class StackVo {
     private String stackSeq;
     private String name;
     private String stackName;

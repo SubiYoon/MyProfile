@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="profile.introduce.myself.stack.mapper.StackMapper">
+    <select id="getProjectStackList" resultType="profile.introduce.myself.stack.vo.StackVo">
+        SELECT STACK_SEQ,
+               ALIAS,
+               STACK_NAME,
+               STACK_LEVEL,
+               STACK_IMAGE,
+               REGIST_TS,
+               UPDATE_TS,
+               CATEGORY,
+               STACK_DETAIL,
+               CATEGORY_LEVEL,
+               PROFILE_VIEW_YN
+        FROM MY_STACK
+        WHERE
+        STACK_SEQ IN
+        <foreach collection="array" item="stackSeqs" index="index" open="(" separator="," close=")">
+            #{stackSeqs}
+        </foreach>
+    </select>
+</mapper>

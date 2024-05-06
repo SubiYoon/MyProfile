@@ -22,7 +22,7 @@
         FROM MY_PROFILE
         WHERE ALIAS = #{alias}
     </select>
-    <select id="getStackList" resultType="profile.introduce.myself.user.vo.MyStackVo">
+    <select id="getStackList" resultType="profile.introduce.myself.stack.vo.StackVo">
         SELECT STACK_SEQ,
                ALIAS,
                STACK_NAME,
