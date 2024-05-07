@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import profile.introduce.myself.career.mapper.CareerMapper;
 import profile.introduce.myself.career.service.CareerService;
 import profile.introduce.myself.career.vo.CareerVo;
+import profile.introduce.myself.project.mapper.ProjectMapper;
+import profile.introduce.myself.project.vo.ProjectDetailSemiVo;
 import profile.introduce.myself.project.vo.ProjectVo;
 import profile.introduce.myself.stack.mapper.StackMapper;
 import profile.introduce.myself.stack.vo.StackVo;
@@ -23,6 +25,9 @@ public class CareerServiceImpl implements CareerService {
     @Autowired
     StackMapper stackMapper;
 
+    @Autowired
+    ProjectMapper projectMapper;
+
     @Override
     public List<CareerVo> getCareerList(String alias) {
         log.debug("Career 정보 확인 :: " + alias + "정보 조회");
@@ -34,6 +39,9 @@ public class CareerServiceImpl implements CareerService {
                 int[] stackSeqs = Stream.of(projectVo.getProjectStackSeqs().split("[|][|]")).mapToInt(Integer::parseInt).toArray();
                 List<StackVo> stackList = stackMapper.getProjectStackList(stackSeqs);
                 projectVo.setStackList(stackList);
+
+                List<ProjectDetailSemiVo> semiList = projectMapper.getProjectDetailSemiList(alias, projectVo.getProjectSeq());
+                projectVo.setProjectDetailSemiList(semiList);
             }
         }
 

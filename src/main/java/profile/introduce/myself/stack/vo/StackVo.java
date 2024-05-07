@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class StackVo {
-    private String stackSeq;
+    private int stackSeq;
     private String name;
     private String stackName;
     private String stackLevel;

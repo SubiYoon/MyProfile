@@ -7,15 +7,15 @@ import java.util.List;
 
 @Data
 public class ProjectVo {
-    private String projectSeq;
+    private int projectSeq;
     private String alias;
-    private String careerSeq;
+    private int careerSeq;
     private String projectName;
     private String projectTerm;
     private String projectContributeRate;
     private String projectNumberOfParticipants;
     private String projectStackSeqs;
-    private List<ProjectDetailVo> projectDetailList;
+    private List<ProjectDetailSemiVo> projectDetailSemiList;
     private List<StackVo> stackList;
     private String registTs;
     private String updateTs;

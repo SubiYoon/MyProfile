@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class MenuVo {
-    private Integer menuSeq;
+    private int menuSeq;
     private String menuName;
 
 }

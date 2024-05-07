@@ -16,6 +16,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDetailVo> getProjectDetails(String alias, int projectSeq) {
-        return projectMapper.getPrjectDetails(alias, projectSeq);
+        return projectMapper.getProjectDetails(alias, projectSeq);
     }
 }
