@@ -10,7 +10,6 @@ import profile.introduce.myself.project.service.ProjectService;
 import profile.introduce.myself.project.vo.ProjectDetailVo;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -21,14 +20,14 @@ public class ProjectController {
     @Autowired
     ProjectService projectService;
 
-    @RequestMapping("{projectSeq}")
-    Map<String, Object> getProjectDetails(@PathVariable("alias") String alias, @PathVariable("projectSeq") int projectSeq, HttpServletRequest request) {
+    @RequestMapping("{projectDetailSeq}")
+    Map<String, Object> getProjectDetails(@PathVariable("alias") String alias, @PathVariable("projectDetailSeq") int projectDetailSeq, HttpServletRequest request) {
 
         Map<String, Object> result = new HashMap<>();
 
         if(request.getMethod().equals("GET")){
-            log.debug("프로젝트 조회 :: " + alias + " -> seq : " + projectSeq);
-            List<ProjectDetailVo> projectDetailList = projectService.getProjectDetails(alias, projectSeq);
+            log.debug("프로젝트 조회 :: " + alias + " -> seq : " + projectDetailSeq);
+            ProjectDetailVo projectDetailList = projectService.getProjectDetail(alias, projectDetailSeq);
 
             result.put("projectDetailList", projectDetailList);
         }

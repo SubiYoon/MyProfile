@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="profile.introduce.myself.project.mapper.ProjectMapper">
-    <select id="getProjectDetails" resultType="profile.introduce.myself.project.vo.ProjectDetailVo">
+    <select id="getProjectDetail" resultType="profile.introduce.myself.project.vo.ProjectDetailVo">
         SELECT PROJECT_DETAIL_SEQ,
                ALIAS,
                PROJECT_SEQ,
@@ -12,7 +12,7 @@
                UPDATE_TS
         FROM PROJECT_DETAIL
         WHERE ALIAS = #{alias}
-          AND PROJECT_SEQ = #{projectSeq}
+          AND PROJECT_DETAIL_SEQ = #{projectDetailSeq}
     </select>
     <select id="getProjectDetailSemiList" resultType="profile.introduce.myself.project.vo.ProjectDetailSemiVo">
         SELECT PROJECT_DETAIL_SEQ,

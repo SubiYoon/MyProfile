@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface ProjectMapper {
-    List<ProjectDetailVo> getProjectDetails(String alias, int projectSeq);
+    ProjectDetailVo getProjectDetail(String alias, int projectDetailSeq);
 
     List<ProjectDetailSemiVo> getProjectDetailSemiList(String alias, int projectSeq);
 }
