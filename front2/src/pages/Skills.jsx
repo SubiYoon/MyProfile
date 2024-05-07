@@ -85,7 +85,8 @@ const SkilsWapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 80%;
+    top: 0;
+    min-height: 100vh;
     font-family: 'mainFont';
     transition:
         transform 0.6s ease,
