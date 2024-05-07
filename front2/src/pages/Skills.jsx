@@ -185,7 +185,7 @@ const SkillDetail = styled.p`
 `;
 
 const SideSpacer = styled.div`
-    width: 230px;
+    width: 12%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     transition:

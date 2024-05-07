@@ -15,10 +15,11 @@ const Dot = ({ onMenuClick }) => {
                 const response = await axiosInstance
                     .get('api/menu')
                     .then(function (data) {
-                        data.data[0].menuName = '';
+                        console.log('data', data);
+                        data.data.menus[0].menuName = '';
                         return data;
                     });
-                setMenuData(response.data);
+                setMenuData(response.data.menus);
             } catch (error) {
                 console.error('Error fetching menu data:', error);
             }

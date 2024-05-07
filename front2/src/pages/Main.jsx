@@ -120,7 +120,7 @@ const Main = () => {
                         </Section>
                         <Section ref={sectionRefs[3]}>
                             <SectionBox>
-                                <Project />
+                                <Project userGb={urlGb} />
                             </SectionBox>
                         </Section>
                         <Dot onMenuClick={handleMenuClick} />
