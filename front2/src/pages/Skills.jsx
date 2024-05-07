@@ -28,7 +28,7 @@ const Skills = () => {
         setActiveSkill(skill);
         setTimeout(() => {
             setDisplayCheck(skill);
-        }, 2000); // 4초 뒤에 실행되도록 4000ms로 설정
+        }, 2000);
     };
 
     useEffect(() => {
