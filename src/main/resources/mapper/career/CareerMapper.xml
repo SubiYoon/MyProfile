@@ -29,7 +29,7 @@
                A.REGIST_TS,
                A.UPDATE_TS
         FROM CAREER A
-        WHERE A.ALIAS = #{ALIAS}
+        WHERE A.ALIAS = #{alias}
     </select>
     <select id="selectProjectList" resultType="projectVo">
         SELECT B.PROJECT_SEQ,
@@ -43,7 +43,7 @@
                B.REGIST_TS,
                B.UPDATE_TS
         FROM PROJECT B
-        WHERE B.ALIAS = 'ABCD'
+        WHERE B.ALIAS = #{alias}
 
     </select>
 </mapper>
