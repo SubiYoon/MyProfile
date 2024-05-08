@@ -11,26 +11,48 @@ function login() {
         password: pwd.value,
     }
 
+    if (loginData.name === null || loginData.name === undefined || loginData.name === '') {
+        alert('닉네임을 입력해주세요.')
+        return
+    } else if (loginData.password === null || loginData.password === undefined || loginData.password === '') {
+        alert('비밀번호를 입력해주세요.')
+        return
+    }
+
     server
         .post('/api/admin/login', loginData, {})
         .then(data => {
             resultName.value = data.data.name
         })
         .catch(data => {
-            alert(data.response.data)
+            alert(data.response.data.failMessage)
         })
 }
 
 function logout() {
-    server.post('/api/admin/logout').then(data => {
-        alert(data)
-    })
+    server
+        .post('/api/admin/logout')
+        .then(data => {
+            if (data.data.result === 'success') {
+                alert('로그아웃 되었습니다.')
+            }
+        })
+        .catch(data => {
+            alert(data.response.data.message)
+        })
 }
 
 function test() {
-    server.post('/api/admin/name/ABCD').then(data => {
-        alert(data)
-    })
+    server
+        .post('/api/name/ABCD')
+        .then(data => {
+            console.log(data)
+            alert(data)
+        })
+        .catch(data => {
+            console.log(data)
+            alert(data.response.data.message)
+        })
 }
 </script>
 

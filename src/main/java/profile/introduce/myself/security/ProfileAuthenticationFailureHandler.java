@@ -1,23 +1,22 @@
 package profile.introduce.myself.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 @Slf4j
 @Component
 public class ProfileAuthenticationFailureHandler implements AuthenticationFailureHandler {
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
@@ -34,10 +33,13 @@ public class ProfileAuthenticationFailureHandler implements AuthenticationFailur
             errMsg = "계정이 만료되었습니다.";
         } else if (exception instanceof CredentialsExpiredException) {
             errMsg = "인증 정보가 만료되었습니다.";
+        } else if (exception instanceof BadCredentialsException || exception instanceof UsernameNotFoundException) {
+            errMsg = "닉네임 혹은 비밀번호가 틀렸습니다.";
         }
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         HashMap<String, Object> resultMap = new HashMap<>();
         resultMap.put("userInfo", null);
@@ -45,6 +47,9 @@ public class ProfileAuthenticationFailureHandler implements AuthenticationFailur
         resultMap.put("failMessage", errMsg);
         jsonObject = new JSONObject(resultMap);
 
-        objectMapper.writeValue(response.getWriter(), jsonObject);
+        try (PrintWriter printWriter = response.getWriter()) {
+            printWriter.print(jsonObject); // 최종 저장된 '사용자 정보', '사이트 정보'를 Front에 전달
+            printWriter.flush();
+        }
     }
 }

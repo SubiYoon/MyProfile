@@ -62,9 +62,9 @@ public class JwtUtil {
      * @return Date
      */
     private static Date createExpiredDate() {
-        // 토큰의 만료기간은 8시간으로 지정
+        // 토큰의 만료기간은 6시간으로 지정
         Instant now = Instant.now();
-        Instant expiryDate = now.plus(Duration.ofHours(8));
+        Instant expiryDate = now.plus(Duration.ofHours(6));
         return Date.from(expiryDate);
     }
 

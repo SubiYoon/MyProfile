@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -60,7 +61,9 @@ public class SecurityConfig {
                 //인증 인가가 필요한 URL을 지정
                 .authorizeHttpRequests(requests -> requests
                         //특정 패턴의 URL 인증이 필요함을 표시(authenticated())
-                        .requestMatchers( "/api/admin/**").authenticated()
+                        .requestMatchers(HttpMethod.POST).authenticated()
+                        .requestMatchers(HttpMethod.DELETE).authenticated()
+                        .requestMatchers(HttpMethod.PUT).authenticated()
                         //나머지 요청은 전부 허용
                         .anyRequest().permitAll()
                 )
