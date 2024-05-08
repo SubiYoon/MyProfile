@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +23,6 @@ import profile.introduce.myself.utility.JwtUtil;
 import java.io.IOException;
 import java.security.SignatureException;
 import java.util.HashMap;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,12 +34,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        // admin페이지 중 토큰 검사가 필요하지 않은 페이지 URL 목록
-        List<String> list = List.of(
-        );
-
         // 토큰이 필요없는 경우 pass
-        if (list.contains(request.getRequestURI()) || !request.getRequestURI().contains("/api/admin")) {
+        if (request.getMethod().equals("GET")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -57,7 +51,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String token = null;
         if (ItemCheck.isNotEmpty(cookies)) {
             for (Cookie cookie : cookies) {
-                if ("jwt".equals(cookie.getName())) {
+                if ("PROFILE-JWT".equals(cookie.getName())) {
                     token = cookie.getValue();
                     break;
                 }
@@ -79,7 +73,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 } else throw new ProfileException(ErrorCode.TOKEN_NOT_VALID);
             }else throw new ProfileException(ErrorCode.TOKEN_NOT_FOUND);
         } catch (Exception e) {
-            tokenErrorTrace(e);
 
             // Client에게 인증 실패시 보낼 Message
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -88,15 +81,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             ObjectMapper objectMapper = new ObjectMapper();
 
-            HashMap<String, Object> jsonMap = new HashMap<>();
-            jsonMap.put("error", true);
-            jsonMap.put("message", "로그인 에러");
-            objectMapper.writeValue(response.getWriter(), jsonMap);
+            objectMapper.writeValue(response.getWriter(), tokenErrorTrace(e));
 
         }
     }
 
-    private void tokenErrorTrace(Exception e){
+    private HashMap<String, Object> tokenErrorTrace(Exception e){
         String resultMessage;
         if (e instanceof ExpiredJwtException){
             resultMessage = "TOKEN Expired";
@@ -105,7 +95,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         } else if (e instanceof JwtException){
             resultMessage = "TOKEN Parsing JwtException";
         } else {
-            resultMessage = "OTHER TOKEN ERROR";
+            resultMessage = "로그인 정보가 없습니다. 로그인해 주세요.\n\r같은 에러가 반복되면 관리자에게 문의하세요.";
         }
 
         HashMap<String, Object> jsonMap = new HashMap<>();
@@ -114,6 +104,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         jsonMap.put("message", resultMessage);
         jsonMap.put("reason", e.getMessage());
         log.debug(resultMessage, e);
-        new JSONObject(jsonMap);
+        return jsonMap;
     }
 }

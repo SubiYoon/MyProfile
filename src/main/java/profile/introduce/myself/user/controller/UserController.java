@@ -1,8 +1,6 @@
 package profile.introduce.myself.user.controller;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,12 +16,13 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@RequestMapping("/name/{alias}")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @RequestMapping("/name/{alias}")
+    @RequestMapping("")
     public Map<String, Object> getProfile(@PathVariable("alias")  String alias, HttpServletRequest request){
 
         Map<String, Object> result = new HashMap<>();
@@ -40,20 +39,6 @@ public class UserController {
             result.put("profile", userProfile);
             result.put("stack", userService.getStackList(userProfile.getAlias()));
         }
-        return result;
-    }
-
-    @RequestMapping("/admin/logout")
-    public Map<String, String> logout(HttpServletResponse response){
-        HashMap <String, String> result = new HashMap<>();
-
-        // JWT 토큰을 저장하고 있는 쿠키 삭제
-        Cookie jwtCookie = new Cookie("jwt", null);
-        jwtCookie.setMaxAge(0);
-        jwtCookie.setPath("/");
-        response.addCookie(jwtCookie);
-
-        result.put("result", "success");
         return result;
     }
 }
