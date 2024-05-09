@@ -59,7 +59,6 @@ const Project = ({ userGb }) => {
                         }}
                         transition={{ delay: 0.4, duration: 0.6 }}
                     >
-                        >
                         <HeaderContainer>
                             {careerData.map((careerItem) => (
                                 <LineContainer key={careerItem.careerSeq}>
@@ -129,8 +128,8 @@ const Project = ({ userGb }) => {
                                         from: 1000,
                                         tp: 0,
                                         duration: 0.8,
-                                    }, // x 속성을 사용하여 x값을 변경합니다
-                                    repeat: 1, // 이 부분을 1로 설정하여 한 번만 재생되도록 합니다.
+                                    },
+                                    repeat: 1,
                                 }}
                             >
                                 <DetailProjectName>
@@ -175,25 +174,21 @@ export default Project;
 
 const ProjectWrapper = styled(motion.div)`
     display: flex;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.92);
     font-family: 'profileFont';
 `;
 
 const HeaderContainer = styled.div`
-    min-width: 30%;
-    background-color: rgba(0, 0, 0, 0.8);
-    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.92);
+    display: flex;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    width: max-content;
     padding: 24px 16px 24px 16px;
 `;
 
 const ProjectContainer = styled(motion.div)`
-    min-width: 46%;
     color: black;
     padding: 24px;
-    background-color: rgba(255, 255, 255, 0.1);
-    display: flex;
+    background-color: rgba(255, 255, 255, 0.92);
     flex-direction: column;
     text-align: center;
     align-items: center;
@@ -339,7 +334,7 @@ const CompanyImage = styled.img`
 `;
 
 const ProjectBox = styled.div`
-    margin: 4% 0% 10% 4%;
+    padding: 12px;
     color: ${({ $isActive }) => ($isActive ? 'rgb(0, 255, 255);' : 'white')};
     transform: ${({ $isActive }) => ($isActive ? 'scale(1.1)' : 0)};
     &:hover {
