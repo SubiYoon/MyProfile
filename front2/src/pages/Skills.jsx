@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { currentPageState, stackState, userState } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
+import { motion } from 'framer-motion';
 
 const Skills = () => {
     const currentPage = useRecoilValue(currentPageState);
@@ -39,7 +40,18 @@ const Skills = () => {
     return (
         <>
             <SideSpacer $currentPage={currentPage} />
-            <SkilsWapper $currentPage={currentPage}>
+            <SkilsWapper
+                initial={{
+                    opacity: currentPage === 3 ? 0 : 1,
+                    y: 20,
+                    rotateY: currentPage === 3 ? 90 : 0,
+                }}
+                animate={{
+                    opacity: currentPage !== 3 ? 0 : 1,
+                    rotateY: currentPage !== 3 ? 90 : 0,
+                }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+            >
                 <TitleContainer>
                     <TitleHeader>
                         {currentPage === 3 ? (
@@ -81,19 +93,13 @@ const Skills = () => {
 
 export default Skills;
 
-const SkilsWapper = styled.div`
+const SkilsWapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
     width: 100%;
     top: 0;
     min-height: 100vh;
     font-family: 'mainFont';
-    transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    transform-style: preserve-3d;
-    transform: ${({ $currentPage }) =>
-        $currentPage === 3 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
 `;
 const TitleContainer = styled.div`
     padding: 24px;
