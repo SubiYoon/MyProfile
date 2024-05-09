@@ -4,7 +4,7 @@ import { currentPageState, userState, stackState } from '@/recoil.js';
 import { styled } from 'styled-components';
 import axiosInstance from '../../axiosInstance.js';
 import { MdOutlineComputer } from 'react-icons/md';
-import Header from '@/pages/Header.jsx';
+import { motion } from 'framer-motion';
 
 const Project = ({ userGb }) => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
@@ -47,7 +47,19 @@ const Project = ({ userGb }) => {
             {careerData ? (
                 <>
                     <SideSpacer $currentPage={currentPage} />
-                    <ProjectWrapper $currentPage={currentPage}>
+                    <ProjectWrapper
+                        initial={{
+                            opacity: currentPage === 4 ? 0 : 1,
+                            y: 20,
+                            rotateY: currentPage === 4 ? 90 : 0,
+                        }}
+                        animate={{
+                            opacity: currentPage !== 4 ? 0 : 1,
+                            rotateY: currentPage !== 4 ? 90 : 0,
+                        }}
+                        transition={{ delay: 0.4, duration: 0.6 }}
+                    >
+                        >
                         <HeaderContainer>
                             {careerData.map((careerItem) => (
                                 <LineContainer key={careerItem.careerSeq}>
@@ -105,24 +117,51 @@ const Project = ({ userGb }) => {
                             ))}
                         </HeaderContainer>
                         <ProjectContainer>
-                            <DetailProjectName>
-                                {clickProjectItem?.projectName}
-                            </DetailProjectName>
-                            <DetailProjectBox>
-                                <StackBox>
-                                    {clickProjectItem.stackList.map((item) => (
-                                        <>
-                                            <StackImg src={item.stackIamge} />
-                                            <StackList key={item.stackSeq}>
-                                                {item.stackName}
-                                            </StackList>
-                                        </>
-                                    ))}
-                                </StackBox>
-                                <DetailProjectContribute>
-                                    {clickProjectItem?.projectContributeRate}
-                                </DetailProjectContribute>
-                            </DetailProjectBox>
+                            <MotionBox
+                                key={clickProjectItem?.projectSeq}
+                                animate={{
+                                    x: 0,
+                                }}
+                                transition={{
+                                    type: 'spring',
+                                    x: {
+                                        type: 'tween',
+                                        from: 1000,
+                                        tp: 0,
+                                        duration: 0.8,
+                                    }, // x 속성을 사용하여 x값을 변경합니다
+                                    repeat: 1, // 이 부분을 1로 설정하여 한 번만 재생되도록 합니다.
+                                }}
+                            >
+                                <DetailProjectName>
+                                    {clickProjectItem?.projectName}
+                                </DetailProjectName>
+                                <DetailProjectBox>
+                                    <StackContainer>
+                                        <TitleBox>Skills</TitleBox>
+                                        {clickProjectItem?.stackList.map(
+                                            (item) => (
+                                                <StackBox key={item.stackSeq}>
+                                                    <StackImg
+                                                        src={item.stackImage}
+                                                    />
+                                                    <StackList>
+                                                        {item.stackName}
+                                                    </StackList>
+                                                </StackBox>
+                                            ),
+                                        )}
+                                    </StackContainer>
+                                    <DetailProjectContributeBox>
+                                        <TitleBox>Purpose</TitleBox>
+                                        <DetailProjectContribute>
+                                            {
+                                                clickProjectItem?.projectContributeRate
+                                            }
+                                        </DetailProjectContribute>
+                                    </DetailProjectContributeBox>
+                                </DetailProjectBox>
+                            </MotionBox>
                         </ProjectContainer>
                     </ProjectWrapper>
                     <SideSpacer $currentPage={currentPage} />
@@ -134,18 +173,12 @@ const Project = ({ userGb }) => {
 
 export default Project;
 
-const ProjectWrapper = styled.div`
+const ProjectWrapper = styled(motion.div)`
     display: flex;
     width: 100%;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.92);
     font-family: 'profileFont';
-    transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    transform-style: preserve-3d;
-    transform: ${({ $currentPage }) =>
-        $currentPage === 4 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
 `;
 
 const HeaderContainer = styled.div`
@@ -155,7 +188,7 @@ const HeaderContainer = styled.div`
     padding: 24px 16px 24px 16px;
 `;
 
-const ProjectContainer = styled.div`
+const ProjectContainer = styled(motion.div)`
     min-width: 46%;
     color: black;
     padding: 24px;
@@ -164,14 +197,20 @@ const ProjectContainer = styled.div`
     flex-direction: column;
     text-align: center;
     align-items: center;
+    overflow: hidden;
 `;
 
-const DetailProjectName = styled.p`
-    font-size: 34px;
-    font-weight: bolder;
-    text-decoration: underline;
-    text-underline-offset: 10px;
-    text-decoration-thickness: 2px;
+const DetailProjectName = styled(motion.div)`
+    padding: 1%;
+    border-radius: 12px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
+    font-size: 46px;
+    margin-bottom: 6%;
+    font-family: 'Impact', sans-serif; /* 글꼴을 Impact로 변경 */
 `;
 
 const DetailProjectBox = styled.div`
@@ -181,26 +220,54 @@ const DetailProjectBox = styled.div`
     border-radius: 16px;
 `;
 
-const StackBox = styled.div`
-    margin-bottom: 4%;
+const StackContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
+    margin-top: 4%;
+    margin-bottom: 10%;
+    position: relative;
+    font-family: mainFont;
+`;
+
+const TitleBox = styled(motion.div)`
+    padding: 1%;
+    position: absolute;
+    top: -74px;
+    left: -26px;
+    border-radius: 12px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: rgba(0, 0, 0, 0.8);
+    font-size: 26px;
+    color: white;
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
+`;
+
+const StackBox = styled.div`
+    display: flex;
+    align-items: center;
+    margin-top: 1%;
 `;
 
 const StackImg = styled.img`
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
 `;
 
 const StackList = styled.span`
-    font-size: 20px;
-    color: rgb(0, 255, 255);
-    margin: 2% 2% 2% 2%;
+    margin-left: 10px;
+    font-size: 18px;
+    color: white;
+`;
+
+const DetailProjectContributeBox = styled.div`
+    position: relative;
+    padding: 2%;
+    text-align: left;
 `;
 
 const DetailProjectContribute = styled.span`
-    width: 80%;
-    text-align: left;
     font-size: 20px;
 `;
 
@@ -298,3 +365,5 @@ const ProjectInOut = styled.p`
     margin-top: 2px;
     font-family: mainFont;
 `;
+
+const MotionBox = styled(motion.div)``;

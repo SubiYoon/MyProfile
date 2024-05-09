@@ -9,6 +9,7 @@ import {
     profileState,
 } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
+import { motion } from 'framer-motion';
 
 const Profile = () => {
     //프로필 정보
@@ -32,7 +33,18 @@ const Profile = () => {
     return (
         <>
             <SideSpacer $currentPage={currentPage} />
-            <ProfileWrapper $currentPage={currentPage}>
+            <ProfileWrapper
+                initial={{
+                    opacity: currentPage === 2 ? 0 : 1,
+                    y: 20,
+                    rotateY: currentPage === 2 ? 90 : 0,
+                }}
+                animate={{
+                    opacity: currentPage !== 2 ? 0 : 1,
+                    rotateY: currentPage !== 2 ? 90 : 0,
+                }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+            >
                 <ProfileContainer>
                     {currentPage === 2 ? (
                         <ProfileHeader>
@@ -116,19 +128,13 @@ const Profile = () => {
 };
 export default Profile;
 
-const ProfileWrapper = styled.div`
+const ProfileWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.92);
     font-family: 'profileFont';
-    transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    transform-style: preserve-3d;
-    transform: ${({ $currentPage }) =>
-        $currentPage === 2 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
 `;
 
 const SideSpacer = styled.div`
