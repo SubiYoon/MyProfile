@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 import { server } from '@/api/index.js'
+import { useAuthStore } from '@/stores/auth.js'
 
 const id = ref('')
 const pwd = ref('')
-const resultName = ref('')
+const authStore = useAuthStore()
 function login() {
     let loginData = {
         name: id.value,
@@ -22,7 +23,7 @@ function login() {
     server
         .post('/api/admin/login', loginData, {})
         .then(data => {
-            resultName.value = data.data.name
+            authStore.setUser(data)
         })
         .catch(data => {
             alert(data.response.data.failMessage)
@@ -34,6 +35,7 @@ function logout() {
         .post('/api/admin/logout')
         .then(data => {
             if (data.data.result === 'success') {
+                authStore.deleteUser()
                 alert('로그아웃 되었습니다.')
             }
         })
