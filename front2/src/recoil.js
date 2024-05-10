@@ -20,3 +20,8 @@ export const stackState = atom({
     key: 'stackState',
     default: [],
 });
+
+export const apiState = atom({
+    key: 'apiState',
+    default: null,
+});
