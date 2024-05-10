@@ -1,33 +1,37 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { instance } from '@/api'
 
 const USER_DEFAULT_VALUE = {
     name: '',
-    birth: '',
-    sex: '',
-    addr: '',
-    addrDetail: '',
-    simpleIntro: '',
-    detailIntro: '',
-    profileImage: '',
-    createdAt: '',
-    updatedAt: '',
-    isSignedin: false
+    alias: '',
+    auth: '',
+    isSignedin: false,
+    expireTime: 0,
 }
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref({
-        ...USER_DEFAULT_VALUE
+        ...USER_DEFAULT_VALUE,
     })
 
     const isSignedin = computed(() => user.value.isSignedin)
 
-    async function signIn() {}
+    async function setUser(token) {
+        let userInfo = token.data.userInfo
 
-    async function updateUser() {}
+        user.value.name = userInfo.name
+        user.value.alias = userInfo.alias
+        user.value.auth = userInfo.authorities
+        user.value.isSignedin = true
+        user.value.expireTime = 6 * 60 * 60
+    }
 
-    async function signOut() {}
+    //TODO: 차후 token expire reset시키는 기능 추가 예정
+    async function expireTimeRefresh() {}
 
-    return { user, isSignedin, signIn, signOut, updateUser }
+    async function deleteUser() {
+        user.value = { ...USER_DEFAULT_VALUE }
+    }
+
+    return { user, isSignedin, setUser, deleteUser, expireTimeRefresh }
 })
