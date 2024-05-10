@@ -28,7 +28,7 @@
   "scripts": {
     "start": "vite",
     "build-pro": "vite build --mode production",
-    "build-local": "vite build"
+    "build-local": "vite build --mode development"
   },
   "eslintConfig": {
     "extends": [

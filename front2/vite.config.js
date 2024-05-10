@@ -5,13 +5,13 @@ import vitePluginSvgr from 'vite-plugin-svgr';
 import dotenv from 'dotenv'; // import dotenv
 
 // Load environment variables from .env file
-dotenv.config();
 
 export default ({ mode }) => {
-    const isProduction = mode === 'production';
-    const apiURL = isProduction
-        ? 'https://devstat.app'
-        : process.env.VITE_LOCAL_API_URL;
+    dotenv.config({ path: `.env.${mode}` });
+    // console.log('env', mode);
+    const apiURL = process.env.VITE_API_URL;
+
+    console.log('apiURL', apiURL);
 
     return defineConfig({
         plugins: [viteReact(), vitePluginSvgr()],

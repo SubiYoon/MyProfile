@@ -143,7 +143,7 @@ const Project = ({ userGb }) => {
                                             (item) => (
                                                 <StackBox key={item.stackSeq}>
                                                     <StackImg
-                                                        src={`${apiData}/${item.stackImage}`}
+                                                        src={`${apiData}/stack/${item.stackImage}`}
                                                     />
                                                     <StackList>
                                                         {item.stackName}
