@@ -5,10 +5,8 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
-    const isProduction = mode === 'production';
-    const apiURL = isProduction
-        ? 'https://devstat.app'
-        : 'http://localhost:7777';
+    const isProduction = mode === 'production'
+    const apiURL = isProduction ? 'https://devstat.app' : 'http://localhost:7777'
 
     return defineConfig({
         base: './',
@@ -18,7 +16,7 @@ export default ({ mode }) => {
                 '^/api': {
                     target: apiURL,
                     changeOrigin: true,
-                    // rewrite: (path) => path.replace(/^\/api/, ''),
+                    rewrite: path => path.replace(/^\/api/, ''),
                 },
                 '/static': {
                     target: apiURL,

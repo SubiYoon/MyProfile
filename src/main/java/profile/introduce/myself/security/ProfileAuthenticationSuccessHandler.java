@@ -31,12 +31,12 @@ public class ProfileAuthenticationSuccessHandler implements AuthenticationSucces
         JSONObject userVoOjbect = new JSONObject(objectMapper.writeValueAsString(userVo));
 
         HashMap<String, Object> map = new HashMap<>();
-        JSONObject jsonObject;
 
         map.put("userInfo", userVoOjbect);
         map.put("resultCode", 200);
         map.put("failMessage", null);
-        jsonObject = new JSONObject(map);
+
+        JSONObject jsonObject = new JSONObject(map);
 
         // JWT토큰 생성
         String token = JwtUtil.createJwtToken(userVo);

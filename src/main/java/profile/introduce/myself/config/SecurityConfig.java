@@ -72,7 +72,10 @@ public class SecurityConfig {
                 .addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(config -> config
                         .authenticationEntryPoint(profileAuthenticationEntryPoint)
-                        .accessDeniedHandler(profileAccessDeniedHandler));
+                        .accessDeniedHandler(profileAccessDeniedHandler))
+                .logout(logout -> logout.logoutUrl("/logout")
+                        .addLogoutHandler(new ProfileLogoutHandler())
+                        .logoutSuccessHandler(new ProfileLogoutSuccessHandler()));
 
         return httpSecurity.build();
     }

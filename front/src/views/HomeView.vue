@@ -21,7 +21,7 @@ function login() {
     }
 
     server
-        .post('/api/admin/login', loginData, {})
+        .post('/api/login', loginData, {})
         .then(data => {
             authStore.setUser(data)
         })
@@ -32,7 +32,7 @@ function login() {
 
 function logout() {
     server
-        .post('/api/admin/logout')
+        .post('/api/logout', {})
         .then(data => {
             if (data.data.result === 'success') {
                 authStore.deleteUser()

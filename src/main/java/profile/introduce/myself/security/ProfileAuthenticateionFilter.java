@@ -1,7 +1,6 @@
 package profile.introduce.myself.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
@@ -19,10 +18,10 @@ public class ProfileAuthenticateionFilter extends AbstractAuthenticationProcessi
 
     public ProfileAuthenticateionFilter(){
         // 로그인 시도시에 필터 동작
-        super(new AntPathRequestMatcher("/api/admin/login"));
+        super(new AntPathRequestMatcher("/login"));
     }
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
 
         if(!"POST".equals(request.getMethod())){
             throw new IllegalStateException("Authentication is supported only 'POST'");
@@ -41,10 +40,7 @@ public class ProfileAuthenticateionFilter extends AbstractAuthenticationProcessi
                 accountVo.getPassword()
         );
 
-        // 인증처리
-        Authentication authentication = getAuthenticationManager().authenticate(token);
-
-        return authentication;
+        return getAuthenticationManager().authenticate(token);
     }
 
     @Data
