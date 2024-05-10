@@ -4,7 +4,7 @@ import axiosInstance from '../../axiosInstance.js';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
     currentPageState,
-    userState,
+    apiState,
     stackState,
     profileState,
 } from '@/recoil.js';
@@ -17,6 +17,7 @@ const Profile = () => {
     //스킬 정보
     const stackData = useRecoilValue(stackState);
     const currentPage = useRecoilValue(currentPageState);
+    const apiData = useRecoilValue(apiState);
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -43,7 +44,7 @@ const Profile = () => {
                     opacity: currentPage !== 2 ? 0 : 1,
                     rotateY: currentPage !== 2 ? 90 : 0,
                 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
+                transition={{ delay: 0.3, duration: 0.4 }}
             >
                 <ProfileContainer>
                     {currentPage === 2 ? (
@@ -73,7 +74,7 @@ const Profile = () => {
                             .map((item, index) => (
                                 <StackImage
                                     key={item.stackSeq}
-                                    src={item.stackImage}
+                                    src={`${apiData}/${item.stackImage}`}
                                     $index={index}
                                     style={{
                                         left: `${(index - currentImageIndex) * 600}px`,
@@ -131,6 +132,7 @@ export default Profile;
 const ProfileWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
+    position: fixed;
     width: 100%;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.92);

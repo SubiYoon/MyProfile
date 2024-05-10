@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { currentPageState, stackState, userState } from '@/recoil.js';
+import { currentPageState, stackState, apiState } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
 import { motion } from 'framer-motion';
 
@@ -12,6 +12,8 @@ const Skills = () => {
     const [clickSkill, setClickSkill] = useState('');
     const [activeSkill, setActiveSkill] = useState('');
     const [displayCheck, setDisplayCheck] = useState('');
+
+    const apiData = useRecoilValue(apiState);
 
     const categories = new Set();
     let skills = [];
@@ -50,7 +52,7 @@ const Skills = () => {
                     opacity: currentPage !== 3 ? 0 : 1,
                     rotateY: currentPage !== 3 ? 90 : 0,
                 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
+                transition={{ delay: 0.3, duration: 0.4 }}
             >
                 <TitleContainer>
                     <TitleHeader>
@@ -78,7 +80,9 @@ const Skills = () => {
                                 $isActive={clickSkill === item.category}
                                 $displayCheck={displayCheck === item.category}
                             >
-                                <StackImage src={item.stackImage} />
+                                <StackImage
+                                    src={`${apiData}/${item.stackImage}`}
+                                />
                                 <SkillName>{item.stackName}</SkillName>
                                 <SkillDetail>{item.stackDetail}</SkillDetail>
                             </SkillBox>
@@ -169,7 +173,7 @@ const StackImage = styled.img`
     position: absolute;
     left: -50px;
     top: -45px;
-    border-radius: 50%;
+    border-radius: 16px;
     border-style: solid;
     transform: rotate(-10deg);
     background-color: white;
