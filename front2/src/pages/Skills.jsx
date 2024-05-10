@@ -81,7 +81,7 @@ const Skills = () => {
                                 $displayCheck={displayCheck === item.category}
                             >
                                 <StackImage
-                                    src={`${apiData}/${item.stackImage}`}
+                                    src={`${apiData}/stack/${item.stackImage}`}
                                 />
                                 <SkillName>{item.stackName}</SkillName>
                                 <SkillDetail>{item.stackDetail}</SkillDetail>

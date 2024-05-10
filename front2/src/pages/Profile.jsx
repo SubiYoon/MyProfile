@@ -74,7 +74,7 @@ const Profile = () => {
                             .map((item, index) => (
                                 <StackImage
                                     key={item.stackSeq}
-                                    src={`${apiData}/${item.stackImage}`}
+                                    src={`${apiData}/stack/${item.stackImage}`}
                                     $index={index}
                                     style={{
                                         left: `${(index - currentImageIndex) * 600}px`,

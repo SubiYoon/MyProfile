@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     apiState,
     currentPageState,
@@ -9,7 +9,7 @@ import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
 import Error from '@/pages/Error.jsx';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import Project from '@/pages/Project.jsx';
 import { useParams } from 'react-router-dom';
 import Skills from '@/pages/Skills.jsx';
@@ -44,12 +44,8 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        //접속환경 구분
-        if (process.env.NODE_ENV === 'production') {
-            setApiData('https://devstat.app/static/stack');
-        } else {
-            setApiData('http://localhost:7777/stack');
-        }
+        setApiData(import.meta.env.VITE_API_STATIC_URL);
+
         const fetchProfileData = async () => {
             try {
                 const response = await axiosInstance.get(`api/name/${urlGb}`);
