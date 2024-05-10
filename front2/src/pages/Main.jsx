@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+    apiState,
     currentPageState,
     profileState,
     stackState,
-    userState,
 } from '../recoil.js';
 import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
 import Error from '@/pages/Error.jsx';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import Project from '@/pages/Project.jsx';
 import { useParams } from 'react-router-dom';
 import Skills from '@/pages/Skills.jsx';
@@ -29,6 +29,8 @@ const Main = () => {
     const [profileData, setProfileData] = useRecoilState(profileState);
     const [stackData, setStackData] = useRecoilState(stackState);
 
+    const [apiData, setApiData] = useRecoilState(apiState);
+
     const { urlGb } = useParams();
     const text = urlGb === 'ABCD' ? 'Yoon Dong Sub' : 'Park Ji Su';
 
@@ -42,6 +44,12 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
+        //접속환경 구분
+        if (process.env.NODE_ENV === 'production') {
+            setApiData('https://devstat.app/stack');
+        } else {
+            setApiData('http://localhost:7777/stack');
+        }
         const fetchProfileData = async () => {
             try {
                 const response = await axiosInstance.get(`api/name/${urlGb}`);

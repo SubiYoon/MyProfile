@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { currentPageState, userState, stackState } from '@/recoil.js';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { currentPageState, userState, stackState, apiState } from '@/recoil.js';
 import { styled } from 'styled-components';
 import axiosInstance from '../../axiosInstance.js';
 import { MdOutlineComputer } from 'react-icons/md';
@@ -13,6 +13,7 @@ const Project = ({ userGb }) => {
     const [clickProject, setClickProject] = useState('');
     const [activeProject, setActiveProject] = useState('');
     const [clickProjectItem, setClickProjectItem] = useState();
+    const apiData = useRecoilValue(apiState);
 
     const onClickProject = (projectItem) => {
         setClickProject(projectItem.projectSeq);
@@ -57,7 +58,7 @@ const Project = ({ userGb }) => {
                             opacity: currentPage !== 4 ? 0 : 1,
                             rotateY: currentPage !== 4 ? 90 : 0,
                         }}
-                        transition={{ delay: 0.4, duration: 0.6 }}
+                        transition={{ delay: 0.3, duration: 0.4 }}
                     >
                         <HeaderContainer>
                             {careerData.map((careerItem) => (
@@ -127,7 +128,7 @@ const Project = ({ userGb }) => {
                                         type: 'tween',
                                         from: 1000,
                                         tp: 0,
-                                        duration: 0.8,
+                                        duration: 0.5,
                                     },
                                     repeat: 1,
                                 }}
@@ -142,7 +143,7 @@ const Project = ({ userGb }) => {
                                             (item) => (
                                                 <StackBox key={item.stackSeq}>
                                                     <StackImg
-                                                        src={item.stackImage}
+                                                        src={`${apiData}/${item.stackImage}`}
                                                     />
                                                     <StackList>
                                                         {item.stackName}
@@ -181,7 +182,6 @@ const HeaderContainer = styled.div`
     background-color: rgba(0, 0, 0, 0.92);
     display: flex;
     white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
-    width: max-content;
     padding: 24px 16px 24px 16px;
 `;
 
