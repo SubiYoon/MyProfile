@@ -4,7 +4,7 @@ import { currentPageState, userState, stackState, apiState } from '@/recoil.js';
 import { styled } from 'styled-components';
 import axiosInstance from '../../axiosInstance.js';
 import { MdOutlineComputer } from 'react-icons/md';
-import { motion } from 'framer-motion';
+import { color, motion } from 'framer-motion';
 
 const Project = ({ userGb }) => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
@@ -14,6 +14,15 @@ const Project = ({ userGb }) => {
     const [activeProject, setActiveProject] = useState('');
     const [clickProjectItem, setClickProjectItem] = useState();
     const apiData = useRecoilValue(apiState);
+
+    // 각 카테고리별 스택 그룹화
+    const stackGroups = {};
+    clickProjectItem?.stackList.forEach((item) => {
+        if (!stackGroups[item.category]) {
+            stackGroups[item.category] = [];
+        }
+        stackGroups[item.category].push(item);
+    });
 
     const onClickProject = (projectItem) => {
         setClickProject(projectItem.projectSeq);
@@ -139,16 +148,33 @@ const Project = ({ userGb }) => {
                                 <DetailProjectBox>
                                     <StackContainer>
                                         <TitleBox>Skills</TitleBox>
-                                        {clickProjectItem?.stackList.map(
-                                            (item) => (
-                                                <StackBox key={item.stackSeq}>
-                                                    <StackImg
-                                                        src={`${apiData}/stack/${item.stackImage}`}
-                                                    />
-                                                    <StackList>
-                                                        {item.stackName}
-                                                    </StackList>
-                                                </StackBox>
+                                        {Object.keys(stackGroups).map(
+                                            (category, index) => (
+                                                <CategoryBox key={index}>
+                                                    <CategoryNameBox>
+                                                        <CategoryName>
+                                                            {category}
+                                                        </CategoryName>
+                                                    </CategoryNameBox>
+                                                    {stackGroups[category].map(
+                                                        (item) => (
+                                                            <StackBox
+                                                                key={
+                                                                    item.stackSeq
+                                                                }
+                                                            >
+                                                                <StackImg
+                                                                    src={`${apiData}/stack/${item.stackImage}`}
+                                                                />
+                                                                <StackList>
+                                                                    {
+                                                                        item.stackName
+                                                                    }
+                                                                </StackList>
+                                                            </StackBox>
+                                                        ),
+                                                    )}
+                                                </CategoryBox>
                                             ),
                                         )}
                                     </StackContainer>
@@ -176,6 +202,9 @@ export default Project;
 const ProjectWrapper = styled(motion.div)`
     display: flex;
     font-family: 'profileFont';
+    position: absolute; /* 페이지의 상단에 고정 */
+    max-width: 80%;
+    top: 0; /* 페이지의 상단에 고정 */
 `;
 
 const HeaderContainer = styled.div`
@@ -216,8 +245,6 @@ const DetailProjectBox = styled.div`
 `;
 
 const StackContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
     margin-top: 4%;
     margin-bottom: 10%;
     position: relative;
@@ -238,16 +265,35 @@ const TitleBox = styled(motion.div)`
     box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
 `;
 
+const CategoryBox = styled.div`
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin-top: 2%;
+    flex-wrap: wrap;
+`;
+
+const CategoryNameBox = styled.div`
+    width: 120px;
+`;
+
+const CategoryName = styled.span`
+    font-size: 22px;
+    font-weight: bolder;
+    color: rgb(0, 255, 255);
+    font-family: profileFont;
+`;
+
 const StackBox = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 1%;
+    margin: 1%;
 `;
 
 const StackImg = styled.img`
-    width: 50px;
-    height: 50px;
-    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 0%;
 `;
 
 const StackList = styled.span`
@@ -267,7 +313,7 @@ const DetailProjectContribute = styled.span`
 `;
 
 const SideSpacer = styled.div`
-    width: 12%;
+    width: 10%;
     background-color: rgba(0, 0, 0, 0.6);
     transition:
         transform 0.6s ease,

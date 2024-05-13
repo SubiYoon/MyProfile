@@ -100,9 +100,9 @@ export default Skills;
 const SkilsWapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
+    position: absolute;
     top: 0;
-    min-height: 100vh;
     font-family: 'mainFont';
 `;
 const TitleContainer = styled.div`
@@ -195,8 +195,7 @@ const SkillDetail = styled.p`
 `;
 
 const SideSpacer = styled.div`
-    width: 12%;
-    height: 100%;
+    width: 10%;
     background-color: rgba(0, 0, 0, 0.6);
     transition:
         transform 0.6s ease,
