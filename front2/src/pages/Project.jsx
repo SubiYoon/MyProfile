@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import axiosInstance from '../../axiosInstance.js';
 import { MdOutlineComputer } from 'react-icons/md';
 import { color, motion } from 'framer-motion';
+import DetailProject from '@/components/DetailProject.jsx';
 
 const Project = ({ userGb }) => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
@@ -14,15 +15,6 @@ const Project = ({ userGb }) => {
     const [activeProject, setActiveProject] = useState('');
     const [clickProjectItem, setClickProjectItem] = useState();
     const apiData = useRecoilValue(apiState);
-
-    // 각 카테고리별 스택 그룹화
-    const stackGroups = {};
-    clickProjectItem?.stackList.forEach((item) => {
-        if (!stackGroups[item.category]) {
-            stackGroups[item.category] = [];
-        }
-        stackGroups[item.category].push(item);
-    });
 
     const onClickProject = (projectItem) => {
         setClickProject(projectItem.projectSeq);
@@ -135,58 +127,17 @@ const Project = ({ userGb }) => {
                                     type: 'spring',
                                     x: {
                                         type: 'tween',
-                                        from: 1000,
+                                        from: 1800,
                                         tp: 0,
-                                        duration: 0.5,
+                                        duration: 0.7,
                                     },
                                     repeat: 1,
                                 }}
                             >
-                                <DetailProjectName>
-                                    {clickProjectItem?.projectName}
-                                </DetailProjectName>
-                                <DetailProjectBox>
-                                    <StackContainer>
-                                        <TitleBox>Skills</TitleBox>
-                                        {Object.keys(stackGroups).map(
-                                            (category, index) => (
-                                                <CategoryBox key={index}>
-                                                    <CategoryNameBox>
-                                                        <CategoryName>
-                                                            {category}
-                                                        </CategoryName>
-                                                    </CategoryNameBox>
-                                                    {stackGroups[category].map(
-                                                        (item) => (
-                                                            <StackBox
-                                                                key={
-                                                                    item.stackSeq
-                                                                }
-                                                            >
-                                                                <StackImg
-                                                                    src={`${apiData}/stack/${item.stackImage}`}
-                                                                />
-                                                                <StackList>
-                                                                    {
-                                                                        item.stackName
-                                                                    }
-                                                                </StackList>
-                                                            </StackBox>
-                                                        ),
-                                                    )}
-                                                </CategoryBox>
-                                            ),
-                                        )}
-                                    </StackContainer>
-                                    <DetailProjectContributeBox>
-                                        <TitleBox>Purpose</TitleBox>
-                                        <DetailProjectContribute>
-                                            {
-                                                clickProjectItem?.projectContributeRate
-                                            }
-                                        </DetailProjectContribute>
-                                    </DetailProjectContributeBox>
-                                </DetailProjectBox>
+                                <DetailProject
+                                    clickProjectItem={clickProjectItem}
+                                    apiData={apiData}
+                                />
                             </MotionBox>
                         </ProjectContainer>
                     </ProjectWrapper>
@@ -222,94 +173,6 @@ const ProjectContainer = styled(motion.div)`
     text-align: center;
     align-items: center;
     overflow: hidden;
-`;
-
-const DetailProjectName = styled(motion.div)`
-    padding: 1%;
-    border-radius: 12px;
-    border-style: solid;
-    border-width: 1px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
-    font-size: 46px;
-    margin-bottom: 6%;
-    font-family: 'Impact', sans-serif; /* 글꼴을 Impact로 변경 */
-`;
-
-const DetailProjectBox = styled.div`
-    color: white;
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 8px;
-    border-radius: 16px;
-`;
-
-const StackContainer = styled.div`
-    margin-top: 4%;
-    margin-bottom: 10%;
-    position: relative;
-    font-family: mainFont;
-`;
-
-const TitleBox = styled(motion.div)`
-    padding: 1%;
-    position: absolute;
-    top: -74px;
-    left: -26px;
-    border-radius: 12px;
-    border-style: solid;
-    border-width: 1px;
-    background-color: rgba(0, 0, 0, 0.8);
-    font-size: 26px;
-    color: white;
-    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
-`;
-
-const CategoryBox = styled.div`
-    display: flex;
-    position: relative;
-    align-items: center;
-    margin-top: 2%;
-    flex-wrap: wrap;
-`;
-
-const CategoryNameBox = styled.div`
-    width: 120px;
-`;
-
-const CategoryName = styled.span`
-    font-size: 22px;
-    font-weight: bolder;
-    color: rgb(0, 255, 255);
-    font-family: profileFont;
-`;
-
-const StackBox = styled.div`
-    display: flex;
-    align-items: center;
-    margin: 1%;
-`;
-
-const StackImg = styled.img`
-    width: 40px;
-    height: 40px;
-    border-radius: 0%;
-`;
-
-const StackList = styled.span`
-    margin-left: 10px;
-    font-size: 18px;
-    color: white;
-`;
-
-const DetailProjectContributeBox = styled.div`
-    position: relative;
-    padding: 2%;
-    text-align: left;
-`;
-
-const DetailProjectContribute = styled.span`
-    font-size: 20px;
 `;
 
 const SideSpacer = styled.div`
@@ -391,7 +254,6 @@ const ProjectBox = styled.div`
 `;
 
 const ProjectName = styled.span`
-    font-size: ${({ $isActive }) => ($isActive ? '22px' : '20px')};
     text-decoration-line: ${({ $isActive }) =>
         $isActive
             ? 'underline'
