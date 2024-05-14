@@ -154,6 +154,7 @@ const ProjectWrapper = styled(motion.div)`
     display: flex;
     font-family: 'profileFont';
     position: absolute; /* 페이지의 상단에 고정 */
+    width: 100%;
     max-width: 80%;
     top: 0; /* 페이지의 상단에 고정 */
 `;
@@ -167,6 +168,7 @@ const HeaderContainer = styled.div`
 
 const ProjectContainer = styled(motion.div)`
     color: black;
+    width: 100%;
     padding: 24px;
     background-color: rgba(255, 255, 255, 0.92);
     flex-direction: column;

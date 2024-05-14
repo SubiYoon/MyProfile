@@ -115,7 +115,6 @@ const CategoryBox = styled.div`
     display: flex;
     position: relative;
     align-items: center;
-    margin-top: 1%;
     flex-wrap: wrap;
 `;
 
