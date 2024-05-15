@@ -20,7 +20,7 @@ export default ({ mode }) => {
                 '^/api': {
                     target: apiURL,
                     changeOrigin: true,
-                    //rewrite: (path) => path.replace(/^\/api/, ''),
+                    rewrite: (path) => path.replace(/^\/api/, ''),
                 },
                 '/static': {
                     target: apiURL,

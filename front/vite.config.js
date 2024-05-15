@@ -2,11 +2,12 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import dotenv from 'dotenv'
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
-    const isProduction = mode === 'production'
-    const apiURL = isProduction ? 'https://devstat.app' : 'http://localhost:7777'
+    dotenv.config({ path: `.env.${mode}` })
+    const apiURL = process.env.VITE_API_SERVER_URL
 
     return defineConfig({
         base: './',
@@ -16,7 +17,7 @@ export default ({ mode }) => {
                 '^/api': {
                     target: apiURL,
                     changeOrigin: true,
-                    //rewrite: path => path.replace(/^\/api/, ''),
+                    rewrite: path => path.replace(/^\/api/, ''),
                 },
                 '/static': {
                     target: apiURL,
