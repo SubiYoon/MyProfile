@@ -13,7 +13,7 @@ const Dot = ({ onMenuClick }) => {
         const fetchMenuData = async () => {
             try {
                 const response = await axiosInstance
-                    .get('api/menu')
+                    .get('/api/menu')
                     .then(function (data) {
                         console.log('data', data);
                         data.data.menus[0].menuName = '';

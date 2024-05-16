@@ -48,7 +48,7 @@ const Main = () => {
 
         const fetchProfileData = async () => {
             try {
-                const response = await axiosInstance.get(`api/name/${urlGb}`);
+                const response = await axiosInstance.get(`/api/name/${urlGb}`);
                 setProfileData(response.data.profile);
                 setStackData(response.data.stack);
             } catch (error) {
