@@ -4,9 +4,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite --force",
-        "dev-pro": "vite --force --mode development",
-        "build": "vite build",
+        "dev": "vite --force --mode development",
         "build-pro": "vite build --mode production",
         "preview": "vite preview",
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
