@@ -26,7 +26,7 @@ const Project = ({ userGb }) => {
         const fetchProfileData = async () => {
             try {
                 const response = await axiosInstance.get(
-                    `api/career/${userGb}`,
+                    `/api/career/${userGb}`,
                 );
                 console.log('리스폰', response.data);
                 setCareerData(response.data.careers);
