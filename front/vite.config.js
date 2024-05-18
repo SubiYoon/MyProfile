@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dotenv from 'dotenv'
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -11,7 +12,14 @@ export default ({ mode }) => {
 
     return defineConfig({
         base: './',
-        plugins: [vue()],
+        plugins: [
+            vue({
+                template: { transformAssetUrls },
+            }),
+            quasar({
+                // sassVariables: 'src/quasar-variables.sass',
+            }),
+        ],
         server: {
             proxy: {
                 '^/api': {

@@ -63,4 +63,5 @@ function test() {
     <button @click="login">로그인</button>
     <button @click="logout">로그아웃</button>
     <button @click="test">testest</button>
+    <q-input label="test"></q-input>
 </template>
