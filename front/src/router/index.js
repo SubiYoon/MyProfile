@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.js'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
-            name: 'home',
+            name: 'login',
             component: () => import('@/views/HomeView.vue'),
         },
     ],
@@ -14,13 +15,15 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     /* 로그인이 필요한 페이지 */
     if (to.matched.some(record => record.meta.requireAuth)) {
+        const userStore = useAuthStore().user
+        debugger
         // 로그인 했는지 확인
-        //   if (userStore.isLoggedIn) {
-        //     next()
-        //   } else {
-        //     /* 로그인 안되어 있을 때 */
-        //     next({ name: 'auth' })
-        //   }
+        if (userStore.isSignedin) {
+            next()
+        } else {
+            /* 로그인 안되어 있을 때 */
+            next({ name: 'login' })
+        }
     } else {
         // login, register
         //   if (userStore.isLoggedIn) {

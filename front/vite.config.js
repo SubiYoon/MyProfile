@@ -29,6 +29,8 @@ export default ({ mode }) => {
                 },
                 '/static': {
                     target: apiURL,
+                    changeOrigin: true,
+                    rewrite: path => path.replace(/^\/static/, ''),
                 },
             },
             port: 3001,

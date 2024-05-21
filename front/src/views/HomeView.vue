@@ -12,14 +12,6 @@ function login() {
         password: pwd.value,
     }
 
-    if (loginData.name === null || loginData.name === undefined || loginData.name === '') {
-        alert('닉네임을 입력해주세요.')
-        return
-    } else if (loginData.password === null || loginData.password === undefined || loginData.password === '') {
-        alert('비밀번호를 입력해주세요.')
-        return
-    }
-
     server
         .post('/api/login', loginData, {})
         .then(data => {
@@ -29,39 +21,35 @@ function login() {
             alert(data.response.data.failMessage)
         })
 }
-
-function logout() {
-    server
-        .post('/api/logout', {})
-        .then(data => {
-            if (data.data.result === 'success') {
-                authStore.deleteUser()
-                alert('로그아웃 되었습니다.')
-            }
-        })
-        .catch(data => {
-            alert(data.response.data.message)
-        })
-}
-
-function test() {
-    server
-        .post('/api/name/ABCD')
-        .then(data => {
-            console.log(data)
-            alert(data)
-        })
-        .catch(data => {
-            console.log(data)
-            alert(data.response.data.message)
-        })
-}
 </script>
 
 <template>
-    <label>닉네임</label> <input v-model="id" /> <label>비밀번호</label> <input type="password" v-model="pwd" @keyup.enter="login" />
-    <button @click="login">로그인</button>
-    <button @click="logout">로그아웃</button>
-    <button @click="test">testest</button>
-    <q-input label="test"></q-input>
+    <q-card class="login-card">
+        <q-card-section>
+            <div class="text-h6">Login</div>
+        </q-card-section>
+
+        <q-card-section>
+            <q-form @submit="login">
+                <q-input v-model="id" filled label="닉네임" lazy-rules :rules="[val => !!val || '닉네임을 입력해주세요.']" />
+                <q-input
+                    v-model="pwd"
+                    filled
+                    type="password"
+                    label="비밀번호"
+                    lazy-rules
+                    :rules="[val => !!val || '비밀번호를 입력해주세요']"
+                    @keyup.enter="login"
+                />
+                <q-btn type="submit" label="로그인" color="primary" class="full-width q-mt-md" />
+            </q-form>
+            <q-btn @click="regist" label="회원가입" color="primary" class="full-width q-mt-md" />
+        </q-card-section>
+    </q-card>
 </template>
+
+<style scoped>
+.login-card {
+    width: 400px;
+}
+</style>
