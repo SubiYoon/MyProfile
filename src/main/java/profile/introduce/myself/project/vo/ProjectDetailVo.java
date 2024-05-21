@@ -4,11 +4,12 @@ import lombok.Data;
 
 @Data
 public class ProjectDetailVo {
-    private int project_detail_seq;
+    private int projectDetailSeq;
     private String alias;
-    private int project_seq;
-    private String detail_act_title;
-    private String detail_act_cont;
-    private String regist_ts;
-    private String update_ts;
+    private int projectSeq;
+    private String detailActTitle;
+    private String detailActCont;
+    private String image;
+    private String registTs;
+    private String updateTs;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { currentPageState, stackState, apiState } from '@/recoil.js';
+import { currentPageState, stackState } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
 import { motion } from 'framer-motion';
 
@@ -12,8 +12,6 @@ const Skills = () => {
     const [clickSkill, setClickSkill] = useState('');
     const [activeSkill, setActiveSkill] = useState('');
     const [displayCheck, setDisplayCheck] = useState('');
-
-    const apiData = useRecoilValue(apiState);
 
     const categories = new Set();
     let skills = [];
@@ -81,7 +79,7 @@ const Skills = () => {
                                 $displayCheck={displayCheck === item.category}
                             >
                                 <StackImage
-                                    src={`${apiData}/stack/${item.stackImage}`}
+                                    src={`/static/stack/${item.stackImage}`}
                                 />
                                 <SkillName>{item.stackName}</SkillName>
                                 <SkillDetail>{item.stackDetail}</SkillDetail>
@@ -109,19 +107,20 @@ const TitleContainer = styled.div`
     padding: 24px;
     display: flex;
     height: 60px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: ${({ theme }) => theme.backgroundColors.black};
     border-radius: 12px;
     align-items: center;
     margin-bottom: 32px;
 `;
 
 const TitleHeader = styled.p`
-    font-size: 36px;
+    font-size: ${({ theme }) => theme.fonts.largeFontSize};
     width: 320px;
 `;
 
 const TitleSkills = styled.p`
-    font-size: ${({ $isActive }) => ($isActive ? '34px' : '24px')};
+    font-size: ${({ theme, $isActive }) =>
+        $isActive ? theme.fonts.largeFontSize : theme.fonts.mainFontSize};
     font-weight: ${({ $isActive }) => ($isActive ? 'bold' : null)};
     margin: auto;
     text-decoration-line: ${({ $isActive }) =>
@@ -132,7 +131,7 @@ const TitleSkills = styled.p`
     text-decoration-thickness: 2px;
     &:hover {
         cursor: pointer;
-        font-size: 34px;
+        font-size: ${({ theme }) => theme.fonts.largeFontSize};
         text-decoration-line: underline;
     }
 `;
@@ -147,7 +146,7 @@ const SkillBox = styled.div`
     position: ${({ $isActive }) => ($isActive ? 'relative' : 'absolute')};
     width: 30%;
     height: 260px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: ${({ theme }) => theme.backgroundColors.black};
     border-style: solid;
     border-color: white;
     border-radius: 16px;
@@ -181,7 +180,7 @@ const StackImage = styled.img`
 
 const SkillName = styled.p`
     text-align: center;
-    font-size: 30px;
+    font-size: ${({ theme }) => theme.fonts.largeFontSize};
     margin-top: 16px;
     text-decoration-line: underline;
     text-underline-offset: 8px;
@@ -191,7 +190,7 @@ const SkillName = styled.p`
 const SkillDetail = styled.p`
     text-align: left;
     padding: 20px;
-    font-size: 18px;
+    font-size: ${({ theme }) => theme.fonts.normalFontSize};
 `;
 
 const SideSpacer = styled.div`

@@ -51,7 +51,7 @@ const MainText = styled.div`
     width: 100%;
     font-family: 'mainFont';
     font-weight: bolder;
-    font-size: 12rem;
+    font-size: ${({ theme }) => theme.fonts.firstMainFontSize};
     text-align: left;
 `;
 
@@ -60,7 +60,7 @@ const MainText2 = styled.div`
     margin-top: 60px;
     font-weight: bolder;
     font-size: 12rem;
-    font-family: 'mainFont';
+    font-size: ${({ theme }) => theme.fonts.firstMainFontSize};
     text-align: right;
     transition: transform 1s ease;
     transform: translateX(

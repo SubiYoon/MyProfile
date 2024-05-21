@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../../axiosInstance.js';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import {
     currentPageState,
     apiState,
@@ -33,7 +32,6 @@ const Profile = () => {
 
     return (
         <>
-            <SideSpacer $currentPage={currentPage} />
             <ProfileWrapper
                 initial={{
                     opacity: currentPage === 2 ? 0 : 1,
@@ -74,7 +72,7 @@ const Profile = () => {
                             .map((item, index) => (
                                 <StackImage
                                     key={item.stackSeq}
-                                    src={`${apiData}/stack/${item.stackImage}`}
+                                    src={`/static/stack/${item.stackImage}`}
                                     $index={index}
                                     style={{
                                         left: `${(index - currentImageIndex) * 600}px`,
@@ -85,7 +83,9 @@ const Profile = () => {
                     <AboutContainer>
                         <ImgBox>
                             <PhotoBox>
-                                <Photo src={profileData.image} />
+                                <Photo
+                                    src={`/static/profile/${profileData.image}`}
+                                />
                             </PhotoBox>
                         </ImgBox>
                         <AboutBox>
@@ -123,7 +123,6 @@ const Profile = () => {
                     </AboutContainer>
                 </IntroductionContainer>
             </ProfileWrapper>
-            <SideSpacer $currentPage={currentPage} />
         </>
     );
 };
@@ -134,31 +133,19 @@ const ProfileWrapper = styled(motion.div)`
     flex-direction: column;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: ${({ theme }) => theme.backgroundColors.main};
     font-family: 'profileFont';
 `;
 
-const SideSpacer = styled.div`
-    width: 12%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    transform-style: preserve-3d;
-    transform: ${({ $currentPage }) =>
-        $currentPage === 2 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
-`;
-
 const ProfileContainer = styled.div`
-    padding: 0% 8% 2% 8%; // 프로필 컨테이너 패딩 %
-    background-color: rgba(0, 0, 0, 0.7);
+    padding: 0% 8% 2% 8%;
+    background-color: ${({ theme }) => theme.backgroundColors.black};
     text-align: center;
 `;
 
 const IntroductionContainer = styled.div`
     color: black;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: ${({ theme }) => theme.backgroundColors.white};
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -167,23 +154,20 @@ const IntroductionContainer = styled.div`
 `;
 
 const ProfileContent = styled.div`
-    //width: 70%;
-    font-size: 24px;
+    font-size: ${({ theme }) => theme.fonts.mainFontSize};
     font-family: 'profileFont';
     color: white;
 `;
 
 const NameBox = styled.div`
+    font-size: ${({ theme }) => theme.fonts.mainFontSize};
     display: flex;
     margin-bottom: 16px;
 `;
 
-const ProfileText = styled.span`
-    font-size: 24px;
-`;
+const ProfileText = styled.span``;
 
 const ProfileLink = styled.a`
-    font-size: 24px;
     text-decoration-line: none;
 `;
 
@@ -221,8 +205,8 @@ const StackImage = styled.img`
 `;
 
 const PhotoBox = styled.div`
-    width: 260px;
-    height: 260px;
+    width: 280px;
+    height: 280px;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 6px 6px 6px gray;
@@ -242,7 +226,7 @@ const AboutBox = styled.div`
 `;
 
 const HeaderText = styled.span`
-    font-size: 64px;
+    font-size: ${({ theme }) => theme.fonts.titleFontSize};
     font-weight: bolder;
     text-decoration: underline;
     text-underline-offset: 16px;
@@ -250,7 +234,7 @@ const HeaderText = styled.span`
 `;
 const ProfileHeader = styled.p`
     text-align: center;
-    font-size: 64px;
+    font-size: ${({ theme }) => theme.fonts.titleFontSize};
     font-weight: bolder;
     text-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
     font-family: 'profileFont';

@@ -8,6 +8,7 @@
                PROJECT_SEQ,
                DETAIL_ACT_TITLE,
                DETAIL_ACT_CONT,
+               IMAGE,
                REGIST_TS,
                UPDATE_TS
         FROM PROJECT_DETAIL

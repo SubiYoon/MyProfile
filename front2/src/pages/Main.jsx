@@ -9,7 +9,7 @@ import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
 import Error from '@/pages/Error.jsx';
 import { styled } from 'styled-components';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import Project from '@/pages/Project.jsx';
 import { useParams } from 'react-router-dom';
 import Skills from '@/pages/Skills.jsx';
@@ -44,8 +44,6 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        setApiData(import.meta.env.VITE_API_STATIC_URL);
-
         const fetchProfileData = async () => {
             try {
                 const response = await axiosInstance.get(`/api/name/${urlGb}`);
@@ -107,6 +105,7 @@ const Main = () => {
                         />
                     </Video>
                     <Wrapper ref={outerDivRef}>
+                        <SideSpacer />
                         <Section ref={sectionRefs[0]}>
                             <Overlay $currentPage={currentPage}>
                                 <Header text={text} gb={'main'} />
@@ -114,17 +113,23 @@ const Main = () => {
                         </Section>
                         <Section ref={sectionRefs[1]}>
                             <SectionBox>
+                                <SideSpacer />
                                 <Profile />
+                                <SideSpacer />
                             </SectionBox>
                         </Section>
                         <Section ref={sectionRefs[2]}>
                             <SectionBox>
+                                <SideSpacer />
                                 <Skills />
+                                <SideSpacer />
                             </SectionBox>
                         </Section>
                         <Section ref={sectionRefs[3]}>
                             <SectionBox>
+                                <SideSpacer />
                                 <Project userGb={urlGb} />
+                                <SideSpacer />
                             </SectionBox>
                         </Section>
                         <Dot onMenuClick={handleMenuClick} />
@@ -183,4 +188,10 @@ const Overlay = styled.div`
         ${({ $currentPage }) => ($currentPage === 1 ? '0' : '-100vw')}
     );
     transition: transform 1s ease;
+`;
+
+const SideSpacer = styled.div`
+    width: 12%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
 `;
