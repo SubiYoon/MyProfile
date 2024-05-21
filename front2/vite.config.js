@@ -21,10 +21,11 @@ export default ({ mode }) => {
                     target: apiURL,
                     changeOrigin: true,
                     rewrite: (path) => path.replace(/^\/api/, ''),
-                    ws: true,
                 },
                 '/static': {
                     target: apiURL,
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace(/^\/static/, ''),
                 },
             },
             port: 3000,

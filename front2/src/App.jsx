@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
 import { RecoilRoot } from 'recoil';
-import { styled, createGlobalStyle } from 'styled-components';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Main from '@/pages/Main.jsx';
 import Error from '@/pages/Error.jsx'; // Error 컴포넌트를 임포트합니다.
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Router와 Routes를 가져옵니다.
+import theme from '@/theme.js';
 
 const GlobalStyle = createGlobalStyle`
     html, body {
@@ -17,11 +18,13 @@ function App() {
     return (
         <BrowserRouter>
             <RecoilRoot>
-                <GlobalStyle />
-                <Routes>
-                    <Route path="/:urlGb" element={<Main />} />
-                    <Route path="*" element={<Error />} />
-                </Routes>
+                <ThemeProvider theme={theme}>
+                    <GlobalStyle />
+                    <Routes>
+                        <Route path="/:urlGb" element={<Main />} />
+                        <Route path="*" element={<Error />} />
+                    </Routes>
+                </ThemeProvider>
             </RecoilRoot>
         </BrowserRouter>
     );
