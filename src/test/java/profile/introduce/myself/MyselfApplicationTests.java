@@ -28,9 +28,4 @@ class MyselfApplicationTests {
         }
         return sb.toString();
     }
-
-    @Test
-    public void testQuery(){
-        System.out.println(careerService.getCareerList("ABCD"));
-    }
 }
