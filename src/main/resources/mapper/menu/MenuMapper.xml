@@ -5,7 +5,8 @@
     <select id="selectAdminMenu" resultType="MenuVo">
         SELECT
             MENU_SEQ,
-            MENU_NAME
+            MENU_NAME,
+            ROUTE_PATH
         FROM MENU
         WHERE ADMIN_MENU_YN = 'Y'
         ORDER BY MENU_SEQ;

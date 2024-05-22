@@ -6,5 +6,5 @@ import lombok.Data;
 public class MenuVo {
     private int menuSeq;
     private String menuName;
-
+    private String routePath;
 }
