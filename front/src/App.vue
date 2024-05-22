@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
 import { ref } from 'vue'
 import { server } from '@/api/index.js'
+import router from '@/router/index.js'
 
 const authStore = useAuthStore()
 
@@ -18,12 +19,19 @@ function logout() {
             if (data.data.result === 'success') {
                 authStore.deleteUser()
                 alert('로그아웃 되었습니다.')
+                router.push('/login')
             }
         })
         .catch(data => {
             alert(data.response.data.message)
         })
 }
+
+const menus = ref([])
+
+server.get('/api/menu/admin').then(data => {
+    menus.value = data.data.menus
+})
 </script>
 
 <template>
@@ -31,24 +39,15 @@ function logout() {
         <q-header elevated>
             <q-toolbar>
                 <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"></q-btn>
-                <q-toolbar-title> My Website </q-toolbar-title>
+                <q-toolbar-title> My Profile </q-toolbar-title>
                 <q-btn v-if="authStore.user.isSignedin" icon="logout" @click="logout" />
             </q-toolbar>
         </q-header>
 
-        <q-drawer v-model="leftDrawerOpen" show-if-above side="left" bordered>
+        <q-drawer v-if="authStore.user.isSignedin" v-model="leftDrawerOpen" show-if-above side="left" bordered>
             <q-list>
-                <q-item clickable v-ripple tag="router-link" to="/">
-                    <q-item-section>Home</q-item-section>
-                </q-item>
-                <q-item clickable v-ripple tag="router-link" to="/about">
-                    <q-item-section>About</q-item-section>
-                </q-item>
-                <q-item clickable v-ripple tag="router-link" to="/contact">
-                    <q-item-section>Contact</q-item-section>
-                </q-item>
-                <q-item clickable v-ripple tag="router-link" to="/login">
-                    <q-item-section>Login</q-item-section>
+                <q-item v-for="item in menus" clickable v-ripple tag="router-link" :href="item.routePath">
+                    <q-item-section>{{ item.menuName }}</q-item-section>
                 </q-item>
             </q-list>
         </q-drawer>
@@ -59,7 +58,7 @@ function logout() {
 
         <q-footer class="text-center">
             <q-toolbar>
-                <q-toolbar-title> &copy; 2024 My Website </q-toolbar-title>
+                <q-toolbar-title> &copy; 2024 My Profile </q-toolbar-title>
             </q-toolbar>
         </q-footer>
     </q-layout>
