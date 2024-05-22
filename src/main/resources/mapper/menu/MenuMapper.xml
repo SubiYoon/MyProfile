@@ -2,11 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="profile.introduce.myself.menu.mapper.MenuMapper">
-    <select id="selectMenu" resultType="MenuVo">
+    <select id="selectAdminMenu" resultType="MenuVo">
         SELECT
             MENU_SEQ,
             MENU_NAME
         FROM MENU
+        WHERE ADMIN_MENU_YN = 'Y'
+        ORDER BY MENU_SEQ;
+    </select>
+    <select id="selectPublicMenu" resultType="MenuVo">
+        SELECT
+            MENU_SEQ,
+            MENU_NAME
+        FROM MENU
+        WHERE PUBLIC_MENU_YN = 'Y'
         ORDER BY MENU_SEQ;
     </select>
 </mapper>

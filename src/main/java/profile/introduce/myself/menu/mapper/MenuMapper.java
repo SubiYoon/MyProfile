@@ -7,5 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface MenuMapper {
-    List<MenuVo> selectMenu();
+    List<MenuVo> selectAdminMenu();
+    List<MenuVo> selectPublicMenu();
 }

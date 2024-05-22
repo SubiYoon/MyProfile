@@ -15,7 +15,11 @@ public class MenuServiceImpl implements MenuService {
     MenuMapper menuMapper;
 
     @Override
-    public List<MenuVo> selectMenu() throws Exception {
-        return menuMapper.selectMenu();
+    public List<MenuVo> selectMenu(String menuGb) {
+        if("admin".equals(menuGb)){
+            return menuMapper.selectAdminMenu();
+        } else {
+            return menuMapper.selectPublicMenu();
+        }
     }
 }
