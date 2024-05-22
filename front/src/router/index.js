@@ -5,41 +5,62 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
-            path: '/',
+            path: '/login',
             name: 'login',
-            component: () => import('@/views/HomeView.vue'),
+            component: () => import('@/views/Login.vue'),
+        },
+        {
+            path: '/profile',
+            name: 'profile',
+            meta: { requireAuth: true },
+            component: () => import('@/views/profile/Profile.vue'),
         },
     ],
 })
 
-router.beforeEach((to, from, next) => {
-    /* 로그인이 필요한 페이지 */
-    if (to.matched.some(record => record.meta.requireAuth)) {
-        const userStore = useAuthStore().user
-        debugger
-        // 로그인 했는지 확인
-        if (userStore.isSignedin) {
-            next()
-        } else {
-            /* 로그인 안되어 있을 때 */
-            next({ name: 'login' })
-        }
+function isLoginCheck(user) {
+    if (user.isSignedin) {
+        router.push('/profile')
     } else {
-        // login, register
-        //   if (userStore.isLoggedIn) {
-        //     if (to.name === 'auth' || to.name === 'register') {
-        //       router.push({ name: 'main' })
-        //     } else {
-        //       next()
-        //     }
-        //   } else {
-        //     next()
-        //   }
-
-        next()
+        router.push('/login')
     }
-})
+}
 
+router.beforeEach((to, from, next) => {
+    const userStore = useAuthStore().user
+    for (let i = 0; i < router.getRoutes().length; i++) {
+        if (router.getRoutes()[i].path === to.path || to.path === '/') {
+            if (to.matched.some(record => record.meta.requireAuth)) {
+                // 로그인 했는지 확인
+                if (userStore.isSignedin) {
+                    if (to.path === '/') {
+                        router.push('/profile')
+                        return
+                    }
+                    next()
+                    return
+                } else {
+                    /* 로그인 안되어 있을 때 */
+                    alert('로그인이 필요합니다.')
+                    next({ name: 'login' })
+                }
+            } else {
+                if (userStore.isSignedin && to.path === '/login') {
+                    router.push('/profile')
+                    return
+                }
+                if (to.path === '/') {
+                    isLoginCheck(userStore)
+                    return
+                }
+                next()
+                return
+            }
+        }
+    }
+    alert('잘못된 접근입니다.')
+    isLoginCheck(userStore)
+})
 router.afterEach((to, from) => {})
 
 export default router

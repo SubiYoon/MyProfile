@@ -2,10 +2,12 @@
 import { ref } from 'vue'
 import { server } from '@/api/index.js'
 import { useAuthStore } from '@/stores/auth.js'
+import { useRouter } from 'vue-router'
 
 const id = ref('')
 const pwd = ref('')
 const authStore = useAuthStore()
+const router = useRouter()
 function login() {
     let loginData = {
         name: id.value,
@@ -16,10 +18,16 @@ function login() {
         .post('/api/login', loginData, {})
         .then(data => {
             authStore.setUser(data)
+            router.push('/profile')
         })
         .catch(data => {
             alert(data.response.data.failMessage)
         })
+}
+
+function regist() {
+    alert('아직 구현되지 않은 기능입니다.')
+    // router.push('/regist')
 }
 </script>
 
@@ -28,6 +36,7 @@ function login() {
         <q-card class="login-card">
             <q-card-section>
                 <div class="text-h6">Login</div>
+                <span>테스트용 ID : test, 테스트용 PWD: test</span>
             </q-card-section>
 
             <q-card-section>
