@@ -53,7 +53,7 @@ function logout() {
             </q-list>
         </q-drawer>
 
-        <q-page-container>
+        <q-page-container class="wapper">
             <RouterView />
         </q-page-container>
 
@@ -64,3 +64,9 @@ function logout() {
         </q-footer>
     </q-layout>
 </template>
+
+<style scoped>
+.wapper {
+    height: 100vh;
+}
+</style>
