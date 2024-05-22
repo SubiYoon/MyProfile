@@ -105,7 +105,6 @@ const Main = () => {
                         />
                     </Video>
                     <Wrapper ref={outerDivRef}>
-                        <SideSpacer />
                         <Section ref={sectionRefs[0]}>
                             <Overlay $currentPage={currentPage}>
                                 <Header text={text} gb={'main'} />
