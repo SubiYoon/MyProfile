@@ -13,8 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 public class UserVo implements UserDetails {
     @Getter
+    @Setter
     private String alias;
     @Getter
+    @Setter
     private String name;
     @Setter
     private String password;
@@ -30,14 +32,6 @@ public class UserVo implements UserDetails {
     @Override
     public String getPassword() {
         return this.password;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
