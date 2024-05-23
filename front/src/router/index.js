@@ -43,6 +43,7 @@ router.beforeEach((to, from, next) => {
                     /* 로그인 안되어 있을 때 */
                     alert('로그인이 필요합니다.')
                     next({ name: 'login' })
+                    return
                 }
             } else {
                 if (userStore.isSignedin && to.path === '/login') {
