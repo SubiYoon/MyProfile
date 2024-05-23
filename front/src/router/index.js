@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
                 } else {
                     /* 로그인 안되어 있을 때 */
                     alert('로그인이 필요합니다.')
-                    next({ name: 'login' })
+                    router.push('/login')
                     return
                 }
             } else {
@@ -57,10 +57,11 @@ router.beforeEach((to, from, next) => {
                 next()
                 return
             }
+        } else if (router.getRoutes()[i].path !== to.path && i === router.getRoutes().length - 1) {
+            alert('잘못된 접근입니다.')
+            isLoginCheck(userStore)
         }
     }
-    alert('잘못된 접근입니다.')
-    isLoginCheck(userStore)
 })
 router.afterEach((to, from) => {})
 
