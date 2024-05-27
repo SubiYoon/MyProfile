@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../axiosInstance.js';
 import { useRecoilState } from 'recoil';
 import { currentPageState } from '@/recoil.js';
+import { motion } from 'framer-motion';
 
 const Dot = ({ onMenuClick }) => {
     const [menuData, setMenuData] = useState([]);
@@ -29,25 +30,35 @@ const Dot = ({ onMenuClick }) => {
 
     const dotButtons = () => {
         return menuData.map((item) => (
-            <Dots
-                key={item.menuSeq}
-                onClick={() => handleButtonClick(item.menuSeq)}
-                $num={item.menuSeq}
-                $currentPage={currentPage}
-            />
-        ));
-    };
-
-    const menuButtons = () => {
-        return menuData.map((item) => (
-            <MenuButton
-                key={item.menuSeq}
-                onClick={() => handleButtonClick(item.menuSeq)}
-                $num={item.menuSeq}
-                $currentPage={currentPage}
-            >
-                {item.menuName}
-            </MenuButton>
+            <React.Fragment key={item.menuSeq}>
+                <MenuButton
+                    onClick={() => handleButtonClick(item.menuSeq)}
+                    $num={item.menuSeq}
+                    $currentPage={currentPage}
+                >
+                    {item.menuName}
+                </MenuButton>
+                {currentPage === item.menuSeq ? (
+                    <Dots
+                        initial={{ opacity: 0, scale: 1 }}
+                        animate={{ opacity: 1, scale: 1.6 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 0.4,
+                            ease: [0, 0.71, 0.2, 1.01],
+                            repeat: Infinity,
+                        }}
+                        $num={item.menuSeq}
+                        $currentPage={currentPage}
+                    />
+                ) : (
+                    <ClickableDots
+                        onClick={() => handleButtonClick(item.menuSeq)}
+                        $num={item.menuSeq}
+                        $currentPage={currentPage}
+                    />
+                )}
+            </React.Fragment>
         ));
     };
 
@@ -57,43 +68,42 @@ const Dot = ({ onMenuClick }) => {
     };
 
     return (
-        <DotContainer>
-            <ButtonBox>{menuButtons()}</ButtonBox>
+        <>
+            {/*<ButtonBox>{menuButtons()}</ButtonBox>*/}
             <DotBox>{dotButtons()}</DotBox>
-        </DotContainer>
+            <IconBox
+                nitial={{ y: 0 }} // 초기 위치
+                animate={{ y: [0, -8, 0] }} // 움직임 설정
+                transition={{ duration: 1, repeat: Infinity }}
+            >
+                {currentPage !== 4 ? (
+                    <Icon
+                        src="/assets/icons/down.png"
+                        onClick={() => handleButtonClick(currentPage + 1)}
+                    />
+                ) : (
+                    <Icon
+                        src="/assets/icons/up.png"
+                        onClick={() => handleButtonClick(1)}
+                    />
+                )}
+            </IconBox>
+        </>
     );
 };
 
 export default Dot;
 
-const DotContainer = styled.div`
-    position: fixed;
-    top: 40%;
-    right: 24px;
-    width: 10%;
-`;
-
-const ButtonBox = styled.div`
-    width: 70%;
-    height: 148px;
-    float: left;
-    text-align: right;
-`;
-
-const MenuButton = styled.button`
-    display: flex;
-    justify-content: right;
+const MenuButton = styled.span`
+    display: ${({ $currentPage, $num }) =>
+        $currentPage === $num ? 'block' : 'none'};
     align-items: center;
-    width: 100%;
-    height: 40px;
-    margin-top: 4px;
     background-color: transparent;
+    margin-bottom: 24%;
     border: none;
-    color: white;
-    font-family: 'mainFont';
-    font-size: 20px;
-    text-shadow: 8px 8px 8px black;
-    opacity: ${({ $currentPage, $num }) => ($currentPage === $num ? 1 : 0)};
+    color: black;
+    font-size: ${({ theme }) => theme.fonts.mainFontSize};
+    text-shadow: 8px 8px 4px rgba(230, 27, 57, 0.8);
     transform: translateY(
         ${({ $currentPage, $num }) => ($currentPage === $num ? '0' : '20px')}
     );
@@ -114,26 +124,39 @@ const DotBox = styled.div`
     flex-direction: column;
     align-items: center;
     width: 30%;
-    //background-color: red;
-    height: 174px;
 `;
 
-const Dots = styled.div`
-    width: 10px;
-    height: 10px;
-    margin-top: 16px;
-    margin-bottom: 8px;
-    border: 3px solid white;
-    border-radius: 999px;
+const Dots = styled(motion.div)`
+    width: 12px;
+    height: 12px;
+    margin-top: 30%;
+    margin-bottom: 30%;
+    border: 0.18rem solid rgba(230, 27, 57, 1);
+    border-radius: 100%;
     background-color: ${({ $currentPage, $num }) =>
-        $currentPage === $num ? 'white' : 'transparent'};
-    transition-duration: 1000px;
-    transition: background-color 0.5s;
-    transform: scale(
-        ${({ $currentPage, $num }) => ($currentPage === $num ? 1.5 : 1)}
-    );
+        $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'none'};
     &:hover {
         cursor: pointer;
         transform: scale(1.5);
     }
+`;
+const IconBox = styled(motion.div)`
+    width: 60px;
+    height: 60px;
+    bottom: 18%;
+    position: fixed;
+`;
+
+const Icon = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+`;
+
+const ClickableDots = styled(Dots)`
+    pointer-events: auto; /* 클릭 이벤트 활성화 */
 `;

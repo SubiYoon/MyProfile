@@ -28,4 +28,9 @@ class MyselfApplicationTests {
         }
         return sb.toString();
     }
+
+    @Test
+    public void test(){
+        System.out.println(encode("parkjs"));
+    }
 }

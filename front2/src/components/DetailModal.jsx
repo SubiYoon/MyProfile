@@ -13,7 +13,6 @@ const DetailModal = ({ detailSeq, userGb }) => {
     const [countGb, setCountGb] = useState(false);
 
     const onClickGr = (gb) => {
-        console.log('gb', gb);
         if (imageCount !== 1 && gb === 'prev') {
             setImageCount(imageCount - 1);
             setCountGb(false);
@@ -29,14 +28,12 @@ const DetailModal = ({ detailSeq, userGb }) => {
                 const response = await axiosInstance.get(
                     `/api/project/${userGb}/${detailSeq}`,
                 );
-                console.log('디테일', response.data.projectDetailList);
                 setDetailData(response.data.projectDetailList);
 
                 const imageName =
                     response.data.projectDetailList?.image.split('.')[0];
 
                 if (imageName) {
-                    console.log('이미지네임', imageName);
                     const paths = [];
 
                     const fetchImagePaths = async () => {
@@ -53,12 +50,7 @@ const DetailModal = ({ detailSeq, userGb }) => {
                                             paths.push(imagePath);
                                         }
                                     })
-                                    .catch((error) => {
-                                        console.error(
-                                            `Error fetching image: ${imagePath}`,
-                                            error,
-                                        );
-                                    }),
+                                    .catch((error) => {}),
                             );
                         }
                         await Promise.all(requests);
@@ -77,36 +69,47 @@ const DetailModal = ({ detailSeq, userGb }) => {
         <>
             {detailData ? (
                 <ModalWrapper>
-                    <ModalImgBox>
-                        <DetailProjectImageWrapper>
-                            <DetailProjectImage
-                                key={imageCount}
-                                animate={{
-                                    x: 0,
-                                }}
-                                transition={{
-                                    type: 'spring',
-                                    x: {
-                                        type: 'tween',
-                                        from: countGb ? 1800 : -1800,
-                                        tp: 0,
-                                        duration: 0.3,
-                                    },
-                                    repeat: 1,
-                                }}
-                                src={`${imagePaths[imageCount - 1]}`}
-                            />
-                        </DetailProjectImageWrapper>
-                        <IconBox>
-                            <PrevIcon onClick={() => onClickGr('prev')} />
-                            <Count>
-                                {imageCount}/{imagePaths.length}
-                            </Count>
-                            <NextIcon onClick={() => onClickGr('next')} />
-                        </IconBox>
-                    </ModalImgBox>
+                    {imagePaths.length > 0 ? (
+                        <ModalImgBox>
+                            <DetailProjectImageWrapper>
+                                <DetailProjectImage
+                                    key={imageCount}
+                                    animate={{
+                                        x: 0,
+                                    }}
+                                    transition={{
+                                        type: 'spring',
+                                        x: {
+                                            type: 'tween',
+                                            from: countGb ? 1800 : -1800,
+                                            tp: 0,
+                                            duration: 0.3,
+                                        },
+                                        repeat: 1,
+                                    }}
+                                    src={`${imagePaths[imageCount - 1]}`}
+                                />
+                            </DetailProjectImageWrapper>
+                            <IconBox>
+                                <PrevIcon onClick={() => onClickGr('prev')} />
+                                <Count>
+                                    {imageCount}/{imagePaths.length}
+                                </Count>
+                                <NextIcon onClick={() => onClickGr('next')} />
+                            </IconBox>
+                        </ModalImgBox>
+                    ) : null}
                     <ModalFontBox>
-                        <ModalCont>{detailData?.detailActCont}</ModalCont>
+                        <ModalCont>
+                            {detailData?.detailActCont
+                                .split('.')
+                                .map((sentence, index, array) => (
+                                    <div key={index}>
+                                        {sentence.trim()}
+                                        {index !== array.length - 1 && '.'}
+                                    </div>
+                                ))}
+                        </ModalCont>
                     </ModalFontBox>
                 </ModalWrapper>
             ) : null}
@@ -119,7 +122,7 @@ export default DetailModal;
 const ModalWrapper = styled.div`
     display: flex;
     color: white;
-    font-family: profileFont;
+    font-family: 'NanumSquareNeo';
     padding: 2%;
 `;
 
@@ -132,8 +135,8 @@ const ModalImgBox = styled.div`
 `;
 
 const DetailProjectImageWrapper = styled.div`
-    width: 100%;
-    padding-top: 100%; /* 종횡비 8:10에 맞추어서 높이 설정 */
+    width: 99%;
+    padding-top: 100%;
     position: relative;
 `;
 
@@ -148,15 +151,15 @@ const DetailProjectImage = styled(motion.img)`
 
 const IconBox = styled.div`
     display: flex;
-    font-size: 42px;
+    font-size: ${({ theme }) => theme.fonts.largeFontSize};
+    margin-top: 4%;
     justify-content: center;
     align-items: center;
 `;
 
 const Count = styled.span`
-    font-family: mainFont;
-    font-size: 26px;
-    margin-bottom: 2px;
+    font-family: 'Arita';
+    font-size: ${({ theme }) => theme.fonts.normalFontSize};
 `;
 
 const ModalFontBox = styled.div`
@@ -164,26 +167,23 @@ const ModalFontBox = styled.div`
     width: 100%;
     margin-left: 2%;
     display: flex;
-    flex-direction: column;
 `;
 
-const ModalCont = styled.p`
+const ModalCont = styled.span`
     text-align: left;
-    font-size: 20px;
+    font-size: ${({ theme }) => theme.fonts.normalFontSize};
 `;
 
 const PrevIcon = styled(GrFormPrevious)`
     &:hover {
         transform: scale(1.2);
         cursor: pointer;
-        opacity: 0.8;
     }
 `;
 
 const NextIcon = styled(GrFormNext)`
     &:hover {
-        transform: scale(1.1);
+        transform: scale(1.2);
         cursor: pointer;
-        opacity: 0.8;
     }
 `;

@@ -1,0 +1,29 @@
+import { styled } from 'styled-components';
+import { motion } from 'framer-motion';
+import React from 'react';
+import Header from '@/pages/Header.jsx';
+import { useRecoilValue } from 'recoil';
+import { currentPageState, profileState } from '@/recoil.js';
+
+const Home = React.memo(({ urlGb }) => {
+    const mainContent = useRecoilValue(profileState).mainContent;
+    console.log('sdfs', mainContent);
+    const currentPage = useRecoilValue(currentPageState);
+    return (
+        <HomeWrapper $currentPage={currentPage}>
+            {mainContent !== undefined ? (
+                <Header text={mainContent} gb={'main'} />
+            ) : null}
+        </HomeWrapper>
+    );
+});
+
+export default Home;
+
+const HomeWrapper = styled.div`
+    display: ${({ $currentPage }) => ($currentPage === 1 ? 'block' : 'none')};
+    padding-left: 8%;
+    padding-right: 8%;
+    width: 100%;
+    font-family: 'NanumSquareNeo';
+`;
