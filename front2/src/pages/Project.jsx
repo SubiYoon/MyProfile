@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentPageState, userState, stackState, apiState } from '@/recoil.js';
+import { currentPageState, apiState } from '@/recoil.js';
 import { styled } from 'styled-components';
 import axiosInstance from '../../axiosInstance.js';
 import { MdOutlineComputer } from 'react-icons/md';
 import { color, motion } from 'framer-motion';
 import DetailProject from '@/components/DetailProject.jsx';
 
-const Project = ({ userGb }) => {
+const Project = React.memo(({ userGb }) => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
     const [careerData, setCareerData] = useState(null);
 
@@ -15,13 +15,13 @@ const Project = ({ userGb }) => {
     const [activeProject, setActiveProject] = useState('');
     const [clickProjectItem, setClickProjectItem] = useState();
 
-    const apiData = useRecoilValue(apiState);
-
-    const onClickProject = (projectItem) => {
-        setClickProject(projectItem.projectSeq);
-        setActiveProject(projectItem.projectSeq);
-        setClickProjectItem(projectItem);
-    };
+    const onClickProject = useMemo(() => {
+        return (projectItem) => {
+            setClickProject(projectItem.projectSeq);
+            setActiveProject(projectItem.projectSeq);
+            setClickProjectItem(projectItem);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -145,77 +145,58 @@ const Project = ({ userGb }) => {
             ) : null}
         </>
     );
-};
+});
 
 export default Project;
 
 const ProjectWrapper = styled(motion.div)`
     display: flex;
-    font-family: 'profileFont';
-    position: absolute; /* 페이지의 상단에 고정 */
-    background-color: ${({ theme }) => theme.backgroundColors.main};
+    font-family: 'Pretendard';
+    padding: 0% 2% 0% 2%;
+    position: absolute;
     width: 100%;
-    max-width: 80%;
-    top: 0; /* 페이지의 상단에 고정 */
+    top: -2.4%;
+    left: 0%;
 `;
 
-const HeaderContainer = styled.div`
-    background-color: ${({ theme }) => theme.backgroundColors.black};
+const HeaderContainer = styled(motion.div)`
     display: flex;
     white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
-    padding: 24px 16px 24px 16px;
+    padding: 1% 1% 0 1%;
+    background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
 `;
 
 const ProjectContainer = styled(motion.div)`
     color: black;
-    width: 100%;
-    padding: 24px;
-    background-color: ${({ theme }) => theme.backgroundColors.white};
+    width: 68%;
+    padding: 0 2% 0 2%;
     flex-direction: column;
     text-align: center;
     align-items: center;
     overflow: hidden;
 `;
 
-const SideSpacer = styled.div`
-    width: 10%;
-    background-color: rgba(0, 0, 0, 0.6);
-    transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    transform-style: preserve-3d;
-    transform: ${({ $currentPage }) =>
-        $currentPage === 4 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
-`;
-
 const LineContainer = styled.div`
-    padding: 4%;
+    padding: 2%;
 `;
 
 const LineBox = styled.div`
     position: relative;
-    padding: 16px;
+    padding: 30px;
     color: white;
-    border-left: 4px solid white;
-    &::after {
-        position: absolute;
-        left: 0%;
-        bottom: 0;
-        width: 8%;
-        height: 2px;
-        background-color: white;
-        //transform: rotate(-14deg);
-    }
+    border-left: 4px solid rgba(228, 225, 220, 1);
 `;
 const LineTop = styled.div`
-    background-color: white;
+    background-color: rgba(228, 225, 220, 1);
+    border-style: solid;
     display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
     color: black;
-    border-radius: 4px;
-    left: -2%;
+    top: 6px;
+    border-radius: 12px;
+    left: -3%;
 `;
 
 const CompanyInfo = styled.div`
@@ -231,7 +212,7 @@ const CompanyName = styled.p`
     margin-bottom: 0px;
 `;
 const CompanyInOut = styled.p`
-    font-family: mainFont;
+    font-family: 'Arita';
     margin-top: 0px;
     margin-bottom: 4%;
     font-size: ${({ theme }) => theme.fonts.smallFontSize};
@@ -243,9 +224,8 @@ const CompanyImage = styled.img`
 `;
 
 const ProjectBox = styled.div`
-    padding: 12px;
-    color: ${({ $isActive }) => ($isActive ? 'rgb(0, 255, 255);' : 'white')};
-    transform: ${({ $isActive }) => ($isActive ? 'scale(1.1)' : 0)};
+    color: ${({ $isActive }) => ($isActive ? 'rgba(230, 27, 57, 1)' : 'white')};
+    transform: ${({ $isActive }) => ($isActive ? 'scale(1.14)' : 0)};
     &:hover {
         transform: scale(1.1);
         cursor: pointer;
@@ -262,11 +242,13 @@ const ProjectName = styled.span`
     text-decoration-thickness: 1px;
     margin-left: 8px;
     font-weight: bolder;
+    font-size: ${({ theme }) => theme.fonts.normalFontSize};
 `;
 
 const ProjectInOut = styled.p`
     margin-top: 2px;
-    font-family: mainFont;
+    margin-left: 8%;
+    font-family: 'Arita';
 `;
 
 const MotionBox = styled(motion.div)``;

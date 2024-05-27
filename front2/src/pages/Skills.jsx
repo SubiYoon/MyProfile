@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { currentPageState, stackState } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Skills = () => {
     const currentPage = useRecoilValue(currentPageState);
@@ -38,19 +38,13 @@ const Skills = () => {
     }, [stackData]);
 
     return (
-        <>
-            <SideSpacer $currentPage={currentPage} />
+        <AnimatePresence>
             <SkilsWapper
-                initial={{
-                    opacity: currentPage === 3 ? 0 : 1,
-                    y: 20,
-                    rotateY: currentPage === 3 ? 90 : 0,
-                }}
-                animate={{
-                    opacity: currentPage !== 3 ? 0 : 1,
-                    rotateY: currentPage !== 3 ? 90 : 0,
-                }}
-                transition={{ delay: 0.3, duration: 0.4 }}
+                key="skills"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 3.4 }}
             >
                 <TitleContainer>
                     <TitleHeader>
@@ -88,34 +82,38 @@ const Skills = () => {
                     })}
                 </SkillsContainer>
             </SkilsWapper>
-            <SideSpacer $currentPage={currentPage} />
-        </>
+        </AnimatePresence>
     );
 };
 
 export default Skills;
 
 const SkilsWapper = styled(motion.div)`
+    width: 86%;
     display: flex;
     flex-direction: column;
-    width: 80%;
     position: absolute;
-    top: 0;
-    font-family: 'mainFont';
+    top: 4%;
+
+    font-family: 'Pretendard';
+    color: white;
 `;
 const TitleContainer = styled.div`
-    padding: 24px;
+    padding: 1.4%;
     display: flex;
     height: 60px;
-    background-color: ${({ theme }) => theme.backgroundColors.black};
-    border-radius: 12px;
+    color: white;
     align-items: center;
-    margin-bottom: 32px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-style: solid;
+    border-radius: 12px;
+    margin-bottom: 3%;
+    position: relative; /* 가상 요소의 위치를 조정하기 위해 필요합니다 */
 `;
 
 const TitleHeader = styled.p`
     font-size: ${({ theme }) => theme.fonts.largeFontSize};
-    width: 320px;
+    width: 16%;
 `;
 
 const TitleSkills = styled.p`
@@ -130,27 +128,26 @@ const TitleSkills = styled.p`
     text-underline-offset: 8px;
     text-decoration-thickness: 2px;
     &:hover {
+        transition: 0.4s;
         cursor: pointer;
         font-size: ${({ theme }) => theme.fonts.largeFontSize};
-        text-decoration-line: underline;
     }
 `;
 
 const SkillsContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    font-family: 'profileFont';
+    font-family: 'Pretendard';
 `;
 
 const SkillBox = styled.div`
     position: ${({ $isActive }) => ($isActive ? 'relative' : 'absolute')};
     width: 30%;
-    height: 260px;
-    background-color: ${({ theme }) => theme.backgroundColors.black};
+
     border-style: solid;
-    border-color: white;
     border-radius: 16px;
     margin: 16px;
+    background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     transition:
         transform 0.6s ease,
@@ -161,6 +158,7 @@ const SkillBox = styled.div`
     //사라질때 효과 숨김
     visibility: ${({ $isActive }) => ($isActive ? 'visible' : 'hidden')};
     &:hover {
+        transition: 0.6s;
         transform: scale(1.2);
         cursor: pointer;
         z-index: 1;
@@ -175,7 +173,7 @@ const StackImage = styled.img`
     border-radius: 16px;
     border-style: solid;
     transform: rotate(-10deg);
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.92);
 `;
 
 const SkillName = styled.p`
@@ -191,15 +189,4 @@ const SkillDetail = styled.p`
     text-align: left;
     padding: 20px;
     font-size: ${({ theme }) => theme.fonts.normalFontSize};
-`;
-
-const SideSpacer = styled.div`
-    width: 10%;
-    background-color: rgba(0, 0, 0, 0.6);
-    transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    transform-style: preserve-3d;
-    transform: ${({ $currentPage }) =>
-        $currentPage === 3 ? 'rotateY(0deg)' : 'rotateY(90deg)'};
 `;

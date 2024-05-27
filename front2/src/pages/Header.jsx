@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Route } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentPageState } from '@/recoil.js';
 
 const Header = ({ text, gb }) => {
-    const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+    const currentPage = useRecoilValue(currentPageState);
     const [typedText, setTypedText] = useState('');
     const [textIndex, setTextIndex] = useState(0);
     const [subTextTyped, setSubTextTyped] = useState(false);
 
+    const mainContent = text.split('||');
+
+    const subText = mainContent[1];
+
     //텍스트 타이핑 효과
     useEffect(() => {
-        let mainTextToType = text;
+        let mainTextToType = mainContent[0];
+
         let typingTimer;
 
         typingTimer = setTimeout(() => {
@@ -35,7 +40,7 @@ const Header = ({ text, gb }) => {
                 <>
                     <MainText>{typedText}</MainText>
                     <MainText2 $subTextTyped={subTextTyped}>
-                        PORTFOLIO
+                        {subText}
                     </MainText2>
                 </>
             ) : (
@@ -49,7 +54,7 @@ export default Header;
 
 const MainText = styled.div`
     width: 100%;
-    font-family: 'mainFont';
+    font-family: 'Freesentation';
     font-weight: bolder;
     font-size: ${({ theme }) => theme.fonts.firstMainFontSize};
     text-align: left;
@@ -57,9 +62,9 @@ const MainText = styled.div`
 
 const MainText2 = styled.div`
     width: 100%;
+    color: rgba(230, 27, 57, 1);
     margin-top: 60px;
     font-weight: bolder;
-    font-size: 12rem;
     font-size: ${({ theme }) => theme.fonts.firstMainFontSize};
     text-align: right;
     transition: transform 1s ease;

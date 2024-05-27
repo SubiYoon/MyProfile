@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { color, motion } from 'framer-motion';
 import ReactModal from 'react-modal';
 import DetailModal from '@/components/DetailModal.jsx';
 import { AiFillCloseCircle } from 'react-icons/ai';
 
-const DetailProject = ({ clickProjectItem, userGb }) => {
+const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
     const [hoveredImage, setHoveredImage] = useState(null);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -14,23 +14,38 @@ const DetailProject = ({ clickProjectItem, userGb }) => {
     const [detailTitle, setDetailTitle] = useState(null);
 
     // 각 카테고리별 스택 그룹화
-    const stackGroups = {};
-    clickProjectItem?.stackList.forEach((item) => {
-        if (!stackGroups[item.category]) {
-            stackGroups[item.category] = [];
-        }
-        stackGroups[item.category].push(item);
-    });
+    const stackGroups = useMemo(() => {
+        const groups = {};
+        clickProjectItem?.stackList.forEach((item) => {
+            if (!groups[item.category]) {
+                groups[item.category] = [];
+            }
+            groups[item.category].push(item);
+        });
+        return groups;
+    }, [clickProjectItem]);
 
     // 카테고리 정렬
-    // const sortedCategories = Object.keys(stackGroups).sort();
-    console.log('스택그룹', stackGroups);
+    const sortedCategories = useMemo(() => {
+        return Object.keys(stackGroups).sort((a, b) => {
+            return (
+                stackGroups[b][0].categoryLevel -
+                stackGroups[a][0].categoryLevel
+            );
+        });
+    }, [stackGroups]);
 
-    const sortedCategories = Object.keys(stackGroups).sort((a, b) => {
-        return (
-            stackGroups[b][0].categoryLevel - stackGroups[a][0].categoryLevel
-        );
-    });
+    const openModal = (item) => {
+        setDetailSeq(item.projectDetailSeq);
+        setDetailTitle(item.detailActTitle);
+    };
+
+    const closeModal = () => {
+        setDetailSeq(null);
+        setDetailTitle(null);
+    };
+
+    console.log('스택그룹', stackGroups);
 
     return (
         <>
@@ -56,34 +71,47 @@ const DetailProject = ({ clickProjectItem, userGb }) => {
                 <DetailProjectContributeBox>
                     <TitleBox>Purpose</TitleBox>
                     <DetailProjectContribute>
-                        {clickProjectItem?.projectContributeRate}
+                        {clickProjectItem.projectContributeRate
+                            ?.split('.')
+                            .map((sentence, index, array) => (
+                                <div key={index}>
+                                    {sentence.trim()}
+                                    {index !== array.length - 1 && '.'}
+                                </div>
+                            ))}
                     </DetailProjectContribute>
                 </DetailProjectContributeBox>
                 <DetailProjectBox>
-                    <TitleBox>Projects</TitleBox>
-                    {clickProjectItem.projectDetailSemiList.map(
-                        (item, index) => (
-                            <DetailImageBox
-                                key={item.projectDetailSeq}
-                                onMouseEnter={() => setHoveredImage(index)}
-                                onMouseLeave={() => setHoveredImage(null)}
-                                onClick={() => {
-                                    setModalIsOpen(true);
-                                    setDetailSeq(item.projectDetailSeq);
-                                    setDetailTitle(item.detailActTitle);
-                                }}
-                            >
-                                <DetailProjectImage
-                                    src={`/static/detail/${item.image}`}
-                                />
-                                {hoveredImage === index && (
-                                    <DetailProjectTitle>
-                                        {item.detailActTitle}
-                                    </DetailProjectTitle>
-                                )}
-                            </DetailImageBox>
-                        ),
-                    )}
+                    <TitleBox>Detail</TitleBox>
+                    <DetailImageContainer>
+                        {clickProjectItem.projectDetailSemiList.map(
+                            (item, index) => (
+                                <DetailImageBox
+                                    key={item.projectDetailSeq}
+                                    onMouseEnter={() => setHoveredImage(index)}
+                                    onMouseLeave={() => setHoveredImage(null)}
+                                    onClick={() => {
+                                        openModal(item);
+                                        setModalIsOpen(true);
+                                    }}
+                                >
+                                    <DetailProjectImage
+                                        src={`/static/detail/${item.image}`}
+                                    />
+                                    {hoveredImage === index && (
+                                        <>
+                                            <DetailProjectTitle>
+                                                {item.detailActTitle}
+                                            </DetailProjectTitle>
+                                            <DetailProjectClick>
+                                                click
+                                            </DetailProjectClick>
+                                        </>
+                                    )}
+                                </DetailImageBox>
+                            ),
+                        )}
+                    </DetailImageContainer>
                 </DetailProjectBox>
                 <ReactModal
                     isOpen={modalIsOpen}
@@ -119,50 +147,45 @@ const DetailProject = ({ clickProjectItem, userGb }) => {
             </DetailProjectContainer>
         </>
     );
-};
+});
 
 export default DetailProject;
 
-const DetailProjectName = styled(motion.div)`
-    padding: 1%;
-    border-radius: 12px;
-    border-style: solid;
-    border-width: 1px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
-    font-size: ${({ theme }) => theme.fonts.largeFontSize};
-    font-family: 'Impact', sans-serif;
-`;
-
 const DetailProjectContainer = styled.div`
-    margin: 2% 0% 4% 0%;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.8);
-    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
-    padding: 8px;
-    border-radius: 16px;
+    color: black;
+    padding: 6% 0% 2% 0%;
 `;
 
 const StackContainer = styled.div`
-    margin-top: 4%;
-    margin-bottom: 10%;
+    margin-bottom: 5%;
     position: relative;
-    font-family: mainFont;
+    color: white;
+    font-family: 'Pretendard';
+    background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
+    border-radius: 12px;
 `;
 
 const TitleBox = styled(motion.div)`
-    padding: 1%;
+    width: 100%;
+    padding: 0% 0% 0.4% 1%;
     position: absolute;
-    top: -74px;
+    text-align: left;
+    top: -40px;
     left: -26px;
-    border-radius: 12px;
-    border-style: solid;
-    border-width: 1px;
-    background-color: ${({ theme }) => theme.backgroundColors.title};
+    color: ${({ theme }) => theme.colors.red};
     font-size: ${({ theme }) => theme.fonts.mainFontSize};
-    color: white;
-    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
+    font-family: 'Freesentation';
+    &::after {
+        content: '';
+        display: block;
+        width: 90%; /* 하단 경계선의 길이 조절 */
+        height: 2px; /* 경계선의 두께 */
+        background-color: ${({ theme }) =>
+            theme.colors.red}; /* 경계선의 색상 */
+        position: absolute;
+        bottom: 0; /* 하단에 위치 */
+        left: 4.6%; /* 경계선을 중앙으로 정렬 */
+    }
 `;
 
 const CategoryBox = styled.div`
@@ -177,15 +200,15 @@ const CategoryNameBox = styled.div`
 `;
 
 const CategoryName = styled.span`
-    font-size: ${({ theme }) => theme.fonts.mainFontSize};
+    font-size: ${({ theme }) => theme.fonts.normalFontSize};
     font-weight: bolder;
-    font-family: profileFont;
+    font-family: 'NanumSquareNeo';
 `;
 
 const StackBox = styled.div`
     display: flex;
     align-items: center;
-    margin: 1%;
+    margin: 0.8%;
 `;
 
 const StackImg = styled.img`
@@ -196,15 +219,17 @@ const StackImg = styled.img`
 
 const StackList = styled.span`
     margin-left: 10px;
-    font-size: ${({ theme }) => theme.fonts.normalFontSize};
-    color: white;
+    font-size: ${({ theme }) => theme.fonts.smallFontSize};
 `;
 
 const DetailProjectContributeBox = styled.div`
     position: relative;
-    padding: 2%;
+    background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
+    border-radius: 12px;
+    color: white;
     text-align: left;
-    margin-bottom: 8%;
+    padding: 1%;
+    margin-bottom: 5%;
 `;
 
 const DetailProjectContribute = styled.span`
@@ -213,42 +238,65 @@ const DetailProjectContribute = styled.span`
 
 const DetailProjectBox = styled.div`
     position: relative;
+`;
+
+const DetailImageContainer = styled.div`
+    background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
     display: flex;
+    border-radius: 12px;
     flex-wrap: wrap;
-    padding: 2%;
+    width: 100%;
+    height: 100%;
+    padding: 1% 0% 1% 0%;
 `;
 
 const DetailImageBox = styled.div`
     display: flex;
+    border-radius: 12px;
+    margin: 0 0px 0 10px;
     position: relative;
-    width: 50%;
+    width: 32.3%;
     &:hover {
-        transform: scale(1.1);
+        transform: scale(1.2);
         cursor: pointer;
         transition: transform 0.3s ease;
         z-index: 1;
     }
+    overflow: hidden;
 `;
 
 const DetailProjectImage = styled.img`
     width: 100%;
-    height: 460px;
+    height: 380px;
 `;
 
 const DetailProjectTitle = styled.div`
-    width: 90%;
+    width: 100%;
     position: absolute;
-    top: 8%;
+    top: 4%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 1%;
-    border-radius: 12px;
-    border-style: solid;
-    border-width: 1px;
-    background-color: ${({ theme }) => theme.backgroundColors.title};
+
+    background-color: ${({ theme }) => theme.backgroundColors.black};
     font-size: ${({ theme }) => theme.fonts.normalFontSize};
-    color: white;
-    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
+    color: ${({ theme }) => theme.colors.white};
+    //box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
+    z-index: 1;
+`;
+
+const DetailProjectClick = styled.div`
+    width: 100%;
+    position: absolute;
+    top: 96%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1%;
+
+    background-color: ${({ theme }) => theme.backgroundColors.black};
+    font-size: ${({ theme }) => theme.fonts.normalFontSize};
+    color: ${({ theme }) => theme.colors.red};
+    //box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
     z-index: 1;
 `;
 
@@ -259,6 +307,7 @@ const MotionOverlay = styled(motion.div)`
     left: 0;
     right: 0;
     bottom: 0;
+    background-color: ${({ theme }) => theme.backgroundColors.black};
 `;
 
 const MotionContent = styled(motion.div)`
@@ -283,7 +332,7 @@ const ModalHeader = styled.div`
     text-align: center;
     font-weight: bolder;
     text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.26);
-    font-family: 'mainFont';
+    font-family: 'Pretendard';
 `;
 
 const CloseButtonContainer = styled.div`

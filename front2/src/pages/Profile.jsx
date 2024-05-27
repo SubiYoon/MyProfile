@@ -8,15 +8,14 @@ import {
     profileState,
 } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const Profile = () => {
-    //프로필 정보
+const Profile = React.memo(() => {
+    // 프로필 정보
     const profileData = useRecoilValue(profileState);
-    //스킬 정보
+    // 스킬 정보
     const stackData = useRecoilValue(stackState);
     const currentPage = useRecoilValue(currentPageState);
-    const apiData = useRecoilValue(apiState);
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -32,100 +31,102 @@ const Profile = () => {
 
     return (
         <>
-            <ProfileWrapper
-                initial={{
-                    opacity: currentPage === 2 ? 0 : 1,
-                    y: 20,
-                    rotateY: currentPage === 2 ? 90 : 0,
-                }}
-                animate={{
-                    opacity: currentPage !== 2 ? 0 : 1,
-                    rotateY: currentPage !== 2 ? 90 : 0,
-                }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-            >
-                <ProfileContainer>
-                    {currentPage === 2 ? (
-                        <ProfileHeader>
-                            <Header
-                                text={profileData.simpleIntroduceMyself}
-                                gb={'profile'}
-                            />
-                        </ProfileHeader>
-                    ) : null}
-                    <ProfileContent>
-                        {profileData.detailIntroduceMyself
-                            ?.split('.')
-                            .map((sentence, index, array) => (
-                                <div key={index}>
-                                    {sentence.trim()}
-                                    {index !== array.length - 1 && '.'}
-                                </div>
-                            ))}
-                    </ProfileContent>
-                </ProfileContainer>
-                <IntroductionContainer>
-                    <HeaderText>ABOUT ME</HeaderText>
-                    <StackImageBox>
-                        {stackData
-                            .filter((item) => item.profileViewYn === 'Y')
-                            .map((item, index) => (
-                                <StackImage
-                                    key={item.stackSeq}
-                                    src={`/static/stack/${item.stackImage}`}
-                                    $index={index}
-                                    style={{
-                                        left: `${(index - currentImageIndex) * 600}px`,
-                                    }}
-                                />
-                            ))}
-                    </StackImageBox>
-                    <AboutContainer>
-                        <ImgBox>
-                            <PhotoBox>
-                                <Photo
-                                    src={`/static/profile/${profileData.image}`}
-                                />
-                            </PhotoBox>
-                        </ImgBox>
-                        <AboutBox>
-                            <NameBox>
-                                <ProfileIcon src="/assets/icons/name.svg" />
-                                <ProfileText>{profileData.name}</ProfileText>
-                            </NameBox>
-                            <NameBox>
-                                <ProfileIcon src="/assets/icons/home.svg" />
-                                <ProfileText>{profileData.addr}</ProfileText>
-                            </NameBox>
-                            <NameBox>
-                                <ProfileIcon src="/assets/icons/email.svg" />
-                                <ProfileText>{profileData.email}</ProfileText>
-                            </NameBox>
-                            <NameBox>
-                                <ProfileIcon src="/assets/icons/git.svg" />
-                                <ProfileLink
-                                    href={profileData.gitHub}
-                                    target="_blank"
-                                >
-                                    {profileData.gitHub}
-                                </ProfileLink>
-                            </NameBox>
-                            <NameBox>
-                                <ProfileIcon src="/assets/icons/blog.svg" />
-                                <ProfileLink
-                                    href={profileData.blog}
-                                    target="_blank"
-                                >
-                                    {profileData.blog}
-                                </ProfileLink>
-                            </NameBox>
-                        </AboutBox>
-                    </AboutContainer>
-                </IntroductionContainer>
-            </ProfileWrapper>
+            <AnimatePresence>
+                <ProfileWrapper
+                    key="profile"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 3.4 }}
+                >
+                    <ProfileContainer className="tests">
+                        {currentPage === 2 ? (
+                            <ProfileHeader>
+                                {profileData.simpleIntroduceMyself}
+                                {/*<Header*/}
+                                {/*    text={profileData.simpleIntroduceMyself}*/}
+                                {/*    gb={'profile'}*/}
+                                {/*/>*/}
+                            </ProfileHeader>
+                        ) : null}
+                        <ProfileContent>
+                            {profileData.detailIntroduceMyself
+                                ?.split(/(?<=[.,])/g) // Split by periods and commas, keeping them in the result
+                                .map((sentence, index) => (
+                                    <div key={index}>{sentence.trim()}</div>
+                                ))}
+                        </ProfileContent>
+                    </ProfileContainer>
+                    <IntroductionContainer>
+                        <HeaderText>ABOUT ME</HeaderText>
+                        <StackImageBox>
+                            {stackData
+                                .filter((item) => item.profileViewYn === 'Y')
+                                .map((item, index) => (
+                                    <StackImage
+                                        key={item.stackSeq}
+                                        src={`/static/stack/${item.stackImage}`}
+                                        $index={index}
+                                        style={{
+                                            left: `${(index - currentImageIndex) * 600}px`,
+                                        }}
+                                    />
+                                ))}
+                        </StackImageBox>
+                        <AboutContainer>
+                            <ImgBox>
+                                <PhotoBox>
+                                    <Photo
+                                        src={`/static/profile/${profileData.image}`}
+                                    />
+                                </PhotoBox>
+                            </ImgBox>
+                            <AboutBox>
+                                <NameBox>
+                                    <ProfileIcon src="/assets/icons/name.svg" />
+                                    <ProfileText>
+                                        {profileData.name}
+                                    </ProfileText>
+                                </NameBox>
+                                <NameBox>
+                                    <ProfileIcon src="/assets/icons/home.svg" />
+                                    <ProfileText>
+                                        {profileData.addr}
+                                    </ProfileText>
+                                </NameBox>
+                                <NameBox>
+                                    <ProfileIcon src="/assets/icons/email.svg" />
+                                    <ProfileText>
+                                        {profileData.email}
+                                    </ProfileText>
+                                </NameBox>
+                                <NameBox>
+                                    <ProfileIcon src="/assets/icons/git.svg" />
+                                    <ProfileLink
+                                        href={profileData.gitHub}
+                                        target="_blank"
+                                    >
+                                        {profileData.gitHub}
+                                    </ProfileLink>
+                                </NameBox>
+                                <NameBox>
+                                    <ProfileIcon src="/assets/icons/blog.svg" />
+                                    <ProfileLink
+                                        href={profileData.blog}
+                                        target="_blank"
+                                    >
+                                        {profileData.blog}
+                                    </ProfileLink>
+                                </NameBox>
+                            </AboutBox>
+                        </AboutContainer>
+                    </IntroductionContainer>
+                </ProfileWrapper>
+            </AnimatePresence>
         </>
     );
-};
+});
+
 export default Profile;
 
 const ProfileWrapper = styled(motion.div)`
@@ -133,19 +134,37 @@ const ProfileWrapper = styled(motion.div)`
     flex-direction: column;
     width: 100%;
     height: 100%;
-    background-color: ${({ theme }) => theme.backgroundColors.main};
-    font-family: 'profileFont';
+    font-family: 'Pretendard';
 `;
 
 const ProfileContainer = styled.div`
     padding: 0% 8% 2% 8%;
-    background-color: ${({ theme }) => theme.backgroundColors.black};
     text-align: center;
+    color: black;
+    position: relative; /* 가상 요소의 위치를 조정하기 위해 필요합니다 */
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        width: 80%;
+        border-top: 2px solid black;
+    }
+
+    &::before {
+        top: 0;
+        transform: translateX(-50%);
+    }
+
+    &::after {
+        bottom: 0;
+        transform: translateX(-50%);
+    }
 `;
 
 const IntroductionContainer = styled.div`
     color: black;
-    background-color: ${({ theme }) => theme.backgroundColors.white};
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -155,8 +174,8 @@ const IntroductionContainer = styled.div`
 
 const ProfileContent = styled.div`
     font-size: ${({ theme }) => theme.fonts.mainFontSize};
-    font-family: 'profileFont';
-    color: white;
+    font-family: 'Pretendard';
+    white-space: nowrap;
 `;
 
 const NameBox = styled.div`
@@ -217,6 +236,7 @@ const Photo = styled.img`
     width: 100%;
     height: 100%;
 `;
+
 const AboutBox = styled.div`
     display: flex;
     float: right;
@@ -232,13 +252,13 @@ const HeaderText = styled.span`
     text-underline-offset: 16px;
     text-decoration-thickness: 4px;
 `;
+
 const ProfileHeader = styled.p`
     text-align: center;
     font-size: ${({ theme }) => theme.fonts.titleFontSize};
     font-weight: bolder;
     text-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
-    font-family: 'profileFont';
-    color: white;
+    font-family: 'Pretendard';
     text-decoration: underline;
     text-underline-offset: 16px;
     text-decoration-thickness: 4px;
