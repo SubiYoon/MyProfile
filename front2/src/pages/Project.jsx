@@ -1,148 +1,133 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentPageState, apiState } from '@/recoil.js';
+import { useRecoilValue } from 'recoil';
+import { careerState, currentPageState } from '@/recoil.js';
 import { styled } from 'styled-components';
-import axiosInstance from '../../axiosInstance.js';
 import { MdOutlineComputer } from 'react-icons/md';
-import { color, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import DetailProject from '@/components/DetailProject.jsx';
 
-const Project = React.memo(({ userGb }) => {
-    const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-    const [careerData, setCareerData] = useState(null);
+const Project = React.memo(({ urlGb }) => {
+    const careerData = useRecoilValue(careerState);
+    const currentPage = useRecoilValue(currentPageState);
 
-    const [clickProject, setClickProject] = useState('');
-    const [activeProject, setActiveProject] = useState('');
+    console.log('프로젝트으으');
+
+    const [activeProject, setActiveProject] = useState();
     const [clickProjectItem, setClickProjectItem] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
     const onClickProject = useMemo(() => {
         return (projectItem) => {
-            setClickProject(projectItem.projectSeq);
             setActiveProject(projectItem.projectSeq);
             setClickProjectItem(projectItem);
         };
     }, []);
 
     useEffect(() => {
-        const fetchProfileData = async () => {
-            try {
-                const response = await axiosInstance.get(
-                    `/api/career/${userGb}`,
-                );
-                console.log('리스폰', response.data);
-                setCareerData(response.data.careers);
-                setClickProject(
-                    response.data.careers[0].projectList[0].projectSeq,
-                );
-                setActiveProject(
-                    response.data.careers[0].projectList[0].projectSeq,
-                );
-                setClickProjectItem(response.data.careers[0].projectList[0]);
-            } catch (error) {
-                console.error('Error fetching menu data:', error);
-            }
-        };
-        fetchProfileData();
-    }, []);
+        if (clickProjectItem && activeProject) {
+            setIsLoading(false); // 로딩 상태 해제
+        }
+    }, [clickProjectItem, activeProject]);
+
+    useEffect(() => {
+        if (careerData && careerData.length > 0) {
+            setActiveProject(careerData[0].projectList[0].projectSeq);
+            setClickProjectItem(careerData[0].projectList[0]);
+        }
+    }, [careerData]);
+
+    if (isLoading) {
+        return <h2>Loading...</h2>;
+    }
 
     return (
         <>
-            {careerData ? (
-                <>
-                    <ProjectWrapper
-                        initial={{
-                            opacity: currentPage === 4 ? 0 : 1,
-                            y: 20,
-                            rotateY: currentPage === 4 ? 90 : 0,
-                        }}
+            <ProjectWrapper>
+                <HeaderContainer
+                    animate={{
+                        y: 0,
+                    }}
+                    transition={{
+                        type: 'spring',
+                        y: {
+                            type: 'tween',
+                            from: -1800,
+                            tp: 0,
+                            duration: 0.7,
+                        },
+                        repeat: 1,
+                    }}
+                >
+                    {careerData.map((careerItem) => (
+                        <LineContainer key={careerItem.careerSeq}>
+                            <LineTop>
+                                <CompanyImage src={careerItem.companyLogo} />
+                                <CompanyInfo>
+                                    <CompanyName>
+                                        {careerItem.company}
+                                    </CompanyName>
+                                    <CompanyInOut>
+                                        {careerItem.in} ~{' '}
+                                        {careerItem.out
+                                            ? careerItem.out
+                                            : 'ing'}
+                                    </CompanyInOut>
+                                </CompanyInfo>
+                            </LineTop>
+                            <LineBox>
+                                {careerItem.projectList.map((projectItem) => (
+                                    <ProjectBox
+                                        key={projectItem.projectSeq}
+                                        $isActive={
+                                            activeProject ===
+                                            projectItem.projectSeq
+                                        }
+                                        onClick={() =>
+                                            onClickProject(projectItem)
+                                        }
+                                    >
+                                        <MdOutlineComputer />
+                                        <ProjectName
+                                            $isActive={
+                                                activeProject ===
+                                                projectItem.projectSeq
+                                            }
+                                        >
+                                            {'' + projectItem.projectName}
+                                        </ProjectName>
+                                        <ProjectInOut>
+                                            {projectItem.projectTerm}
+                                        </ProjectInOut>
+                                    </ProjectBox>
+                                ))}
+                            </LineBox>
+                        </LineContainer>
+                    ))}
+                </HeaderContainer>
+                <ProjectContainer>
+                    <MotionBox
+                        key={clickProjectItem?.projectSeq}
                         animate={{
-                            opacity: currentPage !== 4 ? 0 : 1,
-                            rotateY: currentPage !== 4 ? 90 : 0,
+                            x: 0,
                         }}
-                        transition={{ delay: 0.3, duration: 0.4 }}
+                        transition={{
+                            type: 'spring',
+                            x: {
+                                type: 'tween',
+                                from: 1800,
+                                tp: 0,
+                                duration: 0.7,
+                            },
+                            repeat: 1,
+                        }}
                     >
-                        <HeaderContainer>
-                            {careerData.map((careerItem) => (
-                                <LineContainer key={careerItem.careerSeq}>
-                                    <LineTop>
-                                        <CompanyImage
-                                            src={careerItem.companyLogo}
-                                        />
-                                        <CompanyInfo>
-                                            <CompanyName>
-                                                {careerItem.company}
-                                            </CompanyName>
-                                            <CompanyInOut>
-                                                {careerItem.in} ~{' '}
-                                                {careerItem.out
-                                                    ? careerItem.out
-                                                    : 'ing'}
-                                            </CompanyInOut>
-                                        </CompanyInfo>
-                                    </LineTop>
-                                    <LineBox>
-                                        {careerItem.projectList.map(
-                                            (projectItem) => (
-                                                <ProjectBox
-                                                    key={projectItem.projectSeq}
-                                                    $isActive={
-                                                        activeProject ===
-                                                        projectItem.projectSeq
-                                                    }
-                                                    onClick={() =>
-                                                        onClickProject(
-                                                            projectItem,
-                                                        )
-                                                    }
-                                                >
-                                                    <MdOutlineComputer />
-                                                    <ProjectName
-                                                        $isActive={
-                                                            activeProject ===
-                                                            projectItem.projectSeq
-                                                        }
-                                                    >
-                                                        {'' +
-                                                            projectItem.projectName}
-                                                    </ProjectName>
-                                                    <ProjectInOut>
-                                                        {
-                                                            projectItem.projectTerm
-                                                        }
-                                                    </ProjectInOut>
-                                                </ProjectBox>
-                                            ),
-                                        )}
-                                    </LineBox>
-                                </LineContainer>
-                            ))}
-                        </HeaderContainer>
-                        <ProjectContainer>
-                            <MotionBox
-                                key={clickProjectItem?.projectSeq}
-                                animate={{
-                                    x: 0,
-                                }}
-                                transition={{
-                                    type: 'spring',
-                                    x: {
-                                        type: 'tween',
-                                        from: 1800,
-                                        tp: 0,
-                                        duration: 0.7,
-                                    },
-                                    repeat: 1,
-                                }}
-                            >
-                                <DetailProject
-                                    clickProjectItem={clickProjectItem}
-                                    userGb={userGb}
-                                />
-                            </MotionBox>
-                        </ProjectContainer>
-                    </ProjectWrapper>
-                </>
-            ) : null}
+                        <DetailProject
+                            clickProjectItem={clickProjectItem}
+                            userGb={urlGb}
+                        />
+                    </MotionBox>
+                </ProjectContainer>
+            </ProjectWrapper>
         </>
     );
 });
@@ -152,23 +137,21 @@ export default Project;
 const ProjectWrapper = styled(motion.div)`
     display: flex;
     font-family: 'Pretendard';
-    padding: 0% 2% 0% 2%;
     position: absolute;
-    width: 100%;
-    top: -2.4%;
-    left: 0%;
+    top: 0;
+    width: 88%;
 `;
 
 const HeaderContainer = styled(motion.div)`
     display: flex;
     white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    border-radius: 12px;
     padding: 1% 1% 0 1%;
     background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
 `;
 
 const ProjectContainer = styled(motion.div)`
     color: black;
-    width: 68%;
     padding: 0 2% 0 2%;
     flex-direction: column;
     text-align: center;
@@ -188,13 +171,12 @@ const LineBox = styled.div`
 `;
 const LineTop = styled.div`
     background-color: rgba(228, 225, 220, 1);
-    border-style: solid;
     display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
     color: black;
-    top: 6px;
+    top: 1%;
     border-radius: 12px;
     left: -3%;
 `;

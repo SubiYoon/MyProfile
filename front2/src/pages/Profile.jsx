@@ -19,6 +19,10 @@ const Profile = React.memo(() => {
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+    if (!profileData || !stackData) {
+        return <h2>Loading...</h2>;
+    }
+
     // 이미지 슬라이딩
     useEffect(() => {
         const interval = setInterval(() => {
@@ -32,23 +36,11 @@ const Profile = React.memo(() => {
     return (
         <>
             <AnimatePresence>
-                <ProfileWrapper
-                    key="profile"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 3.4 }}
-                >
+                <ProfileWrapper>
                     <ProfileContainer className="tests">
-                        {currentPage === 2 ? (
-                            <ProfileHeader>
-                                {profileData.simpleIntroduceMyself}
-                                {/*<Header*/}
-                                {/*    text={profileData.simpleIntroduceMyself}*/}
-                                {/*    gb={'profile'}*/}
-                                {/*/>*/}
-                            </ProfileHeader>
-                        ) : null}
+                        <ProfileHeader>
+                            {profileData.simpleIntroduceMyself}
+                        </ProfileHeader>
                         <ProfileContent>
                             {profileData.detailIntroduceMyself
                                 ?.split(/(?<=[.,])/g) // Split by periods and commas, keeping them in the result
@@ -142,18 +134,12 @@ const ProfileContainer = styled.div`
     color: black;
     position: relative; /* 가상 요소의 위치를 조정하기 위해 필요합니다 */
 
-    &::before,
     &::after {
         content: '';
         position: absolute;
         left: 50%;
         width: 80%;
         border-top: 2px solid black;
-    }
-
-    &::before {
-        top: 0;
-        transform: translateX(-50%);
     }
 
     &::after {
@@ -187,6 +173,15 @@ const ProfileText = styled.span``;
 
 const ProfileLink = styled.a`
     text-decoration-line: none;
+    &:visited {
+        color: black; /* 방문한 링크의 색상 */
+    }
+    &:hover {
+        color: ${({ theme }) => theme.colors.red};
+    }
+    &:active {
+        color: black; /* 클릭한 후 색상 */
+    }
 `;
 
 const ProfileIcon = styled.img`

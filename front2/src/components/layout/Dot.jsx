@@ -68,8 +68,7 @@ const Dot = ({ onMenuClick }) => {
     };
 
     return (
-        <>
-            {/*<ButtonBox>{menuButtons()}</ButtonBox>*/}
+        <DotContainer>
             <DotBox>{dotButtons()}</DotBox>
             <IconBox
                 nitial={{ y: 0 }} // 초기 위치
@@ -88,11 +87,19 @@ const Dot = ({ onMenuClick }) => {
                     />
                 )}
             </IconBox>
-        </>
+        </DotContainer>
     );
 };
 
 export default Dot;
+
+const DotContainer = styled.div`
+    position: fixed;
+    top: 40%;
+    right: 3%;
+    width: 10%;
+    font-family: 'Freesentation';
+`;
 
 const MenuButton = styled.span`
     display: ${({ $currentPage, $num }) =>
@@ -141,6 +148,7 @@ const Dots = styled(motion.div)`
     }
 `;
 const IconBox = styled(motion.div)`
+    right: 3%;
     width: 60px;
     height: 60px;
     bottom: 18%;
