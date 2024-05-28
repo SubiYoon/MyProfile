@@ -21,6 +21,11 @@ export const stackState = atom({
     default: [],
 });
 
+export const careerState = atom({
+    key: 'careerState',
+    default: null,
+});
+
 export const apiState = atom({
     key: 'apiState',
     default: null,

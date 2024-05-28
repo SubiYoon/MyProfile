@@ -7,29 +7,35 @@ import Home from '@/pages/Home.jsx';
 import Profile from '@/pages/Profile.jsx';
 import Skills from '@/pages/Skills.jsx';
 import Project from '@/pages/Project.jsx';
+import Dot from '@/components/layout/Dot.jsx';
 
-const Border = React.forwardRef(({ children, urlGb }, ref) => {
+const pageContents = [
+    { id: 1, component: Home },
+    { id: 2, component: Profile },
+    { id: 3, component: Skills },
+    { id: 4, component: Project },
+];
+
+const Border = React.forwardRef(({ urlGb }, ref) => {
+    console.log('보더');
+
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
     const [backgroundColor, setBackgroundColor] = useState(null);
     const [previousBackgroundColor, setPreviousBackgroundColor] =
         useState(null);
     const [isAnimating, setIsAnimating] = useState(true);
     const prevPageRef = useRef(currentPage);
-    const containerRef = useRef(null);
-
-    const pageContents = {
-        1: <Home urlGb={urlGb} />,
-        2: <Profile />,
-        3: <Skills />,
-        4: <Project userGb={urlGb} />,
-    };
+    const outerDivRef = useRef(null);
+    const sectionRefs = Array.from({ length: pageContents.length }, () =>
+        useRef(null),
+    );
 
     useEffect(() => {
         const colorMap = {
             1: 'black',
             2: 'white',
             3: 'gray',
-            4: 'test',
+            4: 'beige',
         };
 
         setPreviousBackgroundColor(backgroundColor);
@@ -38,54 +44,72 @@ const Border = React.forwardRef(({ children, urlGb }, ref) => {
         prevPageRef.current = currentPage;
     }, [currentPage]);
 
-    const fromY = currentPage > prevPageRef.current ? 1400 : -1400;
-    const toY = currentPage > prevPageRef.current ? -1400 : 1400;
+    useEffect(() => {
+        const scrollHandler = () => {
+            if (!outerDivRef.current) return;
+            const { scrollTop, scrollHeight, clientHeight } =
+                outerDivRef.current;
+            const scrollFraction = scrollTop / (scrollHeight - clientHeight);
+            const totalPages = pageContents.length;
+            let newPage;
 
-    const handleWheel = (event) => {
-        const container = containerRef.current;
-        if (container) {
-            const { clientHeight, scrollHeight, scrollTop } = container;
-            const isScrollable = scrollHeight > clientHeight;
-
-            const isTop = scrollTop === 0 && event.deltaY < 0;
-            const isBottom =
-                scrollTop + clientHeight >= scrollHeight && event.deltaY > 0;
-
-            if (!isScrollable || isTop || isBottom) {
-                prevPageRef.current = currentPage;
-                const newPage = currentPage + (event.deltaY > 0 ? 1 : -1);
-                if (newPage >= 1 && newPage <= 4) {
-                    setCurrentPage(newPage);
-                }
+            if (scrollTop === 0) {
+                newPage = 1;
+            } else {
+                newPage = Math.ceil(scrollFraction * totalPages);
             }
-        }
-    };
+
+            if (newPage !== currentPage) {
+                setCurrentPage(newPage);
+            }
+        };
+
+        const outerDivRefCurrent = outerDivRef.current;
+        if (!outerDivRefCurrent) return;
+        outerDivRefCurrent.addEventListener('scroll', scrollHandler);
+        return () => {
+            outerDivRefCurrent.removeEventListener('scroll', scrollHandler);
+        };
+    }, [currentPage, setCurrentPage]);
+
+    const fromY = currentPage > prevPageRef.current ? 800 : -800;
+    const toY = currentPage > prevPageRef.current ? -1000 : 800;
 
     const handleAnimationComplete = () => {
         setIsAnimating(false);
     };
 
+    const handleMenuClick = (page) => {
+        setCurrentPage(page);
+        sectionRefs[page - 1].current.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
-        <Wrapper key={currentPage} onWheel={handleWheel}>
+        <Wrapper ref={outerDivRef}>
             <Background
+                key={`${currentPage}_previous`}
                 $color={previousBackgroundColor}
                 exit={{ y: toY }}
                 transition={{ duration: 0.6 }}
             />
             <Background
+                key={`${currentPage}_current`}
                 $color={backgroundColor}
                 initial={{ y: fromY }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6 }}
                 onAnimationComplete={handleAnimationComplete}
             />
-            <AnimatePresence initial={false} custom={null} mode="wait">
-                {!isAnimating && (
-                    <Container ref={containerRef} className="contentContainer">
-                        {pageContents[currentPage]}
-                    </Container>
-                )}
+            <AnimatePresence initial={false} custom={null}>
+                {pageContents.map(({ id, component }, index) => (
+                    <Section key={id} ref={sectionRefs[index]}>
+                        <Container $currentPage={currentPage} id={id}>
+                            {React.createElement(component, { urlGb })}
+                        </Container>
+                    </Section>
+                ))}
             </AnimatePresence>
+            <Dot onMenuClick={handleMenuClick} />
         </Wrapper>
     );
 });
@@ -93,18 +117,23 @@ const Border = React.forwardRef(({ children, urlGb }, ref) => {
 export default Border;
 
 const Wrapper = styled.div`
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto;
+`;
+
+const Section = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     color: white;
     position: relative;
-    overflow: hidden;
 `;
 
 const Background = styled(motion.div)`
-    position: absolute;
+    position: fixed; /* 수정된 부분 */
     top: 0;
     left: 0;
     width: 100%;
@@ -118,12 +147,8 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    position: absolute;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-        display: none;
-    }
+    max-width: 100%;
+    height: auto;
+    opacity: ${({ $currentPage, id }) => ($currentPage === id ? 1 : 0)};
+    transition: opacity 0.5s ease;
 `;

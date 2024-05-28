@@ -83,7 +83,7 @@ const DetailModal = ({ detailSeq, userGb }) => {
                                             type: 'tween',
                                             from: countGb ? 1800 : -1800,
                                             tp: 0,
-                                            duration: 0.3,
+                                            duration: 0.5,
                                         },
                                         repeat: 1,
                                     }}
@@ -121,8 +121,8 @@ export default DetailModal;
 
 const ModalWrapper = styled.div`
     display: flex;
-    color: white;
-    font-family: 'NanumSquareNeo';
+    color: black;
+    font-family: 'Pretendard';
     padding: 2%;
 `;
 
@@ -132,34 +132,41 @@ const ModalImgBox = styled.div`
     width: 50%;
     height: 100%;
     overflow: hidden;
+    background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
+    border-radius: 12px;
 `;
 
 const DetailProjectImageWrapper = styled.div`
-    width: 99%;
+    display: flex;
+    width: 94%;
     padding-top: 100%;
     position: relative;
+    margin: auto;
 `;
 
 const DetailProjectImage = styled(motion.img)`
     position: absolute;
+    border-radius: 12px;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
+    top: 2%;
     object-fit: cover; /* 이미지를 부모 요소에 맞게 크기 조정하되 비율을 유지 */
 `;
 
 const IconBox = styled.div`
     display: flex;
-    font-size: ${({ theme }) => theme.fonts.largeFontSize};
-    margin-top: 4%;
+    font-size: ${({ theme }) => theme.fonts.titleFontSize};
+    margin-top: 3%;
+    margin-bottom: 1%;
     justify-content: center;
     align-items: center;
+    color: rgba(228, 225, 220, 1);
 `;
 
 const Count = styled.span`
     font-family: 'Arita';
-    font-size: ${({ theme }) => theme.fonts.normalFontSize};
+    color: rgba(228, 225, 220, 1);
+    font-size: ${({ theme }) => theme.fonts.mainFontSize};
 `;
 
 const ModalFontBox = styled.div`
@@ -171,13 +178,14 @@ const ModalFontBox = styled.div`
 
 const ModalCont = styled.span`
     text-align: left;
-    font-size: ${({ theme }) => theme.fonts.normalFontSize};
+    font-size: ${({ theme }) => theme.fonts.mainFontSize};
 `;
 
 const PrevIcon = styled(GrFormPrevious)`
     &:hover {
         transform: scale(1.2);
         cursor: pointer;
+        transition: 0.4s;
     }
 `;
 
@@ -185,5 +193,6 @@ const NextIcon = styled(GrFormNext)`
     &:hover {
         transform: scale(1.2);
         cursor: pointer;
+        transition: 0.4s;
     }
 `;

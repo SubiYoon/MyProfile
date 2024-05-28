@@ -6,12 +6,17 @@ import Header from '@/pages/Header.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Skills = () => {
+    console.log('스킬 페이지');
     const currentPage = useRecoilValue(currentPageState);
     const stackData = useRecoilValue(stackState);
 
     const [clickSkill, setClickSkill] = useState('');
     const [activeSkill, setActiveSkill] = useState('');
     const [displayCheck, setDisplayCheck] = useState('');
+
+    if (!stackData) {
+        return <h2>Loading...</h2>;
+    }
 
     const categories = new Set();
     let skills = [];
@@ -39,13 +44,7 @@ const Skills = () => {
 
     return (
         <AnimatePresence>
-            <SkilsWapper
-                key="skills"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 3.4 }}
-            >
+            <SkilsWapper>
                 <TitleContainer>
                     <TitleHeader>
                         {currentPage === 3 ? (
@@ -89,19 +88,17 @@ const Skills = () => {
 export default Skills;
 
 const SkilsWapper = styled(motion.div)`
-    width: 86%;
+    width: 88%;
     display: flex;
     flex-direction: column;
     position: absolute;
     top: 4%;
-
     font-family: 'Pretendard';
     color: white;
 `;
 const TitleContainer = styled.div`
-    padding: 1.4%;
+    padding: 0.2% 2% 0.2% 2%;
     display: flex;
-    height: 60px;
     color: white;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.8);
@@ -142,8 +139,7 @@ const SkillsContainer = styled.div`
 
 const SkillBox = styled.div`
     position: ${({ $isActive }) => ($isActive ? 'relative' : 'absolute')};
-    width: 30%;
-
+    width: 30.9%;
     border-style: solid;
     border-radius: 16px;
     margin: 16px;

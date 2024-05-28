@@ -122,25 +122,25 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
                     className="customContent"
                 >
                     <MotionOverlay
-                        initial={{ opacity: 0, scale: 0.5 }}
+                        initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{
                             duration: 0.8,
-                            delay: 0.5,
+                            delay: 0.4,
                             ease: [0, 0.71, 0.2, 1.01],
                         }}
                     >
                         <MotionContent>
-                            <ModalHeader>{detailTitle}</ModalHeader>
+                            <ModalHeader>
+                                {detailTitle}
+                                <CloseIcon
+                                    onClick={() => setModalIsOpen(false)}
+                                />
+                            </ModalHeader>
                             <DetailModal
                                 detailSeq={detailSeq}
                                 userGb={userGb}
                             />
-                            <CloseButtonContainer>
-                                <CloseIcon
-                                    onClick={() => setModalIsOpen(false)}
-                                />
-                            </CloseButtonContainer>
                         </MotionContent>
                     </MotionOverlay>
                 </ReactModal>
@@ -153,7 +153,7 @@ export default DetailProject;
 
 const DetailProjectContainer = styled.div`
     color: black;
-    padding: 6% 0% 2% 0%;
+    padding: 4% 0% 2% 0%;
 `;
 
 const StackContainer = styled.div`
@@ -208,7 +208,7 @@ const CategoryName = styled.span`
 const StackBox = styled.div`
     display: flex;
     align-items: center;
-    margin: 0.8%;
+    margin: 0.6%;
 `;
 
 const StackImg = styled.img`
@@ -307,27 +307,30 @@ const MotionOverlay = styled(motion.div)`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: ${({ theme }) => theme.backgroundColors.black};
+    background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
 `;
 
 const MotionContent = styled(motion.div)`
     min-width: 70%;
+
     z-index: 150;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 10px;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
-    background-color: ${({ theme }) => theme.backgroundColors.modal};
+    border-radius: 12px;
+    background-color: ${({ theme }) => theme.backgroundColors.beige};
     justify-content: center;
-    border-color: ${({ theme }) => theme.backgroundColors.main};
     border-style: solid;
+    border-color: rgba(228, 225, 220, 1);
 `;
 
 const ModalHeader = styled.div`
-    background-color: ${({ theme }) => theme.backgroundColors.main};
-    padding: 1%;
+    background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
+    padding: 2%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
     font-size: ${({ theme }) => theme.fonts.largeFontSize};
     text-align: center;
     font-weight: bolder;
@@ -335,17 +338,14 @@ const ModalHeader = styled.div`
     font-family: 'Pretendard';
 `;
 
-const CloseButtonContainer = styled.div`
-    position: absolute;
-    top: 2.4%;
-    right: 2%;
-    z-index: 100;
-`;
-
 const CloseIcon = styled(AiFillCloseCircle)`
+    float: right;
     font-size: ${({ theme }) => theme.fonts.largeFontSize};
+    color: ${({ theme }) => theme.colors.beige};
     &:hover {
         cursor: pointer;
+        transform: scale(1.1);
+        transition: 0.4s;
     }
 }
 
