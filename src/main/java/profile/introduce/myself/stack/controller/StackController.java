@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("stack/{alias}")
+@RequestMapping("/stack/{alias}")
 public class StackController {
 }
