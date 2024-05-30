@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="profile.introduce.myself.education.mapper.EducationMapper">
+    <select id="getEducationList" resultType="profile.introduce.myself.education.vo.EducationVo">
+        SELECT EDU_SEQ,
+               ALIAS,
+               EDU_COMPANY,
+               EDU_COMPANY_LOGO,
+               EDU_START_DATE,
+               EDU_END_DATE,
+               EUD_NAME,
+               EDU_LEVEL,
+               EDU_ACHIEVEMENT,
+               EDU_UNDERSTANDING,
+               REGIST_TS,
+               UPDATE_TS
+        FROM EDUCATION
+        WHERE ALIAS = #{alias}
+    </select>
+</mapper>
