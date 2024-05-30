@@ -14,7 +14,7 @@
         <result property="outLevel" column="OUT_LEVEL"/>
         <result property="registTs" column="REGIST_TS"/>
         <result property="updateTs" column="UPDATE_TS"/>
-        <collection property="projectList" select="selectProjectList" ofType="projectVo" javaType="list" column="alias = ALIAS"/>
+        <collection property="projectList" select="selectProjectList" ofType="projectVo" javaType="list" column="career_seq = CAREER_SEQ"/>
     </resultMap>
     <select id="getCareerList" resultMap="projectList">
         SELECT A.CAREER_SEQ,
@@ -43,7 +43,6 @@
                B.REGIST_TS,
                B.UPDATE_TS
         FROM PROJECT B
-        WHERE B.ALIAS = #{alias}
-
+        WHERE B.CAREER_SEQ = #{career_seq}
     </select>
 </mapper>
