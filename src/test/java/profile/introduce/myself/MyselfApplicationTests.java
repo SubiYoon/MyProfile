@@ -1,9 +1,8 @@
 package profile.introduce.myself;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import profile.introduce.myself.career.service.CareerService;
+import profile.introduce.myself.education.mapper.EducationMapper;
 
 import java.security.MessageDigest;
 
@@ -11,7 +10,7 @@ import java.security.MessageDigest;
 class MyselfApplicationTests {
 
     @Autowired
-    CareerService careerService;
+    EducationMapper educationMapper;
 
     public String encode(CharSequence rawPassword) {
         MessageDigest md = null;
@@ -29,8 +28,7 @@ class MyselfApplicationTests {
         return sb.toString();
     }
 
-    @Test
     public void test(){
-        System.out.println(encode("parkjs"));
+        System.out.println(educationMapper.getEducationList("ABCD"));
     }
 }
