@@ -10,8 +10,6 @@ const Project = React.memo(({ urlGb }) => {
     const careerData = useRecoilValue(careerState);
     const currentPage = useRecoilValue(currentPageState);
 
-    console.log('프로젝트으으');
-
     const [activeProject, setActiveProject] = useState();
     const [clickProjectItem, setClickProjectItem] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -23,6 +21,21 @@ const Project = React.memo(({ urlGb }) => {
         };
     }, []);
 
+    // const allProjects = careerData.flatMap((career) => career.projectList);
+    const parseEndDate = (projectTerm) => {
+        const endDateStr = projectTerm.split(' ~ ')[1];
+        const [year, month] = endDateStr.split('.');
+        return new Date(year, month - 1); // month는 0부터 시작하므로 -1 해줌
+    };
+
+    const allProjects = careerData
+        .flatMap((career) => career.projectList)
+        .sort(
+            (a, b) => parseEndDate(b.projectTerm) - parseEndDate(a.projectTerm),
+        );
+
+    console.log('클릭 프로젝트 아이템', allProjects);
+
     useEffect(() => {
         if (clickProjectItem && activeProject) {
             setIsLoading(false); // 로딩 상태 해제
@@ -31,8 +44,8 @@ const Project = React.memo(({ urlGb }) => {
 
     useEffect(() => {
         if (careerData && careerData.length > 0) {
-            setActiveProject(careerData[0].projectList[0].projectSeq);
-            setClickProjectItem(careerData[0].projectList[0]);
+            setActiveProject(allProjects[0].projectSeq);
+            setClickProjectItem(allProjects[0]);
         }
     }, [careerData]);
 
@@ -58,51 +71,79 @@ const Project = React.memo(({ urlGb }) => {
                         repeat: 1,
                     }}
                 >
-                    {careerData.map((careerItem) => (
-                        <LineContainer key={careerItem.careerSeq}>
-                            <LineTop>
-                                <CompanyImage src={careerItem.companyLogo} />
-                                <CompanyInfo>
-                                    <CompanyName>
-                                        {careerItem.company}
-                                    </CompanyName>
-                                    <CompanyInOut>
-                                        {careerItem.in} ~{' '}
-                                        {careerItem.out
-                                            ? careerItem.out
-                                            : 'ing'}
-                                    </CompanyInOut>
-                                </CompanyInfo>
-                            </LineTop>
-                            <LineBox>
-                                {careerItem.projectList.map((projectItem) => (
-                                    <ProjectBox
-                                        key={projectItem.projectSeq}
+                    <LineContainer>
+                        {careerData
+                            .filter(
+                                (careerItem) =>
+                                    careerItem.careerSeq ===
+                                    clickProjectItem.careerSeq.toString(),
+                            )
+                            .map((filteredCareerItem) => (
+                                <LineTop
+                                    key={filteredCareerItem.careerSeq}
+                                    animate={{
+                                        x: 0,
+                                    }}
+                                    transition={{
+                                        type: 'spring',
+                                        x: {
+                                            type: 'tween',
+                                            from: 400,
+                                            tp: 0,
+                                            duration: 0.7,
+                                        },
+                                        repeat: 1,
+                                    }}
+                                >
+                                    <CompanyImageBox>
+                                        <CompanyImage
+                                            src={`/static/logo/${filteredCareerItem.companyLogo}`}
+                                        />
+                                    </CompanyImageBox>
+                                    <CompanyInfo>
+                                        <CompanyName>
+                                            {filteredCareerItem.company}
+                                        </CompanyName>
+                                        <CompanyInOut>
+                                            {filteredCareerItem.in} ~{' '}
+                                            {filteredCareerItem.out
+                                                ? filteredCareerItem.out
+                                                : 'ing'}
+                                        </CompanyInOut>
+                                    </CompanyInfo>
+                                </LineTop>
+                            ))}
+                        <LineBox>
+                            {allProjects.map((projectItem) => (
+                                <ProjectBox
+                                    key={projectItem.projectSeq}
+                                    $isActive={
+                                        activeProject === projectItem.projectSeq
+                                    }
+                                    onClick={() => onClickProject(projectItem)}
+                                >
+                                    <CheckBox
                                         $isActive={
                                             activeProject ===
                                             projectItem.projectSeq
                                         }
-                                        onClick={() =>
-                                            onClickProject(projectItem)
+                                    />
+                                    <MdOutlineComputer />
+                                    <ProjectName
+                                        $isActive={
+                                            activeProject ===
+                                            projectItem.projectSeq
                                         }
                                     >
-                                        <MdOutlineComputer />
-                                        <ProjectName
-                                            $isActive={
-                                                activeProject ===
-                                                projectItem.projectSeq
-                                            }
-                                        >
-                                            {'' + projectItem.projectName}
-                                        </ProjectName>
-                                        <ProjectInOut>
-                                            {projectItem.projectTerm}
-                                        </ProjectInOut>
-                                    </ProjectBox>
-                                ))}
-                            </LineBox>
-                        </LineContainer>
-                    ))}
+                                        {'' + projectItem.projectName}
+                                    </ProjectName>
+                                    <ProjectInOut>
+                                        {projectItem.projectTerm}
+                                    </ProjectInOut>
+                                </ProjectBox>
+                            ))}
+                        </LineBox>
+                    </LineContainer>
                 </HeaderContainer>
                 <ProjectContainer>
                     <MotionBox
@@ -136,10 +177,9 @@ export default Project;
 
 const ProjectWrapper = styled(motion.div)`
     display: flex;
-    font-family: 'Pretendard';
-    position: absolute;
-    top: 0;
     width: 88%;
+    min-height: 100vh;
+    font-family: 'Pretendard';
 `;
 
 const HeaderContainer = styled(motion.div)`
@@ -147,43 +187,44 @@ const HeaderContainer = styled(motion.div)`
     white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
     border-radius: 12px;
     padding: 1% 1% 0 1%;
+    margin-left: 3%;
     background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
 `;
 
 const ProjectContainer = styled(motion.div)`
     color: black;
-    padding: 0 2% 0 2%;
+    padding: 0 6% 0 2%;
     flex-direction: column;
     text-align: center;
     align-items: center;
     overflow: hidden;
+    width: 68%;
 `;
 
 const LineContainer = styled.div`
     padding: 2%;
+    overflow: hidden;
 `;
 
 const LineBox = styled.div`
     position: relative;
     padding: 30px;
     color: white;
-    border-left: 4px solid rgba(228, 225, 220, 1);
 `;
-const LineTop = styled.div`
+const LineTop = styled(motion.div)`
     background-color: rgba(228, 225, 220, 1);
     display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
     color: black;
-    top: 1%;
+    top: 0%;
     border-radius: 12px;
-    left: -3%;
+    left: 0%;
 `;
 
 const CompanyInfo = styled.div`
     text-align: center;
-    margin-left: 16px;
 `;
 
 const CompanyName = styled.p`
@@ -193,6 +234,7 @@ const CompanyName = styled.p`
     font-weight: bolder;
     margin-bottom: 0px;
 `;
+
 const CompanyInOut = styled.p`
     font-family: 'Arita';
     margin-top: 0px;
@@ -200,19 +242,41 @@ const CompanyInOut = styled.p`
     font-size: ${({ theme }) => theme.fonts.smallFontSize};
 `;
 
+const CompanyImageBox = styled.div`
+    margin-right: 4%;
+    margin-top: 1%;
+`;
+
 const CompanyImage = styled.img`
     width: 60px;
     height: 60px;
+    border-radius: 50%;
 `;
 
 const ProjectBox = styled.div`
     color: ${({ $isActive }) => ($isActive ? 'rgba(230, 27, 57, 1)' : 'white')};
     transform: ${({ $isActive }) => ($isActive ? 'scale(1.14)' : 0)};
-    &:hover {
-        transform: scale(1.1);
-        cursor: pointer;
-        z-index: 1;
-    }
+    position: relative;
+    ${({ $isActive }) =>
+        !$isActive &&
+        `
+        &:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+            z-index: 1;
+        }
+    `}
+`;
+
+const CheckBox = styled.div`
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    top: 0;
+    left: -5.2%;
+    border-radius: 12px;
+    background-color: ${({ $isActive }) =>
+        $isActive ? 'rgba(230, 27, 57, 1)' : 'none'};
 `;
 
 const ProjectName = styled.span`

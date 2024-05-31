@@ -11,10 +11,12 @@ const theme = {
         main: 'rgba(255, 255, 255, 0.92)',
         black: 'rgba(0, 0, 0, 0.9)',
         white: 'rgba(255, 255, 255, 1)',
-        gray: 'rgb(229,228,229, 1)',
+        gray: 'darkgray',
         lightBlack: 'rgba(0, 0, 0, 0.88)',
         modal: 'rgba(0, 0, 0, 0.9)',
         beige: 'rgba(228,225,220, 1)',
+        blue: 'rgb(50,157,246)',
+        red: 'rgba(230, 27, 57, 1)',
     },
     colors: {
         beige: 'rgba(228,225,220, 1)',

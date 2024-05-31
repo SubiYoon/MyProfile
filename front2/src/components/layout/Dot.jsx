@@ -4,20 +4,31 @@ import axiosInstance from '../../../axiosInstance.js';
 import { useRecoilState } from 'recoil';
 import { currentPageState } from '@/recoil.js';
 import { motion } from 'framer-motion';
+import { ImProfile } from 'react-icons/im';
+import { IoHome } from 'react-icons/io5';
+import { GoProjectRoadmap } from 'react-icons/go';
+import { SiStackoverflow } from 'react-icons/si';
+import { PiStudentFill } from 'react-icons/pi';
 
 const Dot = ({ onMenuClick }) => {
     const [menuData, setMenuData] = useState([]);
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
 
+    const componentsMap = {
+        Profile: Profile,
+        Stack: Stack,
+        Project: Project,
+        Home: Home,
+        Education: Education,
+    };
+
     useEffect(() => {
-        console.log('메뉴 get 요청');
         const fetchMenuData = async () => {
             try {
                 const response = await axiosInstance
                     .get('/api/menu/public')
                     .then(function (data) {
                         console.log('data', data);
-                        data.data.menus[0].menuName = '';
                         return data;
                     });
                 setMenuData(response.data.menus);
@@ -29,64 +40,67 @@ const Dot = ({ onMenuClick }) => {
     }, []);
 
     const dotButtons = () => {
-        return menuData.map((item) => (
-            <React.Fragment key={item.menuSeq}>
-                <MenuButton
-                    onClick={() => handleButtonClick(item.menuSeq)}
-                    $num={item.menuSeq}
-                    $currentPage={currentPage}
-                >
-                    {item.menuName}
-                </MenuButton>
-                {currentPage === item.menuSeq ? (
-                    <Dots
-                        initial={{ opacity: 0, scale: 1 }}
-                        animate={{ opacity: 1, scale: 1.6 }}
-                        transition={{
-                            duration: 0.8,
-                            delay: 0.4,
-                            ease: [0, 0.71, 0.2, 1.01],
-                            repeat: Infinity,
-                        }}
-                        $num={item.menuSeq}
-                        $currentPage={currentPage}
-                    />
-                ) : (
-                    <ClickableDots
-                        onClick={() => handleButtonClick(item.menuSeq)}
-                        $num={item.menuSeq}
-                        $currentPage={currentPage}
-                    />
-                )}
-            </React.Fragment>
-        ));
-    };
-
-    const handleButtonClick = (page) => {
-        setCurrentPage(page);
-        onMenuClick(page);
+        return menuData.map((item) => {
+            const DynamicComponent = componentsMap[item.menuName];
+            return (
+                <React.Fragment key={item.menuSeq}>
+                    {currentPage === item.menuSeq ? (
+                        <Dots
+                            initial={{ opacity: 0, scale: 1 }}
+                            animate={{ opacity: 1, scale: 1.6 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: 0.4,
+                                ease: [0, 0.71, 0.2, 1.01],
+                                repeat: Infinity,
+                            }}
+                            $num={item.menuSeq}
+                            $currentPage={currentPage}
+                        >
+                            {DynamicComponent && <DynamicComponent />}
+                        </Dots>
+                    ) : (
+                        <ClickableDots
+                            onClick={() => onMenuClick(item.menuSeq)}
+                            $num={item.menuSeq}
+                            $currentPage={currentPage}
+                        >
+                            {DynamicComponent && <DynamicComponent />}
+                        </ClickableDots>
+                    )}
+                    <MenuButton $num={item.menuSeq} $currentPage={currentPage}>
+                        {item.menuName}
+                    </MenuButton>
+                </React.Fragment>
+            );
+        });
     };
 
     return (
         <DotContainer>
-            <DotBox>{dotButtons()}</DotBox>
-            <IconBox
-                nitial={{ y: 0 }} // 초기 위치
-                animate={{ y: [0, -8, 0] }} // 움직임 설정
-                transition={{ duration: 1, repeat: Infinity }}
-            >
-                {currentPage !== 4 ? (
-                    <Icon
-                        src="/assets/icons/down.png"
-                        onClick={() => handleButtonClick(currentPage + 1)}
-                    />
-                ) : (
+            <DotBox>
+                <IconBox
+                    nitial={{ y: 0 }} // 초기 위치
+                    animate={{ y: [0, -8, 0] }} // 움직임 설정
+                    transition={{ duration: 1, repeat: Infinity }}
+                >
                     <Icon
                         src="/assets/icons/up.png"
-                        onClick={() => handleButtonClick(1)}
+                        onClick={() => onMenuClick(currentPage - 1)}
                     />
-                )}
-            </IconBox>
+                </IconBox>
+                {dotButtons()}
+                <IconBox
+                    nitial={{ y: 0 }} // 초기 위치
+                    animate={{ y: [0, -8, 0] }} // 움직임 설정
+                    transition={{ duration: 1, repeat: Infinity }}
+                >
+                    <Icon
+                        src="/assets/icons/down.png"
+                        onClick={() => onMenuClick(currentPage + 1)}
+                    />
+                </IconBox>
+            </DotBox>
         </DotContainer>
     );
 };
@@ -95,7 +109,7 @@ export default Dot;
 
 const DotContainer = styled.div`
     position: fixed;
-    top: 40%;
+    top: 24%;
     right: 3%;
     width: 10%;
     font-family: 'Freesentation';
@@ -106,7 +120,7 @@ const MenuButton = styled.span`
         $currentPage === $num ? 'block' : 'none'};
     align-items: center;
     background-color: transparent;
-    margin-bottom: 24%;
+    //margin-bottom: 24%;
     border: none;
     color: black;
     font-size: ${({ theme }) => theme.fonts.mainFontSize};
@@ -117,11 +131,6 @@ const MenuButton = styled.span`
     transition:
         opacity 0.5s ease,
         transform 0.5s ease;
-    &:hover {
-        cursor: pointer;
-        transform: translateY(0);
-        opacity: 1;
-    }
 `;
 
 const DotBox = styled.div`
@@ -134,25 +143,22 @@ const DotBox = styled.div`
 `;
 
 const Dots = styled(motion.div)`
-    width: 12px;
-    height: 12px;
+    width: 30px;
+    height: 30px;
     margin-top: 30%;
     margin-bottom: 30%;
-    border: 0.18rem solid rgba(230, 27, 57, 1);
-    border-radius: 100%;
-    background-color: ${({ $currentPage, $num }) =>
+    color: ${({ $currentPage, $num }) =>
         $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'none'};
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &:hover {
         cursor: pointer;
         transform: scale(1.5);
     }
 `;
 const IconBox = styled(motion.div)`
-    right: 3%;
-    width: 60px;
-    height: 60px;
-    bottom: 18%;
-    position: fixed;
+    margin: 20% 0 20% 0;
 `;
 
 const Icon = styled.img`
@@ -167,4 +173,25 @@ const Icon = styled.img`
 
 const ClickableDots = styled(Dots)`
     pointer-events: auto; /* 클릭 이벤트 활성화 */
+`;
+
+const iconStyle = `
+    width: 100%;
+    height: 100%;
+`;
+
+const Profile = styled(ImProfile)`
+    ${iconStyle}
+`;
+const Stack = styled(SiStackoverflow)`
+    ${iconStyle}
+`;
+const Project = styled(GoProjectRoadmap)`
+    ${iconStyle}
+`;
+const Home = styled(IoHome)`
+    ${iconStyle}
+`;
+const Education = styled(PiStudentFill)`
+    ${iconStyle}
 `;
