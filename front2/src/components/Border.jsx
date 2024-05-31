@@ -8,27 +8,29 @@ import Profile from '@/pages/Profile.jsx';
 import Skills from '@/pages/Skills.jsx';
 import Project from '@/pages/Project.jsx';
 import Dot from '@/components/layout/Dot.jsx';
-
-const pageContents = [
-    { id: 1, component: Home },
-    { id: 2, component: Profile },
-    { id: 3, component: Skills },
-    { id: 4, component: Project },
-];
+import Education from '@/pages/Education.jsx';
 
 const Border = React.forwardRef(({ urlGb }, ref) => {
-    console.log('보더');
-
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
     const [backgroundColor, setBackgroundColor] = useState(null);
     const [previousBackgroundColor, setPreviousBackgroundColor] =
         useState(null);
-    const [isAnimating, setIsAnimating] = useState(true);
     const prevPageRef = useRef(currentPage);
     const outerDivRef = useRef(null);
+
+    const pageContents = [
+        { id: 1, component: Home },
+        { id: 2, component: Profile },
+        { id: 3, component: Skills },
+        { id: 4, component: Project },
+        { id: 5, component: Education },
+    ];
+
     const sectionRefs = Array.from({ length: pageContents.length }, () =>
         useRef(null),
     );
+
+    console.log('커렌트페이지', currentPage);
 
     useEffect(() => {
         const colorMap = {
@@ -36,6 +38,7 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
             2: 'white',
             3: 'gray',
             4: 'beige',
+            5: 'blue',
         };
 
         setPreviousBackgroundColor(backgroundColor);
@@ -47,21 +50,19 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
     useEffect(() => {
         const scrollHandler = () => {
             if (!outerDivRef.current) return;
-            const { scrollTop, scrollHeight, clientHeight } =
-                outerDivRef.current;
-            const scrollFraction = scrollTop / (scrollHeight - clientHeight);
-            const totalPages = pageContents.length;
-            let newPage;
 
-            if (scrollTop === 0) {
-                newPage = 1;
-            } else {
-                newPage = Math.ceil(scrollFraction * totalPages);
-            }
+            const { scrollTop, clientHeight } = outerDivRef.current;
 
-            if (newPage !== currentPage) {
-                setCurrentPage(newPage);
-            }
+            sectionRefs.forEach((ref, index) => {
+                const section = ref.current;
+                const { offsetTop, offsetHeight } = section;
+                if (
+                    scrollTop >= offsetTop - clientHeight / 2 &&
+                    scrollTop < offsetTop + offsetHeight - clientHeight / 2
+                ) {
+                    setCurrentPage(index + 1);
+                }
+            });
         };
 
         const outerDivRefCurrent = outerDivRef.current;
@@ -72,34 +73,31 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
         };
     }, [currentPage, setCurrentPage]);
 
-    const fromY = currentPage > prevPageRef.current ? 800 : -800;
-    const toY = currentPage > prevPageRef.current ? -1000 : 800;
-
-    const handleAnimationComplete = () => {
-        setIsAnimating(false);
-    };
+    const fromY = currentPage > prevPageRef.current ? 1400 : -1400;
+    const toY = currentPage > prevPageRef.current ? -1400 : 1400;
 
     const handleMenuClick = (page) => {
         setCurrentPage(page);
-        sectionRefs[page - 1].current.scrollIntoView({ behavior: 'smooth' });
+        sectionRefs[page - 1].current.scrollIntoView();
     };
 
     return (
         <Wrapper ref={outerDivRef}>
-            <Background
-                key={`${currentPage}_previous`}
-                $color={previousBackgroundColor}
-                exit={{ y: toY }}
-                transition={{ duration: 0.6 }}
-            />
-            <Background
-                key={`${currentPage}_current`}
-                $color={backgroundColor}
-                initial={{ y: fromY }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.6 }}
-                onAnimationComplete={handleAnimationComplete}
-            />
+            <AnimatePresence initial={false} custom={null}>
+                <Background
+                    key={`${currentPage}_previous`}
+                    $color={previousBackgroundColor}
+                    exit={{ y: toY }}
+                    transition={{ duration: 0.6 }}
+                />
+                <Background
+                    key={`${currentPage}_current`}
+                    $color={backgroundColor}
+                    initial={{ y: fromY }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.6 }}
+                />
+            </AnimatePresence>
             <AnimatePresence initial={false} custom={null}>
                 {pageContents.map(({ id, component }, index) => (
                     <Section key={id} ref={sectionRefs[index]}>
@@ -128,12 +126,13 @@ const Section = styled.div`
     align-items: center;
     width: 100%;
     min-height: 100vh;
+    height: auto;
     color: white;
     position: relative;
 `;
 
 const Background = styled(motion.div)`
-    position: fixed; /* 수정된 부분 */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -149,6 +148,6 @@ const Container = styled.div`
     width: 100%;
     max-width: 100%;
     height: auto;
+    transition: opacity 1s ease;
     opacity: ${({ $currentPage, id }) => ($currentPage === id ? 1 : 0)};
-    transition: opacity 0.5s ease;
 `;

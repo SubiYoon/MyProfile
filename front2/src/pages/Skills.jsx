@@ -44,7 +44,7 @@ const Skills = () => {
 
     return (
         <AnimatePresence>
-            <SkilsWapper>
+            <SkillsWapper>
                 <TitleContainer>
                     <TitleHeader>
                         {currentPage === 3 ? (
@@ -80,19 +80,18 @@ const Skills = () => {
                         );
                     })}
                 </SkillsContainer>
-            </SkilsWapper>
+            </SkillsWapper>
         </AnimatePresence>
     );
 };
 
 export default Skills;
 
-const SkilsWapper = styled(motion.div)`
-    width: 88%;
+const SkillsWapper = styled(motion.div)`
     display: flex;
+    width: 88%;
+    min-height: 100vh;
     flex-direction: column;
-    position: absolute;
-    top: 4%;
     font-family: 'Pretendard';
     color: white;
 `;

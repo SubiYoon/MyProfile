@@ -124,6 +124,7 @@ export default Profile;
 const ProfileWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
+    background-color: white;
     width: 100%;
     font-family: 'Pretendard';
 `;

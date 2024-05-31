@@ -25,12 +25,14 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
         return groups;
     }, [clickProjectItem]);
 
+    console.log('클릭', clickProjectItem);
+
     // 카테고리 정렬
     const sortedCategories = useMemo(() => {
         return Object.keys(stackGroups).sort((a, b) => {
             return (
-                stackGroups[b][0].categoryLevel -
-                stackGroups[a][0].categoryLevel
+                stackGroups[a][0].categoryLevel -
+                stackGroups[b][0].categoryLevel
             );
         });
     }, [stackGroups]);
@@ -44,8 +46,13 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
         setDetailSeq(null);
         setDetailTitle(null);
     };
-
-    console.log('스택그룹', stackGroups);
+    const maxLength = 84;
+    const truncateText = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
+    };
 
     return (
         <>
@@ -86,29 +93,40 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
                     <DetailImageContainer>
                         {clickProjectItem.projectDetailSemiList.map(
                             (item, index) => (
-                                <DetailImageBox
-                                    key={item.projectDetailSeq}
-                                    onMouseEnter={() => setHoveredImage(index)}
-                                    onMouseLeave={() => setHoveredImage(null)}
-                                    onClick={() => {
-                                        openModal(item);
-                                        setModalIsOpen(true);
-                                    }}
-                                >
-                                    <DetailProjectImage
-                                        src={`/static/detail/${item.image}`}
-                                    />
-                                    {hoveredImage === index && (
-                                        <>
-                                            <DetailProjectTitle>
-                                                {item.detailActTitle}
-                                            </DetailProjectTitle>
+                                <DetailBox key={item.projectDetailSeq}>
+                                    <DetailImageBox
+                                        onMouseEnter={() =>
+                                            setHoveredImage(index)
+                                        }
+                                        onMouseLeave={() =>
+                                            setHoveredImage(null)
+                                        }
+                                        onClick={() => {
+                                            openModal(item);
+                                            setModalIsOpen(true);
+                                        }}
+                                    >
+                                        <DetailProjectImage
+                                            src={`/static/detail/${item.image}`}
+                                        />
+                                        {hoveredImage === index && (
                                             <DetailProjectClick>
                                                 click
                                             </DetailProjectClick>
-                                        </>
-                                    )}
-                                </DetailImageBox>
+                                        )}
+                                    </DetailImageBox>
+                                    <DetailTitleBox>
+                                        <DtailTitleFont>
+                                            {item.detailActTitle}
+                                        </DtailTitleFont>
+                                        <DtailContentFont>
+                                            {/*{truncateText(*/}
+                                            {/*    item.detailActCont,*/}
+                                            {/*    maxLength,*/}
+                                            {/*)}*/}
+                                        </DtailContentFont>
+                                    </DetailTitleBox>
+                                </DetailBox>
                             ),
                         )}
                     </DetailImageContainer>
@@ -125,8 +143,8 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{
-                            duration: 0.8,
-                            delay: 0.4,
+                            duration: 0.5,
+                            delay: 1,
                             ease: [0, 0.71, 0.2, 1.01],
                         }}
                     >
@@ -161,8 +179,11 @@ const StackContainer = styled.div`
     position: relative;
     color: white;
     font-family: 'Pretendard';
+    flex-wrap: wrap;
+    display: flex;
     background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
     border-radius: 12px;
+    padding: 1% 1% 0% 1%;
 `;
 
 const TitleBox = styled(motion.div)`
@@ -190,13 +211,18 @@ const TitleBox = styled(motion.div)`
 
 const CategoryBox = styled.div`
     display: flex;
+    flex-direction: column;
     position: relative;
-    align-items: center;
-    flex-wrap: wrap;
+    margin: 0 auto;
+    min-width: 16%;
 `;
 
 const CategoryNameBox = styled.div`
-    width: 120px;
+    margin-bottom: 24px;
+    background-color: ${({ theme }) => theme.backgroundColors.beige};
+    color: black;
+    padding: 2%;
+    border-radius: 16px;
 `;
 
 const CategoryName = styled.span`
@@ -206,19 +232,23 @@ const CategoryName = styled.span`
 `;
 
 const StackBox = styled.div`
+    width: 100%;
+    margin-bottom: 16%;
     display: flex;
     align-items: center;
-    margin: 0.6%;
+    justify-content: left;
 `;
 
 const StackImg = styled.img`
+    margin-right: 8px;
     width: 40px;
     height: 40px;
-    border-radius: 16px;
+    border-radius: 50%;
 `;
 
 const StackList = styled.span`
-    margin-left: 10px;
+    text-align: center;
+
     font-size: ${({ theme }) => theme.fonts.smallFontSize};
 `;
 
@@ -228,7 +258,7 @@ const DetailProjectContributeBox = styled.div`
     border-radius: 12px;
     color: white;
     text-align: left;
-    padding: 1%;
+    padding: 1% 2% 1% 2%;
     margin-bottom: 5%;
 `;
 
@@ -245,19 +275,25 @@ const DetailImageContainer = styled.div`
     display: flex;
     border-radius: 12px;
     flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-    padding: 1% 0% 1% 0%;
+    padding: 1% 0 0 0;
+`;
+
+const DetailBox = styled.div`
+    background-color: ${({ theme }) => theme.backgroundColors.beige};
+    border-radius: 12px;
+    width: 47.5%;
+    margin: 0% 0% 1% 1%;
+    padding: 1% 0 1% 1%;
+    display: flex;
 `;
 
 const DetailImageBox = styled.div`
     display: flex;
-    border-radius: 12px;
-    margin: 0 0px 0 10px;
     position: relative;
-    width: 32.3%;
+    width: 36%;
+    height: 200px;
     &:hover {
-        transform: scale(1.2);
+        transform: scale(1.16);
         cursor: pointer;
         transition: transform 0.3s ease;
         z-index: 1;
@@ -265,30 +301,36 @@ const DetailImageBox = styled.div`
     overflow: hidden;
 `;
 
-const DetailProjectImage = styled.img`
-    width: 100%;
-    height: 380px;
+const DetailTitleBox = styled.div`
+    width: 64%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1%;
 `;
 
-const DetailProjectTitle = styled.div`
-    width: 100%;
-    position: absolute;
-    top: 4%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 1%;
-
-    background-color: ${({ theme }) => theme.backgroundColors.black};
+const DtailTitleFont = styled.div`
     font-size: ${({ theme }) => theme.fonts.normalFontSize};
-    color: ${({ theme }) => theme.colors.white};
-    //box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.9);
-    z-index: 1;
+    font-weight: bold;
+    margin-top: 10%;
+    margin-bottom: 6%;
+`;
+
+const DtailContentFont = styled.div`
+    text-align: left;
+    padding: 0 6% 0 6%;
+    font-size: ${({ theme }) => theme.fonts.smallFontSize};
+`;
+
+const DetailProjectImage = styled.img`
+    border-radius: 12px;
+    width: 100%;
 `;
 
 const DetailProjectClick = styled.div`
     width: 100%;
     position: absolute;
-    top: 96%;
+    top: 4%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 1%;
@@ -312,7 +354,6 @@ const MotionOverlay = styled(motion.div)`
 
 const MotionContent = styled(motion.div)`
     min-width: 70%;
-
     z-index: 150;
     position: absolute;
     top: 50%;

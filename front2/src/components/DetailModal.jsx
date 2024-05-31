@@ -155,7 +155,7 @@ const DetailProjectImage = styled(motion.img)`
 
 const IconBox = styled.div`
     display: flex;
-    font-size: ${({ theme }) => theme.fonts.titleFontSize};
+    font-size: ${({ theme }) => theme.fonts.largeFontSize};
     margin-top: 3%;
     margin-bottom: 1%;
     justify-content: center;
@@ -166,7 +166,7 @@ const IconBox = styled.div`
 const Count = styled.span`
     font-family: 'Arita';
     color: rgba(228, 225, 220, 1);
-    font-size: ${({ theme }) => theme.fonts.mainFontSize};
+    font-size: ${({ theme }) => theme.fonts.normalFontSize};
 `;
 
 const ModalFontBox = styled.div`
