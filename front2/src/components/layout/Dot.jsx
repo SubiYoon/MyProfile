@@ -13,6 +13,7 @@ import { PiStudentFill } from 'react-icons/pi';
 const Dot = ({ onMenuClick }) => {
     const [menuData, setMenuData] = useState([]);
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+    const [color, setColor] = useState('white');
 
     const componentsMap = {
         Profile: Profile,
@@ -39,6 +40,15 @@ const Dot = ({ onMenuClick }) => {
         fetchMenuData();
     }, []);
 
+    useEffect(() => {
+        console.log('zjff', color);
+        if (currentPage === 1 || currentPage === 5) {
+            setColor('white');
+        } else {
+            setColor('black');
+        }
+    }, [currentPage]);
+
     const dotButtons = () => {
         return menuData.map((item) => {
             const DynamicComponent = componentsMap[item.menuName];
@@ -56,6 +66,7 @@ const Dot = ({ onMenuClick }) => {
                             }}
                             $num={item.menuSeq}
                             $currentPage={currentPage}
+                            $color={color}
                         >
                             {DynamicComponent && <DynamicComponent />}
                         </Dots>
@@ -64,11 +75,16 @@ const Dot = ({ onMenuClick }) => {
                             onClick={() => onMenuClick(item.menuSeq)}
                             $num={item.menuSeq}
                             $currentPage={currentPage}
+                            $color={color}
                         >
                             {DynamicComponent && <DynamicComponent />}
                         </ClickableDots>
                     )}
-                    <MenuButton $num={item.menuSeq} $currentPage={currentPage}>
+                    <MenuButton
+                        $num={item.menuSeq}
+                        $currentPage={currentPage}
+                        $color={color}
+                    >
                         {item.menuName}
                     </MenuButton>
                 </React.Fragment>
@@ -84,22 +100,22 @@ const Dot = ({ onMenuClick }) => {
                     animate={{ y: [0, -8, 0] }} // 움직임 설정
                     transition={{ duration: 1, repeat: Infinity }}
                 >
-                    <Icon
-                        src="/assets/icons/up.png"
-                        onClick={() => onMenuClick(currentPage - 1)}
-                    />
+                    {/*<Icon*/}
+                    {/*    src="/assets/icons/up.png"*/}
+                    {/*    onClick={() => onMenuClick(currentPage - 1)}*/}
+                    {/*/>*/}
                 </IconBox>
                 {dotButtons()}
-                <IconBox
-                    nitial={{ y: 0 }} // 초기 위치
-                    animate={{ y: [0, -8, 0] }} // 움직임 설정
-                    transition={{ duration: 1, repeat: Infinity }}
-                >
-                    <Icon
-                        src="/assets/icons/down.png"
-                        onClick={() => onMenuClick(currentPage + 1)}
-                    />
-                </IconBox>
+                {/*<IconBox*/}
+                {/*    nitial={{ y: 0 }} // 초기 위치*/}
+                {/*    animate={{ y: [0, -8, 0] }} // 움직임 설정*/}
+                {/*    transition={{ duration: 1, repeat: Infinity }}*/}
+                {/*>*/}
+                {/*    <Icon*/}
+                {/*        src="/assets/icons/down.png"*/}
+                {/*        onClick={() => onMenuClick(currentPage + 1)}*/}
+                {/*    />*/}
+                {/*</IconBox>*/}
             </DotBox>
         </DotContainer>
     );
@@ -109,7 +125,7 @@ export default Dot;
 
 const DotContainer = styled.div`
     position: fixed;
-    top: 24%;
+    top: 28%;
     right: 3%;
     width: 10%;
     font-family: 'Freesentation';
@@ -120,9 +136,8 @@ const MenuButton = styled.span`
         $currentPage === $num ? 'block' : 'none'};
     align-items: center;
     background-color: transparent;
-    //margin-bottom: 24%;
+    color: ${({ $color }) => $color};
     border: none;
-    color: black;
     font-size: ${({ theme }) => theme.fonts.mainFontSize};
     text-shadow: 8px 8px 4px rgba(230, 27, 57, 0.8);
     transform: translateY(
@@ -147,8 +162,8 @@ const Dots = styled(motion.div)`
     height: 30px;
     margin-top: 30%;
     margin-bottom: 30%;
-    color: ${({ $currentPage, $num }) =>
-        $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'none'};
+    color: ${({ $currentPage, $num, $color }) =>
+        $currentPage === $num ? 'rgba(230, 27, 57, 1)' : $color};
     display: flex;
     justify-content: center;
     align-items: center;

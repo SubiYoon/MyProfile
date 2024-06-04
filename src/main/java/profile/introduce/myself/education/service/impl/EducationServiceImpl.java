@@ -6,6 +6,8 @@ import profile.introduce.myself.education.mapper.EducationMapper;
 import profile.introduce.myself.education.service.EducationService;
 import profile.introduce.myself.education.vo.EducationVo;
 
+import java.util.List;
+
 @Service
 public class EducationServiceImpl implements EducationService {
 
@@ -13,7 +15,7 @@ public class EducationServiceImpl implements EducationService {
     EducationMapper educationMapper;
 
     @Override
-    public EducationVo getEducationList(String alias) {
+    public List<EducationVo> getEducationList(String alias) {
         return educationMapper.getEducationList(alias);
     }
 }

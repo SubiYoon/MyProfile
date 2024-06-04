@@ -1,12 +1,7 @@
 import { styled } from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import {
-    currentPageState,
-    apiState,
-    stackState,
-    profileState,
-} from '@/recoil.js';
+import { currentPageState, stackState, profileState } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -124,7 +119,6 @@ export default Profile;
 const ProfileWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
-    background-color: white;
     width: 100%;
     font-family: 'Pretendard';
 `;

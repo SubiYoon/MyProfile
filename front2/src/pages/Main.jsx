@@ -4,8 +4,8 @@ import {
     profileState,
     stackState,
     careerState,
+    educationState,
 } from '../recoil.js';
-import Dot from '@/components/layout/Dot.jsx';
 import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
@@ -14,11 +14,10 @@ import Border from '@/components/Border.jsx';
 import Error from '@/pages/Error.jsx';
 
 const Main = () => {
-    const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-
     const [profileData, setProfileData] = useRecoilState(profileState);
     const [stackData, setStackData] = useRecoilState(stackState);
     const [careerData, setCareerData] = useRecoilState(careerState);
+    const [educationData, setEducationData] = useRecoilState(educationState);
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -43,10 +42,22 @@ const Main = () => {
                     `/api/career/${urlGb}`,
                 );
                 setCareerData(response.data.careers);
-                console.log('커리어', response.data.careers);
             } catch (error) {
                 console.error('Error fetching career data:', error);
                 setCareerData(null);
+            }
+        };
+
+        const fetchEducationData = async () => {
+            try {
+                const response = await axiosInstance.get(
+                    `/api/education/${urlGb}`,
+                );
+                setEducationData(response.data.educations);
+                console.log('커리어', response.data.educations);
+            } catch (error) {
+                console.error('Error fetching career data:', error);
+                setEducationData(null);
             }
         };
 
@@ -54,6 +65,7 @@ const Main = () => {
             setIsLoading(true);
             await fetchProfileData();
             await fetchCareerData();
+            await fetchEducationData();
             setIsLoading(false);
         };
 
@@ -64,7 +76,7 @@ const Main = () => {
         return <div></div>;
     }
 
-    if (!stackData || !profileData || !careerData) {
+    if (!stackData || !profileData || !careerData || !educationData) {
         return <Error />;
     }
 

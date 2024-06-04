@@ -26,7 +26,7 @@ export const careerState = atom({
     default: null,
 });
 
-export const apiState = atom({
-    key: 'apiState',
+export const educationState = atom({
+    key: 'educationState',
     default: null,
 });
