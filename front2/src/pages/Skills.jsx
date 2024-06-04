@@ -5,7 +5,7 @@ import { currentPageState, stackState } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const Skills = () => {
+const Skills = React.memo(() => {
     console.log('스킬 페이지');
     const currentPage = useRecoilValue(currentPageState);
     const stackData = useRecoilValue(stackState);
@@ -83,7 +83,7 @@ const Skills = () => {
             </SkillsWapper>
         </AnimatePresence>
     );
-};
+});
 
 export default Skills;
 

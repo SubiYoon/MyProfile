@@ -38,7 +38,7 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
             2: 'white',
             3: 'gray',
             4: 'beige',
-            5: 'blue',
+            5: 'realBlack',
         };
 
         setPreviousBackgroundColor(backgroundColor);
