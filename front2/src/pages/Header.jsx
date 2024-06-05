@@ -14,6 +14,21 @@ const Header = ({ text, gb }) => {
 
     const subText = mainContent[1];
 
+    const renderContent = () => {
+        if (gb === 'main') {
+            return (
+                <>
+                    <MainText>{typedText}</MainText>
+                    <MainText2 $subTextTyped={subTextTyped}>
+                        {subText}
+                    </MainText2>
+                </>
+            );
+        } else if (currentPage === gb) {
+            return <>{typedText}</>;
+        }
+    };
+
     //텍스트 타이핑 효과
     useEffect(() => {
         let mainTextToType = mainContent[0];
@@ -34,20 +49,7 @@ const Header = ({ text, gb }) => {
         return () => clearTimeout(typingTimer);
     }, [currentPage, textIndex, text]);
 
-    return (
-        <>
-            {gb === 'main' ? (
-                <>
-                    <MainText>{typedText}</MainText>
-                    <MainText2 $subTextTyped={subTextTyped}>
-                        {subText}
-                    </MainText2>
-                </>
-            ) : (
-                <>{typedText}</>
-            )}
-        </>
-    );
+    return <>{renderContent()}</>;
 };
 
 export default Header;

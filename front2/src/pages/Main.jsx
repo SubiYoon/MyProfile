@@ -54,7 +54,6 @@ const Main = () => {
                     `/api/education/${urlGb}`,
                 );
                 setEducationData(response.data.educations);
-                console.log('커리어', response.data.educations);
             } catch (error) {
                 console.error('Error fetching career data:', error);
                 setEducationData(null);

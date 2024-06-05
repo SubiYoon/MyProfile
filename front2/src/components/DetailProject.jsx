@@ -25,8 +25,6 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
         return groups;
     }, [clickProjectItem]);
 
-    console.log('클릭', clickProjectItem);
-
     // 카테고리 정렬
     const sortedCategories = useMemo(() => {
         return Object.keys(stackGroups).sort((a, b) => {
@@ -290,8 +288,7 @@ const DetailBox = styled.div`
 const DetailImageBox = styled.div`
     display: flex;
     position: relative;
-    width: 36%;
-    height: 200px;
+    width: 50%;
     &:hover {
         transform: scale(1.16);
         cursor: pointer;
@@ -302,7 +299,7 @@ const DetailImageBox = styled.div`
 `;
 
 const DetailTitleBox = styled.div`
-    width: 64%;
+    width: 48%;
     text-align: center;
     align-items: center;
     justify-content: center;

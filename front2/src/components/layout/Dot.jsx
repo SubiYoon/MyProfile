@@ -29,7 +29,6 @@ const Dot = ({ onMenuClick }) => {
                 const response = await axiosInstance
                     .get('/api/menu/public')
                     .then(function (data) {
-                        console.log('data', data);
                         return data;
                     });
                 setMenuData(response.data.menus);
@@ -41,7 +40,6 @@ const Dot = ({ onMenuClick }) => {
     }, []);
 
     useEffect(() => {
-        console.log('zjff', color);
         if (currentPage === 1 || currentPage === 5) {
             setColor('white');
         } else {
@@ -99,23 +97,8 @@ const Dot = ({ onMenuClick }) => {
                     nitial={{ y: 0 }} // 초기 위치
                     animate={{ y: [0, -8, 0] }} // 움직임 설정
                     transition={{ duration: 1, repeat: Infinity }}
-                >
-                    {/*<Icon*/}
-                    {/*    src="/assets/icons/up.png"*/}
-                    {/*    onClick={() => onMenuClick(currentPage - 1)}*/}
-                    {/*/>*/}
-                </IconBox>
+                ></IconBox>
                 {dotButtons()}
-                {/*<IconBox*/}
-                {/*    nitial={{ y: 0 }} // 초기 위치*/}
-                {/*    animate={{ y: [0, -8, 0] }} // 움직임 설정*/}
-                {/*    transition={{ duration: 1, repeat: Infinity }}*/}
-                {/*>*/}
-                {/*    <Icon*/}
-                {/*        src="/assets/icons/down.png"*/}
-                {/*        onClick={() => onMenuClick(currentPage + 1)}*/}
-                {/*    />*/}
-                {/*</IconBox>*/}
             </DotBox>
         </DotContainer>
     );

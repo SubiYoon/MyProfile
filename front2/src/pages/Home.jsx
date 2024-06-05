@@ -7,7 +7,6 @@ import { currentPageState, profileState } from '@/recoil.js';
 
 const Home = React.memo(({ urlGb }) => {
     const mainContent = useRecoilValue(profileState).mainContent;
-    console.log('sdfs', mainContent);
     const currentPage = useRecoilValue(currentPageState);
     return (
         <HomeWrapper $currentPage={currentPage}>

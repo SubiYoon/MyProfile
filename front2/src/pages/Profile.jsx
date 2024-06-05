@@ -10,7 +10,6 @@ const Profile = React.memo(() => {
     const profileData = useRecoilValue(profileState);
     // 스킬 정보
     const stackData = useRecoilValue(stackState);
-    const currentPage = useRecoilValue(currentPageState);
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 

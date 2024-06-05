@@ -30,8 +30,6 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
         useRef(null),
     );
 
-    console.log('커렌트페이지', currentPage);
-
     useEffect(() => {
         const colorMap = {
             1: 'black',
