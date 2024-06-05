@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { motion } from 'framer-motion';
@@ -6,6 +6,16 @@ import { MdErrorOutline } from 'react-icons/md';
 import { PiStudentFill } from 'react-icons/pi';
 
 const Error = () => {
+    const [isVisible, setIsVisible] = useState(true);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIsVisible((prevVisible) => !prevVisible); // isVisible 값을 토글합니다.
+        }, 500); // 0.5초마다 isVisible을 변경합니다.
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <Section>
             <ErrorWrapper>
@@ -21,6 +31,9 @@ const Error = () => {
                 <ErrorTextBox>
                     PS C: \404 Not Found >
                     <ErrorText>페이지를 찾을 수 없습니다.</ErrorText>
+                    {isVisible ? (
+                        <BlinkingErrorText>￨</BlinkingErrorText>
+                    ) : null}
                 </ErrorTextBox>
                 <ErrorDetailBox>
                     + 페이지가 존재하지 않거나, 사용할 수 없는 페이지입니다.
@@ -141,6 +154,15 @@ const ErrorDetailBox = styled.div`
 const ErrorText = styled.div`
     margin-left: 1%;
     color: rgb(247, 239, 165);
+`;
+
+const BlinkingErrorText = styled.div`
+    display: flex;
+    height: 100%;
+    position: relative;
+
+    left: -2px;
+    color: white;
 `;
 
 const Exclamation = styled(MdErrorOutline)`
