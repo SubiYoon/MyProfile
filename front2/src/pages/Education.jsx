@@ -87,60 +87,6 @@ const Education = React.memo(() => {
                                 예정인데 아직 미정이지요? ㅎㅎㅎㅎㅎㅎㅎ
                             </ContentBox>
                         </EducationContentBox>
-                        {/*<LeftBox>*/}
-                        {/*    <TopBox>*/}
-                        {/*        <EducationLogoImgBox>*/}
-                        {/*            <EducationLogoImg*/}
-                        {/*                src={`/static/logo/${eudData.eduCompanyLogo}`}*/}
-                        {/*            />*/}
-                        {/*        </EducationLogoImgBox>*/}
-                        {/*        <EducationTitle>*/}
-                        {/*            {eudData.eduCompany}*/}
-                        {/*        </EducationTitle>*/}
-                        {/*    </TopBox>*/}
-                        {/*    <EducationDay>*/}
-                        {/*        {eudData.eduStartDate} ~ {eudData.eduEndDate}*/}
-                        {/*    </EducationDay>*/}
-                        {/*</LeftBox>*/}
-                        {/*<RightBox>*/}
-                        {/*    <EducationHeader>*/}
-                        {/*        <NameContainer>*/}
-                        {/*            <EducationName>*/}
-                        {/*                {eudData.eudName}*/}
-                        {/*            </EducationName>*/}
-                        {/*        </NameContainer>*/}
-                        {/*        <IconContainer>*/}
-                        {/*            <IconBox>*/}
-                        {/*                <LevelLabel>난이도</LevelLabel>*/}
-                        {/*                <StarContainer>*/}
-                        {/*                    {renderStars(eudData.eduLevel)}*/}
-                        {/*                </StarContainer>*/}
-                        {/*            </IconBox>*/}
-                        {/*            <IconBox>*/}
-                        {/*                <LevelLabel>성취도</LevelLabel>*/}
-                        {/*                <StarContainer>*/}
-                        {/*                    {renderStars(*/}
-                        {/*                        eudData.eduAchievement,*/}
-                        {/*                    )}*/}
-                        {/*                </StarContainer>*/}
-                        {/*            </IconBox>*/}
-                        {/*            <IconBox>*/}
-                        {/*                <LevelLabel>이해도</LevelLabel>*/}
-                        {/*                <StarContainer>*/}
-                        {/*                    {renderStars(*/}
-                        {/*                        eudData.eduUnderstanding,*/}
-                        {/*                    )}*/}
-                        {/*                </StarContainer>*/}
-                        {/*            </IconBox>*/}
-                        {/*        </IconContainer>*/}
-                        {/*    </EducationHeader>*/}
-                        {/*    <EducationContentBox>*/}
-                        {/*        <ContentBox>*/}
-                        {/*            여기에 해당 교육 과정에 대한 설명이 들어갈*/}
-                        {/*            예정인데 아직 미정이지요? ㅎㅎㅎㅎㅎㅎㅎ*/}
-                        {/*        </ContentBox>*/}
-                        {/*    </EducationContentBox>*/}
-                        {/*</RightBox>*/}
                     </EducationContainer>
                 </React.Fragment>
             ))}
@@ -265,20 +211,6 @@ const EducationContainer = styled.div`
     margin-bottom: 2%;
     position: relative;
     justify-content: left;
-    flex-direction: column;
-`;
-
-const LeftBox = styled.div`
-    display: flex;
-    float: left;
-    align-items: center;
-    flex-direction: column;
-    margin-right: 2%;
-`;
-
-const RightBox = styled.div`
-    display: flex;
-    float: right;
     flex-direction: column;
 `;
 

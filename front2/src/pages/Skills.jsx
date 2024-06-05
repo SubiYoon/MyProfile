@@ -6,8 +6,6 @@ import Header from '@/pages/Header.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Skills = React.memo(() => {
-    console.log('스킬 페이지');
-    const currentPage = useRecoilValue(currentPageState);
     const stackData = useRecoilValue(stackState);
 
     const [clickSkill, setClickSkill] = useState('');
@@ -46,11 +44,7 @@ const Skills = React.memo(() => {
         <AnimatePresence>
             <SkillsWapper>
                 <TitleContainer>
-                    <TitleHeader>
-                        {currentPage === 3 ? (
-                            <Header text={HeaderText} gb={'skills'} />
-                        ) : null}
-                    </TitleHeader>
+                    <TitleHeader>{HeaderText}</TitleHeader>
                     {skills.map((skill, index) => (
                         <TitleSkills
                             $isActive={activeSkill === skill}

@@ -7,8 +7,9 @@ import { motion } from 'framer-motion';
 import DetailProject from '@/components/DetailProject.jsx';
 
 const Project = React.memo(({ urlGb }) => {
+    console.log('프로젝트 테스트');
+
     const careerData = useRecoilValue(careerState);
-    const currentPage = useRecoilValue(currentPageState);
 
     const [activeProject, setActiveProject] = useState();
     const [clickProjectItem, setClickProjectItem] = useState();
@@ -33,8 +34,6 @@ const Project = React.memo(({ urlGb }) => {
         .sort(
             (a, b) => parseEndDate(b.projectTerm) - parseEndDate(a.projectTerm),
         );
-
-    console.log('클릭 프로젝트 아이템', allProjects);
 
     useEffect(() => {
         if (clickProjectItem && activeProject) {
