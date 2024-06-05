@@ -123,7 +123,7 @@ const TopBox = styled.div`
     display: flex;
     position: absolute;
     left: 1%;
-    top: 24%;
+    top: 25%;
     height: 30px;
     padding: 0 16px 0 12px;
     align-items: center;
