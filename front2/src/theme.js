@@ -22,9 +22,12 @@ const theme = {
     colors: {
         beige: 'rgba(228,225,220, 1)',
         red: 'rgba(230, 27, 57, 1)',
-        white: 'rgba(255, 255, 255, 1)',
+        white: 'rgb(244, 245, 246)',
+
         gray: 'rgba(236,236,237, 1)',
         lightGray: 'rgb(241,231,220, 1)',
+        green: 'rgb(54,198,125)',
+        yellow: 'rgb(238,166,51)',
     },
 };
 

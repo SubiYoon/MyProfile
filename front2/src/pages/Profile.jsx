@@ -4,6 +4,9 @@ import { useRecoilValue } from 'recoil';
 import { currentPageState, stackState, profileState } from '@/recoil.js';
 import Header from '@/pages/Header.jsx';
 import { motion, AnimatePresence } from 'framer-motion';
+import { PiStudentFill } from 'react-icons/pi';
+import { MdCalendarToday } from 'react-icons/md';
+import Skills from '@/pages/Skills.jsx';
 
 const Profile = React.memo(() => {
     // 프로필 정보
@@ -11,105 +14,64 @@ const Profile = React.memo(() => {
     // 스킬 정보
     const stackData = useRecoilValue(stackState);
 
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
     if (!profileData || !stackData) {
         return <h2>Loading...</h2>;
     }
 
-    // 이미지 슬라이딩
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentImageIndex(
-                (prevIndex) => (prevIndex + 1) % stackData.length,
-            );
-        }, 5000); // 5초마다 이미지 변경
-        return () => clearInterval(interval);
-    }, [stackData]);
-
     return (
-        <>
-            <AnimatePresence>
-                <ProfileWrapper>
-                    <ProfileContainer className="tests">
-                        <ProfileHeader>
-                            {profileData.simpleIntroduceMyself}
-                        </ProfileHeader>
-                        <ProfileContent>
-                            {profileData.detailIntroduceMyself
-                                ?.split(/(?<=[.,])/g) // Split by periods and commas, keeping them in the result
-                                .map((sentence, index) => (
-                                    <div key={index}>{sentence.trim()}</div>
-                                ))}
-                        </ProfileContent>
-                    </ProfileContainer>
-                    <IntroductionContainer>
-                        <HeaderText>ABOUT ME</HeaderText>
-                        <StackImageBox>
-                            {stackData
-                                .filter((item) => item.profileViewYn === 'Y')
-                                .map((item, index) => (
-                                    <StackImage
-                                        key={item.stackSeq}
-                                        src={`/static/stack/${item.stackImage}`}
-                                        $index={index}
-                                        style={{
-                                            left: `${(index - currentImageIndex) * 600}px`,
-                                        }}
-                                    />
-                                ))}
-                        </StackImageBox>
-                        <AboutContainer>
-                            <ImgBox>
-                                <PhotoBox>
-                                    <Photo
-                                        src={`/static/profile/${profileData.image}`}
-                                    />
-                                </PhotoBox>
-                            </ImgBox>
-                            <AboutBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/name.svg" />
-                                    <ProfileText>
-                                        {profileData.name}
-                                    </ProfileText>
-                                </NameBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/home.svg" />
-                                    <ProfileText>
-                                        {profileData.addr}
-                                    </ProfileText>
-                                </NameBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/email.svg" />
-                                    <ProfileText>
-                                        {profileData.email}
-                                    </ProfileText>
-                                </NameBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/git.svg" />
-                                    <ProfileLink
-                                        href={profileData.gitHub}
-                                        target="_blank"
-                                    >
-                                        {profileData.gitHub}
-                                    </ProfileLink>
-                                </NameBox>
-                                <NameBox>
-                                    <ProfileIcon src="/assets/icons/blog.svg" />
-                                    <ProfileLink
-                                        href={profileData.blog}
-                                        target="_blank"
-                                    >
-                                        {profileData.blog}
-                                    </ProfileLink>
-                                </NameBox>
-                            </AboutBox>
-                        </AboutContainer>
-                    </IntroductionContainer>
-                </ProfileWrapper>
-            </AnimatePresence>
-        </>
+        <ProfileWrapper>
+            <ProfileTop>
+                <RoundButton />
+                <RoundButton2 />
+                <RoundButton3 />
+                -zsh
+                <TopIcon src="/assets/icons/option.png" />
+            </ProfileTop>
+            <AboutContainer>
+                <ImgBox>
+                    <PhotoBox>
+                        <Photo src={`/static/profile/${profileData.image}`} />
+                    </PhotoBox>
+                </ImgBox>
+                <AboutBox>
+                    <ProfileHeader>
+                        <span>{profileData.simpleIntroduceMyself}</span>
+                    </ProfileHeader>
+                    <ProfileContent>
+                        {profileData.detailIntroduceMyself}
+                    </ProfileContent>
+                    <NameBox>
+                        <ProfileTitle>name:</ProfileTitle>
+                        <ProfileText>{profileData.name}</ProfileText>
+                    </NameBox>
+                    <NameBox>
+                        <ProfileTitle>addr:</ProfileTitle>
+                        <ProfileText>{profileData.addr}</ProfileText>
+                    </NameBox>
+                    <NameBox>
+                        <ProfileTitle>email:</ProfileTitle>
+                        <ProfileText>{profileData.email}</ProfileText>
+                    </NameBox>
+                    <NameBox>
+                        <ProfileTitle>gitHub:</ProfileTitle>
+                        <ProfileLink href={profileData.gitHub} target="_blank">
+                            {profileData.gitHub}
+                        </ProfileLink>
+                    </NameBox>
+                    <NameBox>
+                        <ProfileTitle>blog:</ProfileTitle>
+                        <ProfileLink href={profileData.blog} target="_blank">
+                            {profileData.blog}
+                        </ProfileLink>
+                    </NameBox>
+                    <SkillsContainer>
+                        <Skills />
+                    </SkillsContainer>
+                </AboutBox>
+            </AboutContainer>
+            <Right />
+            <Bottom />
+        </ProfileWrapper>
     );
 });
 
@@ -118,49 +80,46 @@ export default Profile;
 const ProfileWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
-    width: 100%;
-    font-family: 'Pretendard';
+    width: 80%;
+    margin: 2% 0 2% 0;
+    height: 100%;
+    color: ${({ theme }) => theme.colors.white};
+    font-family: 'D2Coding';
+    font-size: ${({ theme }) => theme.fonts.smallFontSize};
+    padding: 2% 0 1.5% 0;
+    background-color: ${({ theme }) => theme.backgroundColors.darkGray};
+    border-radius: 16px;
+    position: relative;
+    border-style: solid;
+    border-color: rgb(117, 117, 120);
+    border-width: 1px;
 `;
 
-const ProfileContainer = styled.div`
-    padding: 0% 8% 2% 8%;
-    text-align: center;
-    color: black;
-    position: relative; /* 가상 요소의 위치를 조정하기 위해 필요합니다 */
-
-    &::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        width: 80%;
-        border-top: 2px solid black;
-    }
-
-    &::after {
-        bottom: 0;
-        transform: translateX(-50%);
-    }
-`;
-
-const IntroductionContainer = styled.div`
-    color: black;
+const ProfileTop = styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    position: absolute;
+    text-align: center;
     align-items: center;
-    padding: 3% 16% 6% 16%;
-`;
-
-const ProfileContent = styled.div`
-    font-size: ${({ theme }) => theme.fonts.mainFontSize};
-    font-family: 'Pretendard';
-    white-space: nowrap;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    top: 0;
+    color: ${({ theme }) => theme.colors.white};
+    font-weight: bold;
+    font-size: ${({ theme }) => theme.fonts.normalFontSize};
+    border-radius: 16px 16px 0 0;
+    background-color: rgb(57, 56, 63);
+    border-bottom-style: solid;
+    border-bottom-color: rgb(3, 3, 7);
+    border-width: 1px;
+    z-index: 1;
 `;
 
 const NameBox = styled.div`
-    font-size: ${({ theme }) => theme.fonts.mainFontSize};
     display: flex;
-    margin-bottom: 16px;
+    margin-bottom: 1%;
+    align-items: center;
+    cp
 `;
 
 const ProfileText = styled.span``;
@@ -168,56 +127,38 @@ const ProfileText = styled.span``;
 const ProfileLink = styled.a`
     text-decoration-line: none;
     &:visited {
-        color: black; /* 방문한 링크의 색상 */
+        color: ${({ theme }) => theme.colors.yellow};
     }
     &:hover {
-        color: ${({ theme }) => theme.colors.red};
+        color: ${({ theme }) => theme.colors.green};
     }
     &:active {
-        color: black; /* 클릭한 후 색상 */
+        color: ${({ theme }) => theme.colors.yellow};
     }
 `;
 
-const ProfileIcon = styled.img`
-    width: 40px;
-    height: 40px;
-    margin-right: 16px;
+const ProfileTitle = styled.span`
+    margin-right: 1%;
+    color: ${({ theme }) => theme.colors.yellow};
 `;
 
 const AboutContainer = styled.div`
     display: flex;
-    width: 100%;
+    padding: 16px;
 `;
 
 const ImgBox = styled.div`
+    display: flex;
     float: left;
-    width: 50%;
-`;
-
-const StackImageBox = styled.div`
-    position: relative;
-    width: 500px;
-    height: 80px;
-    overflow: hidden;
-    top: -80px;
-    left: 460px;
-`;
-
-const StackImage = styled.img`
-    width: 80px;
-    height: 80px;
-    position: absolute;
-    left: ${({ $index }) => $index * 240}px;
-    transition: left 1s ease;
+    width: 45%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 `;
 
 const PhotoBox = styled.div`
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
     overflow: hidden;
-    box-shadow: 6px 6px 6px gray;
-    float: right;
+    border-radius: 12px;
 `;
 
 const Photo = styled.img`
@@ -228,26 +169,96 @@ const Photo = styled.img`
 const AboutBox = styled.div`
     display: flex;
     float: right;
-    width: 50%;
+    width: 52%;
     flex-direction: column;
-    padding-left: 60px;
+    padding-left: 2%;
 `;
 
-const HeaderText = styled.span`
-    font-size: ${({ theme }) => theme.fonts.titleFontSize};
-    font-weight: bolder;
-    text-decoration: underline;
-    text-underline-offset: 16px;
-    text-decoration-thickness: 4px;
+const ProfileHeader = styled.div`
+    display: inline-block;
+    margin-top: 0px;
+    color: ${({ theme }) => theme.colors.yellow};
+    span {
+        border-bottom: 1px dashed rgb(244, 245, 246); /* Add dashed border to the span */
+        padding-bottom: 2%; /* Adjust the distance between text and line */
+    }
 `;
 
-const ProfileHeader = styled.p`
-    text-align: center;
-    font-size: ${({ theme }) => theme.fonts.titleFontSize};
-    font-weight: bolder;
-    text-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
-    font-family: 'Pretendard';
-    text-decoration: underline;
-    text-underline-offset: 16px;
-    text-decoration-thickness: 4px;
+const ProfileContent = styled.div`
+    margin-top: 4%;
+    margin-bottom: 3%;
+`;
+
+const RoundButton = styled.button`
+    position: absolute;
+    left: 1%;
+    top: 24%;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background-color: rgb(251, 95, 90);
+    border: none;
+`;
+
+const RoundButton2 = styled.button`
+    position: absolute;
+    left: 4%;
+    top: 24%;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background-color: rgb(253, 187, 50);
+    border: none;
+`;
+const RoundButton3 = styled.button`
+    position: absolute;
+    left: 7%;
+    top: 24%;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background-color: rgb(45, 197, 66);
+    border: none;
+`;
+
+const TopIcon = styled.img`
+    position: absolute;
+    right: 1%;
+    top: 24%;
+    height: 22px;
+    border: none;
+    color: red;
+`;
+
+const Bottom = styled.div`
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    bottom: 0;
+    border-radius: 0 0 16px 16px;
+    background-color: rgb(50, 50, 53);
+    border-top-style: solid;
+    border-top-color: rgb(53, 56, 64);
+    border-width: 1px;
+    z-index: 1;
+`;
+
+const Right = styled.div`
+    display: flex;
+    position: absolute;
+    width: 20px;
+    border-radius: 16px;
+    top: 2%;
+    height: 97%;
+    right: 0;
+    background-color: rgb(51, 55, 65);
+    border-left-style: solid;
+    border-left-color: rgb(59, 63, 73);
+    border-width: 1px;
+`;
+
+const SkillsContainer = styled.div`
+    display: flex;
+    height: 55%;
 `;

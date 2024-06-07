@@ -1,9 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { color, motion } from 'framer-motion';
 import ReactModal from 'react-modal';
 import DetailModal from '@/components/DetailModal.jsx';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { MdErrorOutline } from 'react-icons/md';
+import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 
 const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
     const [hoveredImage, setHoveredImage] = useState(null);
@@ -12,6 +14,43 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
 
     const [detailSeq, setDetailSeq] = useState(null);
     const [detailTitle, setDetailTitle] = useState(null);
+
+    const detailTitleBoxRef = useRef(null);
+
+    const [showLeftButton, setShowLeftButton] = useState(false);
+    const [showRightButton, setShowRightButton] = useState(true);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (detailTitleBoxRef.current) {
+                if (
+                    detailTitleBoxRef.current.scrollLeft === 0 &&
+                    detailTitleBoxRef.current.scrollWidth <=
+                        detailTitleBoxRef.current.clientWidth
+                ) {
+                    setShowLeftButton(false);
+                    setShowRightButton(false);
+                } else {
+                    setShowLeftButton(true);
+                    setShowRightButton(true);
+                }
+            }
+        };
+
+        if (detailTitleBoxRef.current) {
+            detailTitleBoxRef.current.addEventListener('scroll', handleScroll);
+            handleScroll(); // 초기에 한 번 호출하여 버튼 상태 설정
+        }
+
+        return () => {
+            if (detailTitleBoxRef.current) {
+                detailTitleBoxRef.current.removeEventListener(
+                    'scroll',
+                    handleScroll,
+                );
+            }
+        };
+    }, []);
 
     // 각 카테고리별 스택 그룹화
     const stackGroups = useMemo(() => {
@@ -35,6 +74,8 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
         });
     }, [stackGroups]);
 
+    console.log('클릭', clickProjectItem);
+
     const openModal = (item) => {
         setDetailSeq(item.projectDetailSeq);
         setDetailTitle(item.detailActTitle);
@@ -50,6 +91,20 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
             return text.substring(0, maxLength) + '...';
         }
         return text;
+    };
+
+    const scrollLeft = () => {
+        detailTitleBoxRef.current.scrollBy({
+            left: -200,
+            behavior: 'smooth',
+        });
+    };
+
+    const scrollRight = () => {
+        detailTitleBoxRef.current.scrollBy({
+            left: 200,
+            behavior: 'smooth',
+        });
     };
 
     return (
@@ -89,44 +144,86 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
                 <DetailProjectBox>
                     <TitleBox>Detail</TitleBox>
                     <DetailImageContainer>
-                        {clickProjectItem.projectDetailSemiList.map(
-                            (item, index) => (
-                                <DetailBox key={item.projectDetailSeq}>
-                                    <DetailImageBox
-                                        onMouseEnter={() =>
-                                            setHoveredImage(index)
-                                        }
-                                        onMouseLeave={() =>
-                                            setHoveredImage(null)
-                                        }
-                                        onClick={() => {
-                                            openModal(item);
-                                            setModalIsOpen(true);
-                                        }}
-                                    >
-                                        <DetailProjectImage
-                                            src={`/static/detail/${item.image}`}
-                                        />
-                                        {hoveredImage === index && (
-                                            <DetailProjectClick>
-                                                click
-                                            </DetailProjectClick>
-                                        )}
-                                    </DetailImageBox>
-                                    <DetailTitleBox>
-                                        <DtailTitleFont>
-                                            {item.detailActTitle}
-                                        </DtailTitleFont>
-                                        <DtailContentFont>
-                                            {/*{truncateText(*/}
-                                            {/*    item.detailActCont,*/}
-                                            {/*    maxLength,*/}
-                                            {/*)}*/}
-                                        </DtailContentFont>
-                                    </DetailTitleBox>
-                                </DetailBox>
-                            ),
-                        )}
+                        {/*{clickProjectItem.projectDetailSemiList.map(*/}
+                        {/*    (item, index) => (*/}
+                        {/*        <DetailBox key={item.projectDetailSeq}>*/}
+                        {/*            <DetailImageBox*/}
+                        {/*                onMouseEnter={() =>*/}
+                        {/*                    setHoveredImage(index)*/}
+                        {/*                }*/}
+                        {/*                onMouseLeave={() =>*/}
+                        {/*                    setHoveredImage(null)*/}
+                        {/*                }*/}
+                        {/*                onClick={() => {*/}
+                        {/*                    openModal(item);*/}
+                        {/*                    setModalIsOpen(true);*/}
+                        {/*                }}*/}
+                        {/*            >*/}
+                        {/*                <DetailProjectImage*/}
+                        {/*                    src={`/static/detail/${item.image}`}*/}
+                        {/*                />*/}
+                        {/*                {hoveredImage === index && (*/}
+                        {/*                    <DetailProjectClick>*/}
+                        {/*                        click*/}
+                        {/*                    </DetailProjectClick>*/}
+                        {/*                )}*/}
+                        {/*            </DetailImageBox>*/}
+                        {/*            <DetailTitleBox>*/}
+                        {/*                <DtailTitleFont>*/}
+                        {/*                    {item.detailActTitle}*/}
+                        {/*                </DtailTitleFont>*/}
+                        {/*                <DtailContentFont>*/}
+                        {/*                    /!*{truncateText(*!/*/}
+                        {/*                    /!*    item.detailActCont,*!/*/}
+                        {/*                    /!*    maxLength,*!/*/}
+                        {/*                    /!*)}*!/*/}
+                        {/*                </DtailContentFont>*/}
+                        {/*            </DetailTitleBox>*/}
+                        {/*        </DetailBox>*/}
+                        {/*    ),*/}
+                        {/*)}*/}
+                        <ErrorWrapper>
+                            <ErrorTop>
+                                {showLeftButton && (
+                                    <ScrollButton onClick={scrollLeft}>
+                                        <AiOutlineLeft />
+                                    </ScrollButton>
+                                )}
+                                <DetailTitleBox ref={detailTitleBoxRef}>
+                                    {clickProjectItem.projectDetailSemiList.map(
+                                        (item, index) => (
+                                            <TopBox key={item.projectDetailSeq}>
+                                                <Exclamation />
+                                                <TopSpan>
+                                                    {item.detailActTitle}
+                                                </TopSpan>
+                                                <TopCancelIcon src="/assets/icons/cancel.png" />
+                                            </TopBox>
+                                        ),
+                                    )}
+                                </DetailTitleBox>
+                                {showRightButton && (
+                                    <ScrollButton onClick={scrollRight}>
+                                        <AiOutlineRight />
+                                    </ScrollButton>
+                                )}
+                                <TopIcon src="/assets/icons/powershell.png" />
+                                <ErrorIcon src="/assets/icons/errorIcon.png" />
+                            </ErrorTop>
+                            <ErrorTextBox>
+                                PS {clickProjectItem.projectName}: \
+                                {clickProjectItem.projectName}>
+                                <ErrorText>
+                                    페이지를 찾을 수 없습니다.
+                                </ErrorText>
+                            </ErrorTextBox>
+                            <ErrorDetailBox>
+                                + 페이지가 존재하지 않거나, 사용할 수 없는
+                                페이지입니다.
+                                <br />+ 입력하신 주소가 정확한지 다시 한 번
+                                확인해주세요.
+                            </ErrorDetailBox>
+                        </ErrorWrapper>
                     </DetailImageContainer>
                 </DetailProjectBox>
                 <ReactModal
@@ -273,7 +370,6 @@ const DetailImageContainer = styled.div`
     display: flex;
     border-radius: 12px;
     flex-wrap: wrap;
-    padding: 1% 0 0 0;
 `;
 
 const DetailBox = styled.div`
@@ -299,11 +395,10 @@ const DetailImageBox = styled.div`
 `;
 
 const DetailTitleBox = styled.div`
-    width: 48%;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    margin-left: 1%;
+    display: flex;
+    width: 80%;
+    overflow: hidden;
+    padding-left: 1%;
 `;
 
 const DtailTitleFont = styled.div`
@@ -386,5 +481,114 @@ const CloseIcon = styled(AiFillCloseCircle)`
         transition: 0.4s;
     }
 }
-
 `;
+
+const Section = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    color: white;
+    position: relative;
+    background-color: ${({ theme }) => theme.backgroundColors.darkGray};
+`;
+
+const ErrorWrapper = styled(motion.div)`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    color: rgb(0, 0, 2);
+    font-family: 'Pretendard';
+    padding: 4% 0 2% 0;
+    background-color: black;
+    border-radius: 16px;
+    position: relative;
+    border-style: solid;
+    border-color: rgb(51, 51, 52);
+    border-width: 2px;
+`;
+
+const ErrorTop = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: left;
+    width: 100%;
+    height: 40px;
+    top: 0;
+    color: rgb(180, 179, 185);
+    font-size: ${({ theme }) => theme.fonts.smallFontSize};
+    border-radius: 8px 8px 0 0;
+    background-color: rgb(51, 51, 52);
+    z-index: 1;
+`;
+
+const TopIcon = styled.img`
+    position: absolute;
+    right: 1%;
+    top: 24%;
+    height: 22px;
+    border: none;
+    color: red;
+`;
+
+const TopCancelIcon = styled.img`
+    margin-left: 26px;
+`;
+
+const TopSpan = styled.span`
+    margin-left: 8px;
+    white-space: nowrap;
+`;
+
+const TopBox = styled.div`
+    display: flex;
+    height: 30px;
+    margin: 1% 0 0 0;
+    padding: 0 16px 0 12px;
+    align-items: center;
+    border-radius: 8px 8px 0 0;
+    background-color: #0c0c0d;
+    color: white;
+`;
+
+const ErrorIcon = styled.img`
+    margin-top: 1%;
+    height: 22px;
+`;
+
+const ErrorTextBox = styled.div`
+    display: flex;
+    padding: 1%;
+    color: rgb(202, 202, 203);
+`;
+
+const ErrorDetailBox = styled.div`
+    display: flex;
+    padding: 1%;
+    color: rgb(229, 71, 86);
+`;
+
+const ErrorText = styled.div`
+    margin-left: 1%;
+    color: rgb(247, 239, 165);
+`;
+
+const BlinkingErrorText = styled.div`
+    display: flex;
+    height: 100%;
+    position: relative;
+
+    left: -2px;
+    color: white;
+`;
+
+const Exclamation = styled(MdErrorOutline)`
+    color: rgb(68, 121, 212);
+    font-size: ${({ theme }) => theme.fonts.normalFontSize};
+`;
+
+const ScrollButton = styled.button``;

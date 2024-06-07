@@ -108,7 +108,7 @@ export default Dot;
 
 const DotContainer = styled.div`
     position: fixed;
-    top: 28%;
+    top: 30%;
     right: 3%;
     width: 10%;
     font-family: 'Freesentation';

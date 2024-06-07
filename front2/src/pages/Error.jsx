@@ -40,14 +40,7 @@ const Error = () => {
                     <br />+ 입력하신 주소가 정확한지 다시 한 번 확인해주세요.
                 </ErrorDetailBox>
                 <IframeBox>
-                    <iframe
-                        src="https://giphy.com/embed/fszslx90nGPuByhXs7"
-                        width="500"
-                        height="600"
-                        frameBorder="0"
-                        className="giphy-embed"
-                        allowFullScreen
-                    ></iframe>
+                    <img src="/assets/icons/dinosaur.jpg" />
                 </IframeBox>
             </ErrorWrapper>
         </Section>
@@ -78,7 +71,7 @@ const ErrorWrapper = styled(motion.div)`
     color: rgb(0, 0, 2);
     font-family: 'Pretendard';
     padding: 2% 0 2% 0;
-    background-color: #0c0c0d;
+    background-color: black;
     border-radius: 16px;
     position: relative;
     border-style: solid;
