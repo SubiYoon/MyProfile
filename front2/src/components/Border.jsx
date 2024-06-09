@@ -21,9 +21,8 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
     const pageContents = [
         { id: 1, component: Home },
         { id: 2, component: Profile },
-        { id: 3, component: Skills },
-        { id: 4, component: Project },
-        { id: 5, component: Education },
+        { id: 3, component: Project },
+        { id: 4, component: Education },
     ];
 
     const sectionRefs = Array.from({ length: pageContents.length }, () =>
@@ -33,10 +32,9 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
     useEffect(() => {
         const colorMap = {
             1: 'black',
-            2: 'white',
-            3: 'gray',
-            4: 'beige',
-            5: 'realBlack',
+            2: 'black',
+            3: 'beige',
+            4: 'realBlack',
         };
 
         setPreviousBackgroundColor(backgroundColor);
