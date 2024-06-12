@@ -5,10 +5,8 @@ import { currentPageState } from '@/recoil.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import Home from '@/pages/Home.jsx';
 import Profile from '@/pages/Profile.jsx';
-import Skills from '@/pages/Skills.jsx';
-import Project from '@/pages/Project.jsx';
 import Dot from '@/components/layout/Dot.jsx';
-import Education from '@/pages/Education.jsx';
+import PowerShell from '@/pages/PowerShell.jsx';
 
 const Border = React.forwardRef(({ urlGb }, ref) => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
@@ -21,8 +19,7 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
     const pageContents = [
         { id: 1, component: Home },
         { id: 2, component: Profile },
-        { id: 3, component: Project },
-        { id: 4, component: Education },
+        { id: 3, component: PowerShell },
     ];
 
     const sectionRefs = Array.from({ length: pageContents.length }, () =>
@@ -33,8 +30,7 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
         const colorMap = {
             1: 'black',
             2: 'black',
-            3: 'beige',
-            4: 'realBlack',
+            3: 'darkGray',
         };
 
         setPreviousBackgroundColor(backgroundColor);

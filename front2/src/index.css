@@ -1,37 +1,13 @@
 
-/*@font-face {*/
-/*  font-family: 'NanumSquareNeo';*/
-/*  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');*/
-/*  font-weight: normal;*/
-/*  font-style: normal;*/
-/*}*/
 
 @font-face {
-  font-family: 'Pretendard';
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
+  font-family: 'consola';
+  src: url("/assets/font/consola.ttf") format('truetype');
 }
 
 @font-face {
-  font-family: 'Freesentation';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-9Black.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Arita';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Arita-dotum-Medium.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'D2Coding';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+  font-family: 'menlo';
+  src: url("/assets/font/menlo.ttf") format('truetype');
 }
 
 body {

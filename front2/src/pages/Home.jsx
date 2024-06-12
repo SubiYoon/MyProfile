@@ -24,5 +24,5 @@ const HomeWrapper = styled.div`
     padding-left: 8%;
     padding-right: 8%;
     width: 100%;
-    font-family: 'NanumSquareNeo';
+    font-family: 'consola';
 `;

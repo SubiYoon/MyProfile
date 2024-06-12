@@ -7,6 +7,8 @@ import Error from '@/pages/Error.jsx'; // Error 컴포넌트를 임포트합니�
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Router와 Routes를 가져옵니다.
 import theme from '@/theme.js';
 import { useEffect, useRef } from 'react';
+import Project from '@/pages/Project.jsx';
+import Education from '@/pages/Education.jsx';
 
 const GlobalStyle = createGlobalStyle`
     html, body {

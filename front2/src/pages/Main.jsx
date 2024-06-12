@@ -90,8 +90,8 @@ export default Main;
 
 const Wrapper = styled.div`
     display: flex;
-    flex-direction: column; /* 각 페이지를 세로로 배치 */
+    flex-direction: column;
     max-width: 100%;
     height: 100vh;
-    overflow-y: hidden; /* 세로 스크롤을 활성화 */
+    overflow-y: hidden;
 `;

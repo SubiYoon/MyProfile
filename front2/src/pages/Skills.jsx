@@ -4,6 +4,19 @@ import { useRecoilValue } from 'recoil';
 import { stackState } from '@/recoil.js';
 import { motion } from 'framer-motion';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import {
+    ScrollCountBox,
+    ScrollNextButton,
+    ScrollPrevButton,
+    SkillBox,
+    SkillNameP,
+    SkillsContainer,
+    SkillsWrapper,
+    StackImage,
+    TitleContainer,
+    TitleHeaderP,
+    TitleSkillsP,
+} from '@/components/Styled/SkillsStyledComponents.jsx';
 
 const Skills = React.memo(() => {
     const stackData = useRecoilValue(stackState);
@@ -86,16 +99,16 @@ const Skills = React.memo(() => {
     return (
         <SkillsWrapper>
             <TitleContainer>
-                <TitleHeader>{HeaderText}</TitleHeader>
+                <TitleHeaderP>{HeaderText}</TitleHeaderP>
                 {skills.map((skill, index) => (
-                    <TitleSkills
+                    <TitleSkillsP
                         $isActive={activeSkill === skill}
                         key={index}
                         index={index}
                         onClick={() => onClickSkill(skill)}
                     >
                         {skill}
-                    </TitleSkills>
+                    </TitleSkillsP>
                 ))}
             </TitleContainer>
             <SkillsContainer ref={skillsContainerRef}>
@@ -126,7 +139,7 @@ const Skills = React.memo(() => {
                             <StackImage
                                 src={`/static/stack/${item.stackImage}`}
                             />
-                            <SkillName>{item.stackName}</SkillName>
+                            <SkillNameP>{item.stackName}</SkillNameP>
                         </SkillBox>
                     ))}
             </SkillsContainer>
@@ -141,130 +154,12 @@ const Skills = React.memo(() => {
                 </ScrollNextButton>
             )}
             {totalPages > 1 && (
-                <ScrollCount>
+                <ScrollCountBox>
                     {currentPage + 1}/{totalPages}
-                </ScrollCount>
+                </ScrollCountBox>
             )}
         </SkillsWrapper>
     );
 });
 
 export default Skills;
-
-const SkillsWrapper = styled(motion.div)`
-    display: flex;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    color: white;
-    overflow: hidden;
-`;
-
-const TitleContainer = styled.div`
-    display: flex;
-    color: white;
-    align-items: center;
-`;
-
-const TitleHeader = styled.p`
-    flex-wrap: wrap;
-    color: rgb(253, 164, 1);
-`;
-
-const TitleSkills = styled.p`
-    font-weight: ${({ $isActive }) => ($isActive ? 'bold' : null)};
-    margin: auto;
-    color: ${({ $isActive, theme }) =>
-        $isActive ? theme.colors.green : 'none'};
-    text-decoration-line: ${({ $isActive }) =>
-        $isActive ? 'underline' : 'none'};
-    text-underline-offset: 8px;
-    text-decoration-thickness: 1px;
-    &:hover {
-        transition: 0.4s;
-        cursor: pointer;
-        transform: scale(1.1);
-    }
-`;
-
-const SkillsContainer = styled.div`
-    display: flex;
-    position: relative;
-    width: 100%;
-    height: 50%;
-    padding-left: 3%;
-    flex-wrap: wrap;
-    margin: 0 auto;
-`;
-
-const SkillBox = styled(motion.div)`
-    position: ${({ $isActive }) => ($isActive ? 'relative' : 'absolute')};
-    width: 24%;
-    height: 60px;
-    border-style: dashed;
-    border-radius: 12px;
-    border-width: 2px;
-    margin: 32px 26px 0 26px;
-    transition:
-        transform 0.6s ease,
-        opacity 0.6s ease;
-    transform-style: preserve-3d;
-    transform: ${({ $isActive }) =>
-        $isActive ? 'rotateY(0deg)' : 'rotateY(90deg)'};
-    visibility: ${({ $isActive }) => ($isActive ? 'visible' : 'hidden')};
-`;
-const StackImage = styled.img`
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    left: -36px;
-    top: -26px;
-    border-radius: 16px;
-    border-width: 2px;
-    border-style: solid;
-    transform: rotate(-10deg);
-    background-color: ${({ theme }) => theme.backgroundColors.darkGray};
-`;
-
-const SkillName = styled.p`
-    text-align: center;
-    margin-top: 16px;
-    text-decoration-line: underline;
-    text-underline-offset: 6px;
-    text-decoration-thickness: 1px;
-`;
-
-const ScrollPrevButton = styled.button`
-    position: absolute;
-    top: 91.5%;
-    left: 69.8%;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    &:hover {
-        color: ${({ theme }) => theme.colors.green};
-    }
-`;
-
-const ScrollNextButton = styled.button`
-    position: absolute;
-    top: 91.5%;
-    left: 73%;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    &:hover {
-        color: ${({ theme }) => theme.colors.green};
-    }
-`;
-const ScrollCount = styled.div`
-    position: absolute;
-    margin-top: 0.2%;
-    padding: 0 0.5% 0 0.2%;
-    top: 91%;
-    left: 71.4%;
-`;

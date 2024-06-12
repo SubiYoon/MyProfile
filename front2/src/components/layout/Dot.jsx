@@ -7,20 +7,15 @@ import { motion } from 'framer-motion';
 import { ImProfile } from 'react-icons/im';
 import { IoHome } from 'react-icons/io5';
 import { GoProjectRoadmap } from 'react-icons/go';
-import { SiStackoverflow } from 'react-icons/si';
-import { PiStudentFill } from 'react-icons/pi';
-
+import { CgProfile } from 'react-icons/cg';
 const Dot = ({ onMenuClick }) => {
     const [menuData, setMenuData] = useState([]);
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-    const [color, setColor] = useState('white');
 
     const componentsMap = {
         Profile: Profile,
-        Stack: Stack,
-        Project: Project,
+        Career: Career,
         Home: Home,
-        Education: Education,
     };
 
     useEffect(() => {
@@ -39,14 +34,6 @@ const Dot = ({ onMenuClick }) => {
         fetchMenuData();
     }, []);
 
-    useEffect(() => {
-        if (currentPage === 1 || currentPage === 5) {
-            setColor('white');
-        } else {
-            setColor('black');
-        }
-    }, [currentPage]);
-
     const dotButtons = () => {
         return menuData.map((item) => {
             const DynamicComponent = componentsMap[item.menuName];
@@ -64,7 +51,6 @@ const Dot = ({ onMenuClick }) => {
                             }}
                             $num={item.menuSeq}
                             $currentPage={currentPage}
-                            $color={color}
                         >
                             {DynamicComponent && <DynamicComponent />}
                         </Dots>
@@ -73,16 +59,11 @@ const Dot = ({ onMenuClick }) => {
                             onClick={() => onMenuClick(item.menuSeq)}
                             $num={item.menuSeq}
                             $currentPage={currentPage}
-                            $color={color}
                         >
                             {DynamicComponent && <DynamicComponent />}
                         </ClickableDots>
                     )}
-                    <MenuButton
-                        $num={item.menuSeq}
-                        $currentPage={currentPage}
-                        $color={color}
-                    >
+                    <MenuButton $num={item.menuSeq} $currentPage={currentPage}>
                         {item.menuName}
                     </MenuButton>
                 </React.Fragment>
@@ -108,7 +89,7 @@ export default Dot;
 
 const DotContainer = styled.div`
     position: fixed;
-    top: 30%;
+    top: 34%;
     right: 3%;
     width: 10%;
     font-family: 'Freesentation';
@@ -119,7 +100,7 @@ const MenuButton = styled.span`
         $currentPage === $num ? 'block' : 'none'};
     align-items: center;
     background-color: transparent;
-    color: ${({ $color }) => $color};
+    color: white;
     border: none;
     font-size: ${({ theme }) => theme.fonts.mainFontSize};
     text-shadow: 8px 8px 4px rgba(230, 27, 57, 0.8);
@@ -145,8 +126,8 @@ const Dots = styled(motion.div)`
     height: 30px;
     margin-top: 30%;
     margin-bottom: 30%;
-    color: ${({ $currentPage, $num, $color }) =>
-        $currentPage === $num ? 'rgba(230, 27, 57, 1)' : $color};
+    color: ${({ $currentPage, $num }) =>
+        $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -178,18 +159,13 @@ const iconStyle = `
     height: 100%;
 `;
 
-const Profile = styled(ImProfile)`
+const Profile = styled(CgProfile)`
     ${iconStyle}
 `;
-const Stack = styled(SiStackoverflow)`
-    ${iconStyle}
-`;
-const Project = styled(GoProjectRoadmap)`
+
+const Career = styled(GoProjectRoadmap)`
     ${iconStyle}
 `;
 const Home = styled(IoHome)`
-    ${iconStyle}
-`;
-const Education = styled(PiStudentFill)`
     ${iconStyle}
 `;
