@@ -68,9 +68,7 @@ const Project = React.memo(({ scrollToBottom }) => {
                     case 'clear':
                         // 모든 상태 초기화
                         setHistory([]);
-                        setCurrentProject(null);
                         setConsoleText('');
-                        setDirectory('');
                         return;
                     case 'll':
                         entry.valid = true;
