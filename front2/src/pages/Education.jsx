@@ -27,13 +27,6 @@ const Education = React.memo(() => {
 
     return (
         <EducationWrapper>
-            <EducationTop>
-                <RoundButton />
-                <RoundButton2 />
-                <RoundButton3 />
-                -zsh
-                <TopIcon src="/assets/icons/option.png" />
-            </EducationTop>
             {educationData.map((eudData) => (
                 <React.Fragment key={eudData.eduSeq}>
                     <EducationContainer>
@@ -90,8 +83,6 @@ const Education = React.memo(() => {
                     </EducationContainer>
                 </React.Fragment>
             ))}
-            <EducationRight />
-            <EducationBottom />
         </EducationWrapper>
     );
 });
@@ -101,114 +92,17 @@ export default Education;
 const EducationWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
-    width: 70%;
-    margin: 2% 0 2% 0;
-    min-height: 680px;
+    width: 100%;
     height: 100%;
     color: rgb(0, 0, 2);
-    font-family: 'Pretendard';
-    padding: 2% 0 2% 0;
-    background-color: ${({ theme }) => theme.backgroundColors.darkGray};
-    border-radius: 16px;
+    font-family: 'menlo';
     position: relative;
-    border-style: solid;
-    border-color: rgb(117, 117, 120);
-    border-width: 1px;
-`;
-
-const EducationTop = styled.div`
-    display: flex;
-    position: absolute;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 40px;
-    top: 0;
-    color: rgb(180, 179, 185);
-    font-weight: bold;
-    font-size: ${({ theme }) => theme.fonts.normalFontSize};
-    border-radius: 16px 16px 0 0;
-    background-color: rgb(57, 56, 63);
-    border-bottom-style: solid;
-    border-bottom-color: rgb(3, 3, 7);
-    border-width: 1px;
-    z-index: 1;
-`;
-
-const RoundButton = styled.button`
-    position: absolute;
-    left: 1%;
-    top: 24%;
-    height: 22px;
-    width: 22px;
-    border-radius: 50%;
-    background-color: rgb(251, 95, 90);
-    border: none;
-`;
-
-const RoundButton2 = styled.button`
-    position: absolute;
-    left: 4%;
-    top: 24%;
-    height: 22px;
-    width: 22px;
-    border-radius: 50%;
-    background-color: rgb(253, 187, 50);
-    border: none;
-`;
-const RoundButton3 = styled.button`
-    position: absolute;
-    left: 7%;
-    top: 24%;
-    height: 22px;
-    width: 22px;
-    border-radius: 50%;
-    background-color: rgb(45, 197, 66);
-    border: none;
-`;
-
-const TopIcon = styled.img`
-    position: absolute;
-    right: 1%;
-    top: 24%;
-    height: 22px;
-    border: none;
-    color: red;
-`;
-
-const EducationBottom = styled.div`
-    display: flex;
-    position: absolute;
-    width: 100%;
-    height: 30px;
-    bottom: 0;
-    border-radius: 0 0 16px 16px;
-    background-color: rgb(50, 50, 53);
-    border-top-style: solid;
-    border-top-color: rgb(53, 56, 64);
-    border-width: 1px;
-    z-index: 1;
-`;
-
-const EducationRight = styled.div`
-    display: flex;
-    position: absolute;
-    width: 20px;
-    border-radius: 16px;
-    top: 2%;
-    height: 97%;
-    right: 0;
-    background-color: rgb(51, 55, 65);
-    border-left-style: solid;
-    border-left-color: rgb(59, 63, 73);
-    border-width: 1px;
 `;
 
 const EducationContainer = styled.div`
     display: flex;
-    padding: 2% 3% 1% 3%;
-    margin-bottom: 2%;
+    padding: 1% 1% 1% 2%;
+    margin-bottom: 1%;
     position: relative;
     justify-content: left;
     flex-direction: column;
@@ -223,12 +117,12 @@ const EducationHeader = styled.div`
 
 const EducationName = styled.div`
     display: flex;
-    margin-top: 14px;
-    margin-bottom: 2%;
+    margin-top: 11px;
+    margin-bottom: 1%;
     width: 100%;
-    background-color: rgb(39, 42, 57);
+    background-color: #0c0c0d;
     z-index: 1;
-    padding-left: 1%;
+    padding-left: 0.5%;
     color: rgb(90, 245, 138);
 `;
 
@@ -237,7 +131,6 @@ const IconContainer = styled.div`
     height: 26px;
     align-items: center;
     justify-content: left;
-    font-family: 'D2Coding';
     clip-path: polygon(
         0 0,
         calc(100% - 14px) 0,
@@ -356,7 +249,7 @@ const LineBox = styled.div`
     top: 50%;
     left: -1.8%;
     border-radius: 6px;
-    width: 24px;
+    width: 30px;
     height: 32px;
     border-style: solid;
     border-width: 2px;

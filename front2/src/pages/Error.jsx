@@ -6,16 +6,6 @@ import { MdErrorOutline } from 'react-icons/md';
 import { PiStudentFill } from 'react-icons/pi';
 
 const Error = () => {
-    const [isVisible, setIsVisible] = useState(true);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setIsVisible((prevVisible) => !prevVisible); // isVisible 값을 토글합니다.
-        }, 500); // 0.5초마다 isVisible을 변경합니다.
-
-        return () => clearInterval(interval);
-    }, []);
-
     return (
         <Section>
             <ErrorWrapper>

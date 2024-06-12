@@ -56,7 +56,7 @@ export default Header;
 
 const MainText = styled.div`
     width: 100%;
-    font-family: 'Freesentation';
+    font-family: 'consola';
     font-weight: bolder;
     font-size: ${({ theme }) => theme.fonts.firstMainFontSize};
     text-align: left;
@@ -65,6 +65,7 @@ const MainText = styled.div`
 const MainText2 = styled.div`
     width: 100%;
     color: rgba(230, 27, 57, 1);
+    font-family: 'menlo';
     margin-top: 60px;
     font-weight: bolder;
     font-size: ${({ theme }) => theme.fonts.firstMainFontSize};
