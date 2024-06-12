@@ -182,6 +182,6 @@ export const DetailHeaderBox = styled.div`
 
 export const DetailContentBox = styled.div`
     border-width: 1px;
-    margin-top: 4%;
+    margin-top: 48px;
     margin-bottom: 3%;
 `;
