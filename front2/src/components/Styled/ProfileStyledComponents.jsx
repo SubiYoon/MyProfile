@@ -5,7 +5,7 @@ export const ProfileWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
     width: 80%;
-    margin: 2% 0 2% 0;
+    margin: 14% 0 2% 0;
     height: 100%;
     color: ${({ theme }) => theme.colors.white};
     font-family: 'menlo';
@@ -17,6 +17,11 @@ export const ProfileWrapper = styled(motion.div)`
     border-style: solid;
     border-color: rgb(117, 117, 120);
     border-width: 1px;
+
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.smallFontSize};
+        width: 90%;
+    }
 `;
 
 export const ProfileTopContainer = styled.div`
@@ -82,6 +87,10 @@ export const TopIcon = styled.img`
 export const AboutContainer = styled.div`
     display: flex;
     padding: 16px;
+    @media screen and (max-width: 768px) {
+        width: 85%;
+        flex-direction: column;
+    }
 `;
 
 export const ImgBox = styled.div`
@@ -91,6 +100,10 @@ export const ImgBox = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        margin-top: 10%;
+    }
 `;
 
 export const PhotoBox = styled.div`
@@ -109,6 +122,10 @@ export const AboutBox = styled.div`
     width: 52%;
     flex-direction: column;
     padding-left: 2%;
+    @media screen and (max-width: 768px) {
+        margin-top: 2%;
+        width: 100%;
+    }
 `;
 
 export const ProfileHeaderBox = styled.div`

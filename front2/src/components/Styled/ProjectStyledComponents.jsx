@@ -2,6 +2,9 @@ import styled from 'styled-components';
 
 export const ProjectWrapper = styled.div`
     width: 100%;
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.smallFontSize};
+    }
 `;
 export const ProjectTopContainer = styled.div`
     display: flex;
@@ -51,6 +54,9 @@ export const ProjectNameBox = styled.div`
 export const CareerBox = styled.div`
     display: flex;
     align-items: center;
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
 `;
 
 export const CompanyImageBox = styled.div`
@@ -75,6 +81,9 @@ export const ConsoleInputStyled = styled.input`
     outline: none;
     font-size: 16px;
     font-family: 'consola';
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.smallFontSize};
+    }
 `;
 
 export const ErrorText = styled.p`

@@ -6,6 +6,14 @@ const theme = {
         normalFontSize: '1.2rem',
         smallFontSize: '1rem',
         firstMainFontSize: '12rem',
+        mobile: {
+            mainFontSize: '1rem',
+            titleFontSize: '3rem',
+            largeFontSize: '2rem',
+            normalFontSize: '1rem',
+            smallFontSize: '0.6rem',
+            firstMainFontSize: '2rem',
+        },
     },
     backgroundColors: {
         main: 'rgba(255, 255, 255, 0.92)',
@@ -28,6 +36,11 @@ const theme = {
         lightGray: 'rgb(241,231,220, 1)',
         green: 'rgb(54,198,125)',
         yellow: 'rgb(238,166,51)',
+    },
+    mediaQueries: {
+        mobile: '@media screen and (max-width: 768px)',
+        tablet: '@media screen and (min-width: 768px) and (max-width: 1024px)',
+        desktop: '@media screen and (min-width: 1024px)',
     },
 };
 

@@ -15,6 +15,10 @@ const GlobalStyle = createGlobalStyle`
         min-width: 1800px;
         overflow-y: hidden;
     }
+    @media screen and (max-width: 768px) {
+        html, body {
+            min-width: auto;
+        }
 `;
 
 function App() {

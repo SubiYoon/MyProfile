@@ -93,6 +93,12 @@ const DotContainer = styled.div`
     right: 3%;
     width: 10%;
     font-family: 'Freesentation';
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        top: 0%;
+        right: 28%;
+        z-index: 20;
+    }
 `;
 
 const MenuButton = styled.span`
@@ -110,6 +116,10 @@ const MenuButton = styled.span`
     transition:
         opacity 0.5s ease,
         transform 0.5s ease;
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.mainFontSize};
+        margin-top: 8%;
+    }
 `;
 
 const DotBox = styled.div`
@@ -118,14 +128,16 @@ const DotBox = styled.div`
     justify-content: space-between;
     flex-direction: column;
     align-items: center;
-    width: 30%;
+    width: 50%;
+    @media screen and (max-width: 768px) {
+        flex-direction: unset;
+    }
 `;
 
 const Dots = styled(motion.div)`
     width: 30px;
     height: 30px;
-    margin-top: 30%;
-    margin-bottom: 30%;
+
     color: ${({ $currentPage, $num }) =>
         $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
     display: flex;
@@ -135,10 +147,13 @@ const Dots = styled(motion.div)`
         cursor: pointer;
         transform: scale(1.5);
     }
+    @media screen and (max-width: 768px) {
+        width: 20px;
+        height: 20px;
+        margin-top: 8%;
+    }
 `;
-const IconBox = styled(motion.div)`
-    margin: 20% 0 20% 0;
-`;
+const IconBox = styled(motion.div)``;
 
 const Icon = styled.img`
     width: 100%;
