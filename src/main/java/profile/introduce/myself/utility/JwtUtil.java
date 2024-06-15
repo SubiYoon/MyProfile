@@ -2,7 +2,11 @@ package profile.introduce.myself.utility;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import profile.introduce.myself.security.UserVo;
 
 import java.nio.charset.StandardCharsets;
@@ -14,21 +18,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Component
+@PropertySource("classpath:application-security.properties")
 public class JwtUtil {
     //JWT secretKey
-    private static final String SECRET_KEY = "This is MyProfile & Protfolio WebSite project";
-    private static final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+    @Value("${jwtSecretKey}")
+    private String SECRET_KEY;
+    private static Key key;
     private static final String JWT_TYPE= "JWT";
     private static final String ALGORITHM = "HS256";
     private static final String LOGIN_ID = "loginId";
     private static final String USERNAME = "username";
+
+    @PostConstruct
+    public void init() {
+        key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+    }
 
     // JWT 토큰 생성
     public static String createJwtToken(UserVo userVo) {
         JwtBuilder builder = Jwts.builder()
                 .setHeader(createHeader())                      // Header 구성
                 .setClaims(createClaims(userVo))                // payload - Claims 구성
-                .setSubject(String.valueOf(userVo.getAlias()))  // payload - Subject 구성
+                .setSubject(java.lang.String.valueOf(userVo.getAlias()))  // payload - Subject 구성
                 .setIssuer("profile")                           // Issuer 구성
                 .signWith(key, SignatureAlgorithm.HS256)        // Signature 구성
                 .setExpiration(createExpiredDate());            // Token 만료일 구성
