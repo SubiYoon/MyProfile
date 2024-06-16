@@ -15,6 +15,30 @@ const router = createRouter({
             meta: { requireAuth: true },
             component: () => import('@/views/profile/Profile.vue'),
         },
+        {
+            path: '/stack',
+            name: 'stack',
+            meta: { requireAuth: true },
+            component: () => import('@/views/stack/Stack.vue'),
+        },
+        {
+            path: '/career',
+            name: 'career',
+            meta: { requireAuth: true },
+            component: () => import('@/views/career/Career.vue'),
+        },
+        {
+            path: '/project',
+            name: 'project',
+            meta: { requireAuth: true },
+            component: () => import('@/views/project/Project.vue'),
+        },
+        {
+            path: '/education',
+            name: 'education',
+            meta: { requireAuth: true },
+            component: () => import('@/views/education/Education.vue'),
+        },
     ],
 })
 
