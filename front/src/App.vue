@@ -46,14 +46,16 @@ server.get('/api/menu/admin').then(data => {
 
         <q-drawer v-if="authStore.user.isSignedin" v-model="leftDrawerOpen" show-if-above side="left" bordered>
             <q-list>
-                <q-item v-for="item in menus" clickable v-ripple tag="router-link" :href="item.routePath">
-                    <q-item-section>{{ item.menuName }}</q-item-section>
-                </q-item>
+                <router-view>
+                    <q-item v-for="item in menus" :key="item.routePath" :to="item.routePath" clickable v-ripple>
+                        <q-item-section>{{ item.menuName }}</q-item-section>
+                    </q-item>
+                </router-view>
             </q-list>
         </q-drawer>
 
         <q-page-container class="wapper">
-            <RouterView />
+            <RouterView class="router-view" />
         </q-page-container>
 
         <q-footer class="text-center">
@@ -67,5 +69,12 @@ server.get('/api/menu/admin').then(data => {
 <style scoped>
 .wapper {
     height: 100vh;
+}
+
+.router-view {
+    width: 80%;
+    min-width: 1400px;
+    margin: auto;
+    padding-bottom: 60px;
 }
 </style>
