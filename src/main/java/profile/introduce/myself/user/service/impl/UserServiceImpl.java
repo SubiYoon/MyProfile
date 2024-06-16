@@ -17,7 +17,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ProfileVo getProfile(String alias) {
-        return userMapper.getProfile(alias);
+        ProfileVo profileVo = userMapper.getProfile(alias);
+        profileVo.setPassword(null);
+        return profileVo;
     }
 
     @Override
