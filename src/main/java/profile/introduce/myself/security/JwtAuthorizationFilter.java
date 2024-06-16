@@ -35,7 +35,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         // 토큰이 필요없는 경우 pass
-        if (request.getMethod().equals("GET")) {
+        if (request.getRequestURI().equals("/menu/admin")
+                || (request.getMethod().equals("GET") && !request.getRequestURL().toString().contains("admin.devstat.app"))) {
             filterChain.doFilter(request, response);
             return;
         }
