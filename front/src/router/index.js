@@ -44,13 +44,13 @@ const router = createRouter({
 
 function isLoginCheck(user) {
     if (user.isSignedin) {
-        router.push('/profile')
+        return { name: 'profile' }
     } else {
-        router.push('/login')
+        return { name: 'login' }
     }
 }
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from) => {
     const userStore = useAuthStore().user
     for (let i = 0; i < router.getRoutes().length; i++) {
         // 이동하려는 페이지가 router 목록에 존재하는 경우
@@ -60,37 +60,35 @@ router.beforeEach((to, from, next) => {
                 // 로그인 했는지 확인
                 if (userStore.isSignedin) {
                     if (to.path === '/') {
-                        router.push('/profile')
-                        return
+                        return { name: 'profile' }
                     }
-                    next()
+
+                    //정상 동작
+                    console.log(to.name)
                     return
                 } else {
                     // 로그인 안되어 있을 때
                     alert('로그인이 필요합니다.')
-                    router.push('/login')
-                    return
+                    return { name: 'login' }
                 }
                 // 로그인 인증이 필요없는 url
             } else {
                 // 로그인한 사용자가 login 화면에 진입하려고 하는 경우 profile 화면으로 리다이렉트
                 if (userStore.isSignedin && to.path === '/login') {
-                    router.push('/profile')
-                    return
+                    return { name: 'profile' }
                 }
                 // /페이지에 접근시 로그인 유무에 따른 리다이렉트
                 if (to.path === '/') {
-                    isLoginCheck(userStore)
-                    return
+                    return isLoginCheck(userStore)
                 }
                 // 정상 동작
-                next()
+                console.log(to.name)
                 return
             }
             // 이동하려는 페이지가 router 목록에 존재하지 않는 경우
         } else if (router.getRoutes()[i].path !== to.path && i === router.getRoutes().length - 1) {
             alert('잘못된 접근입니다.')
-            isLoginCheck(userStore)
+            return isLoginCheck(userStore)
         }
     }
 })
