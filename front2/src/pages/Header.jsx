@@ -10,7 +10,7 @@ const Header = ({ text, gb }) => {
     const [textIndex, setTextIndex] = useState(0);
     const [subTextTyped, setSubTextTyped] = useState(false);
 
-    const mainContent = text.split('||');
+    const mainContent = text?.split('||');
 
     const subText = mainContent[1];
 

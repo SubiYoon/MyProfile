@@ -191,7 +191,7 @@ const Project = React.memo(({ scrollToBottom }) => {
             {history.map((entry, index) => (
                 <div key={index}>
                     <ProjectTopContainer>
-                        <ProjectTitle>{allProjects[0].alias}</ProjectTitle>
+                        <ProjectTitle>{allProjects[0]?.alias}</ProjectTitle>
                         <ProjectTitle>@PROJECT</ProjectTitle>
                         <ProjectTitle2>MINGW64</ProjectTitle2>
                         <ProjectTitle3>~{entry.directory}</ProjectTitle3>
@@ -259,7 +259,7 @@ const Project = React.memo(({ scrollToBottom }) => {
                 consoleText={consoleText}
                 setConsoleText={setConsoleText}
                 handleKeyDown={handleKeyDown}
-                name={allProjects[0].alias}
+                name={allProjects[0]?.alias}
                 directory={directory}
             />
         </ProjectWrapper>

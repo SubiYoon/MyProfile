@@ -39,7 +39,7 @@ const Error = () => {
                     <br />+ 입력하신 주소가 정확한지 다시 한 번 확인해주세요.
                 </ErrorDetailBox>
                 <IframeBox>
-                    <img src="/assets/icons/dinosaur.jpg" />
+                    <Photo src="/assets/icons/dinosaur.jpg" />
                 </IframeBox>
             </ErrorWrapper>
         </Section>
@@ -58,6 +58,9 @@ const Section = styled.div`
     color: white;
     position: relative;
     background-color: ${({ theme }) => theme.backgroundColors.darkGray};
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.smallFontSize};
+    }
 `;
 
 const ErrorWrapper = styled(motion.div)`
@@ -76,6 +79,10 @@ const ErrorWrapper = styled(motion.div)`
     border-style: solid;
     border-color: rgb(51, 51, 52);
     border-width: 2px;
+    @media screen and (max-width: 768px) {
+        width: 94%;
+        min-height: 580px;
+    }
 `;
 
 const ErrorTop = styled.div`
@@ -88,7 +95,6 @@ const ErrorTop = styled.div`
     height: 40px;
     top: 0;
     color: rgb(180, 179, 185);
-    font-size: ${({ theme }) => theme.fonts.smallFontSize};
     border-radius: 8px 8px 0 0;
     background-color: rgb(51, 51, 52);
     z-index: 1;
@@ -135,6 +141,9 @@ const ErrorTextBox = styled.div`
     display: flex;
     padding: 1%;
     color: rgb(202, 202, 203);
+    @media screen and (max-width: 768px) {
+        padding: 10% 1% 10% 1%;
+    }
 `;
 
 const ErrorDetailBox = styled.div`
@@ -159,10 +168,22 @@ const BlinkingErrorText = styled.div`
 
 const Exclamation = styled(MdErrorOutline)`
     color: rgb(68, 121, 212);
-    font-size: ${({ theme }) => theme.fonts.normalFontSize};
 `;
 
 const IframeBox = styled.div`
     display: flex;
     justify-content: center;
+    @media screen and (max-width: 768px) {
+        margin-top: 10%;
+        width: 100%;
+        height: 100%;
+    }
+`;
+
+const Photo = styled.img`
+    height: auto;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        height: 100%;
+    }
 `;
