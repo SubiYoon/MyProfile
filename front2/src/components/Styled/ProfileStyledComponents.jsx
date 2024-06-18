@@ -5,7 +5,7 @@ export const ProfileWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
     width: 80%;
-    margin: 2% 0 2% 0;
+    margin: 14% 0 2% 0;
     height: 100%;
     color: ${({ theme }) => theme.colors.white};
     font-family: 'menlo';
@@ -17,6 +17,11 @@ export const ProfileWrapper = styled(motion.div)`
     border-style: solid;
     border-color: rgb(117, 117, 120);
     border-width: 1px;
+
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.smallFontSize};
+        width: 90%;
+    }
 `;
 
 export const ProfileTopContainer = styled.div`
@@ -37,6 +42,9 @@ export const ProfileTopContainer = styled.div`
     border-bottom-color: rgb(3, 3, 7);
     border-width: 1px;
     z-index: 1;
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.smallFontSize};
+    }
 `;
 
 export const RoundButtonRed = styled.button`
@@ -48,6 +56,12 @@ export const RoundButtonRed = styled.button`
     border-radius: 50%;
     background-color: rgb(251, 95, 90);
     border: none;
+    @media screen and (max-width: 768px) {
+        left: 3%;
+        top: 28%;
+        width: 16px;
+        height: 16px;
+    }
 `;
 
 export const RoundButtonYellow = styled.button`
@@ -59,6 +73,12 @@ export const RoundButtonYellow = styled.button`
     border-radius: 50%;
     background-color: rgb(253, 187, 50);
     border: none;
+    @media screen and (max-width: 768px) {
+        left: 10%;
+        top: 28%;
+        width: 16px;
+        height: 16px;
+    }
 `;
 export const RoundButtonGreen = styled.button`
     position: absolute;
@@ -69,6 +89,12 @@ export const RoundButtonGreen = styled.button`
     border-radius: 50%;
     background-color: rgb(45, 197, 66);
     border: none;
+    @media screen and (max-width: 768px) {
+        left: 17%;
+        top: 28%;
+        width: 16px;
+        height: 16px;
+    }
 `;
 
 export const TopIcon = styled.img`
@@ -77,11 +103,20 @@ export const TopIcon = styled.img`
     top: 24%;
     height: 22px;
     border: none;
+    @media screen and (max-width: 768px) {
+        height: 16px;
+        top: 25%;
+        right: 3%;
+    }
 `;
 
 export const AboutContainer = styled.div`
     display: flex;
     padding: 16px;
+    @media screen and (max-width: 768px) {
+        width: 85%;
+        flex-direction: column;
+    }
 `;
 
 export const ImgBox = styled.div`
@@ -91,6 +126,10 @@ export const ImgBox = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        margin-top: 10%;
+    }
 `;
 
 export const PhotoBox = styled.div`
@@ -109,6 +148,10 @@ export const AboutBox = styled.div`
     width: 52%;
     flex-direction: column;
     padding-left: 2%;
+    @media screen and (max-width: 768px) {
+        margin-top: 2%;
+        width: 100%;
+    }
 `;
 
 export const ProfileHeaderBox = styled.div`
@@ -123,7 +166,7 @@ export const ProfileHeaderBox = styled.div`
 
 export const ProfileContentBox = styled.div`
     margin-top: 4%;
-    margin-bottom: 3%;
+    margin-bottom: 1%;
 `;
 
 export const NameBox = styled.div`

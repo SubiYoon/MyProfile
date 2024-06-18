@@ -115,7 +115,7 @@ const PowerShellSection = styled.div`
 const PowerShellWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 94%;
     margin: 2% 0 2% 0;
     color: rgb(0, 0, 2);
     font-family: 'consola';
@@ -141,19 +141,29 @@ const Top = styled.div`
     border-radius: 8px 8px 0 0;
     background-color: rgb(51, 51, 52);
     z-index: 1;
+
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.smallFontSize};
+    }
 `;
 
 const TopIcon = styled.img`
     position: absolute;
     right: 1%;
-    top: 24%;
+    top: 30%;
     height: 22px;
     border: none;
-    color: red;
+    @media screen and (max-width: 768px) {
+        height: 10px;
+        top: 42%;
+    }
 `;
 
 const TopSpan = styled.span`
     margin: 0 40px 0 8px;
+    @media screen and (max-width: 768px) {
+        margin: 0 20px 0 4px;
+    }
 `;
 
 const TopBox = styled(Link)`
@@ -171,15 +181,26 @@ const TopBox = styled(Link)`
         cursor: pointer;
         background-color: rgba(12, 12, 13, 0.7);
     }
+    @media screen and (max-width: 768px) {
+        margin: 1% 0.1% 0 0;
+        padding: 0 8px 0 12px;
+    }
 `;
 
 const TitleIcon = styled.img`
     height: 18px;
+    @media screen and (max-width: 768px) {
+        height: 10px;
+    }
 `;
 
 const PowerShellIcon = styled.img`
     margin-top: 1%;
     height: 24px;
+    @media screen and (max-width: 768px) {
+        margin-top: 4%;
+        height: 18px;
+    }
 `;
 
 const ComponentsBox = styled.div`
@@ -197,6 +218,10 @@ const ComponentsBox = styled.div`
     }
     ::-webkit-scrollbar {
         width: 1px;
+    }
+
+    @media screen and (max-width: 768px) {
+        padding: 12% 1% 12% 1%;
     }
 `;
 
@@ -229,8 +254,6 @@ const TitleTopBox = styled.div`
 
 const HelpIcon = styled(IoHelpOutline)`
     position: absolute;
-    right: 11%;
-    top: 24%;
     width: 20px;
     height: 20px;
     border: none;
@@ -249,6 +272,10 @@ const HelpIcon = styled(IoHelpOutline)`
         cursor: pointer;
         animation: none; /* 마우스를 올릴 때 애니메이션을 중지합니다. */
     }
+    @media screen and (max-width: 768px) {
+        width: 16px;
+        height: 16px;
+    }
 `;
 
 const HelpToolTip = styled.div`
@@ -265,6 +292,11 @@ const HelpToolTip = styled.div`
     border-style: solid;
     border-color: rgb(51, 51, 52);
     border-width: 2px;
+    @media screen and (max-width: 768px) {
+        width: 320px;
+        margin-top: 20px;
+        right: -70px;
+    }
 `;
 
 const HelpIconWrapper = styled.div`
@@ -275,6 +307,12 @@ const HelpIconWrapper = styled.div`
     margin-right: 10px;
     &:hover ${HelpToolTip} {
         display: flex;
+    }
+    @media screen and (max-width: 768px) {
+        right: 18%;
+        top: 31%;
+        width: 16px;
+        height: 16px;
     }
 `;
 

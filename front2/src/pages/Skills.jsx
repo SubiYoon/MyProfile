@@ -62,7 +62,8 @@ const Skills = React.memo(() => {
         const updateItemsPerPage = () => {
             if (skillsContainerRef.current) {
                 const containerWidth = skillsContainerRef.current.offsetWidth;
-                const itemWidth = 80; // 각 스킬의 가로 크기 (px)
+                const mediaQuery = window.matchMedia('(max-width: 768px)');
+                const itemWidth = mediaQuery.matches ? 70 : 115;
                 const itemsPerPage = Math.floor(containerWidth / itemWidth);
                 setItemsPerPage(itemsPerPage);
             }
@@ -70,8 +71,15 @@ const Skills = React.memo(() => {
 
         updateItemsPerPage();
         window.addEventListener('resize', updateItemsPerPage);
+
+        const mediaQuery = window.matchMedia('(max-width: 768px)');
+        const handleMediaChange = () => updateItemsPerPage();
+
+        mediaQuery.addEventListener('change', handleMediaChange);
+
         return () => {
             window.removeEventListener('resize', updateItemsPerPage);
+            mediaQuery.removeEventListener('change', handleMediaChange);
         };
     }, []);
 

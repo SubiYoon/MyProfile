@@ -2,6 +2,9 @@ import styled from 'styled-components';
 
 export const ProjectWrapper = styled.div`
     width: 100%;
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.smallFontSize};
+    }
 `;
 export const ProjectTopContainer = styled.div`
     display: flex;
@@ -28,16 +31,27 @@ export const ProjectDetailContainer = styled.div`
 export const ProjectListWrapper = styled.div`
     margin-bottom: 12px;
     flex-wrap: wrap;
+    @media screen and (max-width: 768px) {
+        display: flex;
+        width: 100%;
+    }
 `;
 
 export const TitleBox = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
 `;
 
 export const ProjectListBox = styled.div`
     display: flex;
     align-items: center;
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+        align-items: unset;
+        text-align: left;
+        margin-top: 2%;
+    }
 `;
 
 export const ProjectTextSpan = styled.span`
@@ -46,15 +60,23 @@ export const ProjectTextSpan = styled.span`
 
 export const ProjectNameBox = styled.div`
     color: rgb(124, 150, 254);
+    @media screen and (max-width: 768px) {
+        white-space: nowrap;
+    }
 `;
 
 export const CareerBox = styled.div`
     display: flex;
     align-items: center;
+    @media screen and (max-width: 768px) {
+    }
 `;
 
 export const CompanyImageBox = styled.div`
     margin-right: 12px;
+    @media screen and (max-width: 768px) {
+        margin-right: 10px;
+    }
 `;
 
 export const CompanyImage = styled.img`
@@ -75,6 +97,9 @@ export const ConsoleInputStyled = styled.input`
     outline: none;
     font-size: 16px;
     font-family: 'consola';
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.smallFontSize};
+    }
 `;
 
 export const ErrorText = styled.p`
@@ -84,26 +109,42 @@ export const ErrorText = styled.p`
 export const CompanyDay = styled.div`
     margin: 0 12px 0 0;
     min-width: 210px;
+    @media screen and (max-width: 768px) {
+        min-width: 130px;
+    }
 `;
 
 export const ProjectDay = styled.div`
     margin: 0 12px 0 0;
     min-width: 140px;
+    @media screen and (max-width: 768px) {
+        min-width: 100px;
+    }
 `;
 
 export const CompanyBox = styled.div`
     display: flex;
     min-width: 180px;
+    @media screen and (max-width: 768px) {
+        min-width: 140px;
+        align-items: center;
+    }
 `;
 
 export const ProjectSemiDetailWrapper = styled.div`
     width: 100%;
     display: flex;
     margin: 12px 0 24px 0;
+    @media screen and (max-width: 768px) {
+        flex-wrap: wrap;
+    }
 `;
 
 export const ImgBox = styled.div`
     width: 50%;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 export const Photo = styled.img`
@@ -124,15 +165,16 @@ export const CategoryBox = styled.div`
     align-items: center;
     padding: 1%;
     min-width: 13%;
+    @media screen and (max-width: 768px) {
+        min-width: 36%;
+    }
 `;
 
 export const CategoryNameBox = styled.div`
     width: 100%;
     margin-bottom: 12px;
-
     align-items: center;
     text-align: center;
-
     border-style: dashed;
     border-width: 1px;
 `;
@@ -153,6 +195,10 @@ export const StackImg = styled.img`
     width: 24px;
     height: 24px;
     border-radius: 50%;
+    @media screen and (max-width: 768px) {
+        width: 20px;
+        height: 20px;
+    }
 `;
 
 export const StackListSpan = styled.span`
@@ -168,6 +214,10 @@ export const GapDiv = styled.div`
 export const AboutContainer = styled.div`
     width: 50%;
     padding-left: 2%;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        margin-top: 32px;
+    }
 `;
 
 export const DetailHeaderBox = styled.div`
@@ -184,4 +234,8 @@ export const DetailContentBox = styled.div`
     border-width: 1px;
     margin-top: 48px;
     margin-bottom: 3%;
+`;
+
+export const ProjectTextBox = styled.div`
+    display: flex;
 `;

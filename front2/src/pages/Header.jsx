@@ -60,6 +60,10 @@ const MainText = styled.div`
     font-weight: bolder;
     font-size: ${({ theme }) => theme.fonts.firstMainFontSize};
     text-align: left;
+
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.firstMainFontSize};
+    }
 `;
 
 const MainText2 = styled.div`
@@ -74,4 +78,8 @@ const MainText2 = styled.div`
     transform: translateX(
         ${({ $subTextTyped }) => ($subTextTyped ? '0' : '-100vw')}
     );
+
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.firstMainFontSize};
+    }
 `;

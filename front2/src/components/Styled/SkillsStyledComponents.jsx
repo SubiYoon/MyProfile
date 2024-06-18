@@ -14,11 +14,17 @@ export const TitleContainer = styled.div`
     display: flex;
     color: white;
     align-items: center;
+    @media screen and (max-width: 768px) {
+        margin-top: 4%;
+    }
 `;
 
 export const TitleHeaderP = styled.p`
     flex-wrap: wrap;
     color: rgb(253, 164, 1);
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
 `;
 
 export const TitleSkillsP = styled.p`
@@ -45,11 +51,15 @@ export const SkillsContainer = styled.div`
     padding-left: 3%;
     flex-wrap: wrap;
     margin: 0 auto;
+    @media screen and (max-width: 768px) {
+        height: 100%;
+        margin-bottom: 60px;
+    }
 `;
 
 export const SkillBox = styled(motion.div)`
     position: ${({ $isActive }) => ($isActive ? 'relative' : 'absolute')};
-    width: 24%;
+    width: 25%;
     height: 60px;
     border-style: dashed;
     border-radius: 12px;
@@ -62,6 +72,11 @@ export const SkillBox = styled(motion.div)`
     transform: ${({ $isActive }) =>
         $isActive ? 'rotateY(0deg)' : 'rotateY(90deg)'};
     visibility: ${({ $isActive }) => ($isActive ? 'visible' : 'hidden')};
+    @media screen and (max-width: 768px) {
+        width: 32%;
+        height: 40px;
+        margin: 32px 20px 0 20px;
+    }
 `;
 export const StackImage = styled.img`
     width: 50px;
@@ -74,6 +89,14 @@ export const StackImage = styled.img`
     border-style: solid;
     transform: rotate(-10deg);
     background-color: ${({ theme }) => theme.backgroundColors.darkGray};
+    @media screen and (max-width: 768px) {
+        width: 30px;
+        height: 30px;
+        left: -20px;
+        top: -16px;
+        border-radius: 12px;
+        border-width: 1px;
+    }
 `;
 
 export const SkillNameP = styled.p`
@@ -96,6 +119,11 @@ export const ScrollPrevButton = styled.button`
     &:hover {
         color: ${({ theme }) => theme.colors.green};
     }
+
+    @media screen and (max-width: 768px) {
+        top: 93%;
+        left: 40%;
+    }
 `;
 
 export const ScrollNextButton = styled.button`
@@ -110,6 +138,10 @@ export const ScrollNextButton = styled.button`
     &:hover {
         color: ${({ theme }) => theme.colors.green};
     }
+    @media screen and (max-width: 768px) {
+        top: 93%;
+        left: 49.6%;
+    }
 `;
 export const ScrollCountBox = styled.div`
     position: absolute;
@@ -117,4 +149,9 @@ export const ScrollCountBox = styled.div`
     padding: 0 0.5% 0 0.2%;
     top: 91%;
     left: 71.4%;
+    @media screen and (max-width: 768px) {
+        margin-top: 0.8%;
+        top: 93%;
+        left: 46.4%;
+    }
 `;

@@ -23,6 +23,7 @@ import {
 import { useRecoilValue } from 'recoil';
 import { stackState, profileState } from '@/recoil.js';
 import Skills from '@/pages/Skills.jsx';
+import { renderToString } from 'react-dom/server';
 
 const Profile = React.memo(() => {
     // 프로필 정보
@@ -33,6 +34,14 @@ const Profile = React.memo(() => {
     if (!profileData || !stackData) {
         return <h2>Loading...</h2>;
     }
+
+    const htmlString = renderToString(
+        <ProfileContentBox>
+            {profileData.detailIntroduceMyself}
+        </ProfileContentBox>,
+    );
+
+    console.log('html', htmlString);
 
     return (
         <ProfileWrapper>
@@ -53,9 +62,10 @@ const Profile = React.memo(() => {
                     <ProfileHeaderBox>
                         <span>{profileData.simpleIntroduceMyself}</span>
                     </ProfileHeaderBox>
-                    <ProfileContentBox>
-                        {profileData.detailIntroduceMyself}
-                    </ProfileContentBox>
+                    <ProfileContentBox
+                        dangerouslySetInnerHTML={{ __html: htmlString }}
+                    />
+
                     <NameBox>
                         <ProfileTitleSpan>name:</ProfileTitleSpan>
                         <span>{profileData.name}</span>
