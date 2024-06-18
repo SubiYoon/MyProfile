@@ -97,6 +97,7 @@ const EducationWrapper = styled(motion.div)`
     color: rgb(0, 0, 2);
     font-family: 'menlo';
     position: relative;
+    font-size: ${({ theme }) => theme.fonts.smallFontSize};
 `;
 
 const EducationContainer = styled.div`
@@ -106,6 +107,9 @@ const EducationContainer = styled.div`
     position: relative;
     justify-content: left;
     flex-direction: column;
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.mobile.smallFontSize};
+    }
 `;
 
 const EducationHeader = styled.div`
@@ -124,6 +128,9 @@ const EducationName = styled.div`
     z-index: 1;
     padding-left: 0.5%;
     color: rgb(90, 245, 138);
+    @media screen and (max-width: 768px) {
+        margin-top: 15px;
+    }
 `;
 
 const IconContainer = styled.div`
@@ -148,7 +155,6 @@ const StudyIconBox = styled.div`
     align-items: center;
     color: rgb(235, 236, 237);
     justify-content: center;
-    font-size: ${({ theme }) => theme.fonts.normalFontSize};
     clip-path: polygon(
         0 0,
         calc(100% - 14px) 0,
@@ -165,7 +171,6 @@ const IconBox = styled.div`
     left: -16px;
     padding: 0 24px 0 24px;
     align-items: center;
-    font-size: ${({ theme }) => theme.fonts.smallFontSize};
     background-color: rgb(186, 159, 229);
     clip-path: polygon(
         0 0,
@@ -185,7 +190,6 @@ const IconBox2 = styled.div`
     height: 100%;
     padding: 0 24px 0 24px;
     align-items: center;
-    font-size: ${({ theme }) => theme.fonts.smallFontSize};
     background-color: rgb(50, 149, 216);
     clip-path: polygon(
         0 0,
@@ -204,7 +208,6 @@ const IconBox3 = styled.div`
     height: 100%;
     padding: 0 20px 0 24px;
     align-items: center;
-    font-size: ${({ theme }) => theme.fonts.smallFontSize};
     background-color: rgb(47, 199, 112);
     clip-path: polygon(
         0 0,
@@ -225,7 +228,6 @@ const StarContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    font-size: ${({ theme }) => theme.fonts.smallFontSize};
     svg {
         margin-bottom: 2%;
         color: yellow;
@@ -240,8 +242,11 @@ const LogoBox = styled.div`
     background-color: rgb(253, 144, 207);
     align-items: center;
     justify-content: right;
-    font-size: ${({ theme }) => theme.fonts.smallFontSize};
     clip-path: polygon(0 50%, 14px 0, 100% 0, 100% 100%, 14px 100%);
+    @media screen and (max-width: 768px) {
+        padding-left: 6%;
+        white-space: nowrap;
+    }
 `;
 
 const LineBox = styled.div`
@@ -265,6 +270,11 @@ const EducationLogoImgBox = styled.div`
     align-items: center;
     justify-content: center;
     margin-right: 6px;
+    @media screen and (max-width: 768px) {
+        width: 20px;
+        height: 20px;
+        margin-right: 4px;
+    }
 `;
 
 const EducationDayBox = styled.div`
@@ -275,6 +285,9 @@ const EducationDayBox = styled.div`
     color: rgb(200, 211, 226);
     padding: 0 10px 0 24px;
     clip-path: polygon(0 50%, 14px 0, 100% 0, 100% 100%, 14px 100%);
+    @media screen and (max-width: 768px) {
+        white-space: nowrap;
+    }
 `;
 
 const EducationDay = styled.span`
@@ -290,6 +303,10 @@ const EducationLogoImg = styled.img`
     height: 80%;
     background-color: white;
     border-radius: 50%;
+    @media screen and (max-width: 768px) {
+        width: 80%;
+        height: 80%;
+    }
 `;
 
 const EducationContentBox = styled.div`
@@ -301,5 +318,4 @@ const EducationContentBox = styled.div`
 const ContentBox = styled.span`
     padding-left: 1%;
     display: flex;
-    font-size: ${({ theme }) => theme.fonts.smallFontSize};
 `;

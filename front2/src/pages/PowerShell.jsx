@@ -292,6 +292,11 @@ const HelpToolTip = styled.div`
     border-style: solid;
     border-color: rgb(51, 51, 52);
     border-width: 2px;
+    @media screen and (max-width: 768px) {
+        width: 320px;
+        margin-top: 20px;
+        right: -70px;
+    }
 `;
 
 const HelpIconWrapper = styled.div`

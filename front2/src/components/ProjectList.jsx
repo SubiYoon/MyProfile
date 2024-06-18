@@ -11,6 +11,7 @@ import {
     CompanyBox,
     CompanyDay,
     ProjectNameBox,
+    ProjectTextBox,
 } from '@/components/Styled/ProjectStyledComponents.jsx';
 
 const ProjectList = ({ allProjects, careerData }) => {
@@ -45,8 +46,10 @@ const ProjectList = ({ allProjects, careerData }) => {
                                 </CompanyBox>
                             </CareerBox>
                         ))}
-                    <ProjectDay>{item.projectTerm}</ProjectDay>
-                    <ProjectNameBox>{item.projectName}</ProjectNameBox>/
+                    <ProjectTextBox>
+                        <ProjectDay>{item.projectTerm}</ProjectDay>
+                        <ProjectNameBox>{item.projectName}</ProjectNameBox>/
+                    </ProjectTextBox>
                 </ProjectListBox>
             ))}
         </ProjectListWrapper>

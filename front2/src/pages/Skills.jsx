@@ -63,7 +63,7 @@ const Skills = React.memo(() => {
             if (skillsContainerRef.current) {
                 const containerWidth = skillsContainerRef.current.offsetWidth;
                 const mediaQuery = window.matchMedia('(max-width: 768px)');
-                const itemWidth = mediaQuery.matches ? 70 : 80;
+                const itemWidth = mediaQuery.matches ? 70 : 115;
                 const itemsPerPage = Math.floor(containerWidth / itemWidth);
                 setItemsPerPage(itemsPerPage);
             }

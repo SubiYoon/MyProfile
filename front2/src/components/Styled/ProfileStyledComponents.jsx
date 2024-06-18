@@ -42,6 +42,9 @@ export const ProfileTopContainer = styled.div`
     border-bottom-color: rgb(3, 3, 7);
     border-width: 1px;
     z-index: 1;
+    @media screen and (max-width: 768px) {
+        font-size: ${({ theme }) => theme.fonts.smallFontSize};
+    }
 `;
 
 export const RoundButtonRed = styled.button`
@@ -53,6 +56,12 @@ export const RoundButtonRed = styled.button`
     border-radius: 50%;
     background-color: rgb(251, 95, 90);
     border: none;
+    @media screen and (max-width: 768px) {
+        left: 3%;
+        top: 28%;
+        width: 16px;
+        height: 16px;
+    }
 `;
 
 export const RoundButtonYellow = styled.button`
@@ -64,6 +73,12 @@ export const RoundButtonYellow = styled.button`
     border-radius: 50%;
     background-color: rgb(253, 187, 50);
     border: none;
+    @media screen and (max-width: 768px) {
+        left: 10%;
+        top: 28%;
+        width: 16px;
+        height: 16px;
+    }
 `;
 export const RoundButtonGreen = styled.button`
     position: absolute;
@@ -74,6 +89,12 @@ export const RoundButtonGreen = styled.button`
     border-radius: 50%;
     background-color: rgb(45, 197, 66);
     border: none;
+    @media screen and (max-width: 768px) {
+        left: 17%;
+        top: 28%;
+        width: 16px;
+        height: 16px;
+    }
 `;
 
 export const TopIcon = styled.img`
@@ -82,6 +103,11 @@ export const TopIcon = styled.img`
     top: 24%;
     height: 22px;
     border: none;
+    @media screen and (max-width: 768px) {
+        height: 16px;
+        top: 25%;
+        right: 3%;
+    }
 `;
 
 export const AboutContainer = styled.div`
@@ -140,7 +166,7 @@ export const ProfileHeaderBox = styled.div`
 
 export const ProfileContentBox = styled.div`
     margin-top: 4%;
-    margin-bottom: 3%;
+    margin-bottom: 1%;
 `;
 
 export const NameBox = styled.div`

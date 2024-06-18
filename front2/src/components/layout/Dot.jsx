@@ -137,7 +137,8 @@ const DotBox = styled.div`
 const Dots = styled(motion.div)`
     width: 30px;
     height: 30px;
-
+    margin-top: 30%;
+    margin-bottom: 30%;
     color: ${({ $currentPage, $num }) =>
         $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
     display: flex;
@@ -151,6 +152,7 @@ const Dots = styled(motion.div)`
         width: 20px;
         height: 20px;
         margin-top: 8%;
+        margin-bottom: 0%;
     }
 `;
 const IconBox = styled(motion.div)``;
