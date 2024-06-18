@@ -73,7 +73,7 @@ server.get('/api/menu/admin').then(data => {
 
 .router-view {
     width: 80%;
-    min-width: 1400px;
+    min-width: 1800px;
     margin: auto;
     padding-bottom: 60px;
 }
