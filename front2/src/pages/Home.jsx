@@ -8,9 +8,10 @@ import { currentPageState, profileState } from '@/recoil.js';
 const Home = React.memo(({ urlGb }) => {
     const mainContent = useRecoilValue(profileState).mainContent;
     const currentPage = useRecoilValue(currentPageState);
+
     return (
         <HomeWrapper $currentPage={currentPage}>
-            {mainContent !== undefined ? (
+            {mainContent !== null ? (
                 <Header text={mainContent} gb={'main'} />
             ) : null}
         </HomeWrapper>

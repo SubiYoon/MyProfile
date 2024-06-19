@@ -5,6 +5,7 @@ import { IoCloseOutline, IoHelpOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import Education from '@/pages/Education.jsx';
 import Project from '@/pages/Project.jsx';
+import WorkHistory from '@/pages/WorkHistory.jsx';
 
 const PowerShell = () => {
     const [selectedComponent, setSelectedComponent] = useState('project');
@@ -46,6 +47,8 @@ const PowerShell = () => {
     );
     const educationMemo = useMemo(() => <Education focus={focus} />, []);
 
+    const workHistoryMemo = useMemo(() => <WorkHistory />, []);
+
     return (
         <PowerShellSection>
             <PowerShellWrapper>
@@ -65,6 +68,14 @@ const PowerShell = () => {
                         >
                             <TitleIcon src="/assets/icons/powershellLogo.png" />
                             <TopSpan>education</TopSpan>
+                            <IoCloseOutline />
+                        </TopBox>
+                        <TopBox
+                            $isSelected={selectedComponent === 'workHistory'}
+                            onClick={() => handleBoxClick('workHistory')}
+                        >
+                            <TitleIcon src="/assets/icons/cmd.png" />
+                            <TopSpan>workHistory</TopSpan>
                             <IoCloseOutline />
                         </TopBox>
                         <TopIcon src="/assets/icons/powershell.png" />
@@ -95,6 +106,7 @@ const PowerShell = () => {
                 <ComponentsBox id="container">
                     {selectedComponent === 'project' && projectsMemo}
                     {selectedComponent === 'education' && educationMemo}
+                    {selectedComponent === 'workHistory' && workHistoryMemo}
                 </ComponentsBox>
             </PowerShellWrapper>
         </PowerShellSection>
@@ -160,7 +172,7 @@ const TopIcon = styled.img`
 `;
 
 const TopSpan = styled.span`
-    margin: 0 40px 0 8px;
+    margin: 0 40px 4px 8px;
     @media screen and (max-width: 768px) {
         margin: 0 20px 0 4px;
     }

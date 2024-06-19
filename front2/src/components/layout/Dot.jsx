@@ -93,11 +93,11 @@ const DotContainer = styled.div`
     right: 3%;
     width: 10%;
     font-family: 'Freesentation';
+    z-index: 20;
     @media screen and (max-width: 768px) {
         width: 100%;
         top: 0%;
         right: 28%;
-        z-index: 20;
     }
 `;
 
