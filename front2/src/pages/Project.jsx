@@ -202,7 +202,7 @@ const Project = React.memo(({ scrollToBottom }) => {
                             entry.showCustomDetails ? (
                                 <ProjectDetailContainer>
                                     <ProjectTextSpan>
-                                        total{' '}
+                                        total
                                         {
                                             entry.project.projectDetailSemiList
                                                 .length

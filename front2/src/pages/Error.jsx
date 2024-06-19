@@ -11,7 +11,7 @@ const Error = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setIsVisible((prevVisible) => !prevVisible); // isVisible 값을 토글합니다.
-        }, 500); // 0.5초마다 isVisible을 변경합니다.
+        }, 500); // 0.5초마다 깜빡임 효과
 
         return () => clearInterval(interval);
     }, []);
@@ -28,7 +28,7 @@ const Error = () => {
                     <ErrorIcon src="/assets/icons/errorIcon.png" />
                 </ErrorTop>
                 <ErrorTextBox>
-                    PS C: \404 Not Found >
+                    PS C: \404 Not Found &gt;
                     <ErrorText>페이지를 찾을 수 없습니다.</ErrorText>
                     {isVisible ? (
                         <BlinkingErrorText>￨</BlinkingErrorText>
