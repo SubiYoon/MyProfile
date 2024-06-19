@@ -75,7 +75,7 @@ const PowerShell = () => {
                             onClick={() => handleBoxClick('workHistory')}
                         >
                             <TitleIcon src="/assets/icons/cmd.png" />
-                            <TopSpan>workHistory</TopSpan>
+                            <TopSpan>career</TopSpan>
                             <IoCloseOutline />
                         </TopBox>
                         <TopIcon src="/assets/icons/powershell.png" />
@@ -127,7 +127,7 @@ const PowerShellSection = styled.div`
 const PowerShellWrapper = styled(motion.div)`
     display: flex;
     flex-direction: column;
-    width: 94%;
+    width: 80%;
     margin: 2% 0 2% 0;
     color: rgb(0, 0, 2);
     font-family: 'consola';

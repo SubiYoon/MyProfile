@@ -18,7 +18,7 @@ const WorkHistory = () => {
 
     return (
         <ProjectWrapper>
-            <TopSpan>C:\{careerData[0]?.alias}&gt;workHistory</TopSpan>
+            <TopSpan>C:\{careerData[0]?.alias}&gt;career</TopSpan>
             {careerData
                 .filter((careerItem) => careerItem.inLevel !== '개인')
                 .map((item) => (
