@@ -71,7 +71,7 @@ export const ContentLink = styled.a`
         color: rgb(202, 202, 203);
     }
     margin: 0 2% 0 2%;
-    min-width: 300px;
+    min-width: 370px;
 `;
 
 export const ProjectNameBox = styled.div`
