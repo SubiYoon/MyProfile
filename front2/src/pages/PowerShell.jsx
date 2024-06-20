@@ -5,7 +5,6 @@ import { IoCloseOutline, IoHelpOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import Education from '@/pages/Education.jsx';
 import Project from '@/pages/Project.jsx';
-import WorkHistory from '@/pages/WorkHistory.jsx';
 
 const PowerShell = () => {
     const [selectedComponent, setSelectedComponent] = useState('project');
