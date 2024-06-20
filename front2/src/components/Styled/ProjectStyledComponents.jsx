@@ -58,6 +58,22 @@ export const ProjectTextSpan = styled.span`
     margin: 0 12px 0 0;
 `;
 
+export const ContentLink = styled.a`
+    text-decoration-line: none;
+    &:visited {
+        color: rgb(202, 202, 203);
+    }
+    &:hover {
+        cursor: pointer;
+        color: rgb(29, 183, 34);
+    }
+    &:active {
+        color: rgb(202, 202, 203);
+    }
+    margin: 0 2% 0 2%;
+    min-width: 370px;
+`;
+
 export const ProjectNameBox = styled.div`
     color: rgb(124, 150, 254);
     @media screen and (max-width: 768px) {

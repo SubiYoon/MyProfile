@@ -26,8 +26,8 @@ const Project = React.memo(({ scrollToBottom }) => {
     const [currentProject, setCurrentProject] = useState(null);
     const [directory, setDirectory] = useState('');
     const [detailProject, setDetailProject] = useState(null);
+    const [careerSeq, setCareerSeq] = useState('');
     const inputRef = useRef(null);
-
     const countSlashes = (str) => {
         return (str.match(/\//g) || []).length;
     };
@@ -45,6 +45,8 @@ const Project = React.memo(({ scrollToBottom }) => {
     }, [careerData]);
 
     const handleKeyDown = (event) => {
+        let slashCount = countSlashes(directory);
+
         if (event.key === 'Enter') {
             const inputText = consoleText.trim();
             let entry = {
@@ -63,6 +65,7 @@ const Project = React.memo(({ scrollToBottom }) => {
                 setDirectory('');
                 setCurrentProject(null);
                 entry.directory = '';
+                entry.first = true;
             } else {
                 switch (inputText) {
                     case 'clear':
@@ -72,15 +75,19 @@ const Project = React.memo(({ scrollToBottom }) => {
                         return;
                     case 'll':
                         entry.valid = true;
-                        let slashCount = countSlashes(directory);
-                        if (currentProject && slashCount !== 2) {
+                        if (slashCount === 1) {
+                            entry.project = null;
+                            entry.first = false;
+                        } else if (currentProject && slashCount === 2) {
                             entry.project = currentProject;
                             entry.showCustomDetails = true;
-                        } else if (slashCount === 2) {
+                        } else if (slashCount === 3) {
                             entry.detail = true;
                             entry.detailProject = detailProject;
                         } else {
+                            //첫번째 진입화면
                             entry.project = null;
+                            entry.first = true;
                         }
                         break;
                     case 'cd ..':
@@ -145,20 +152,50 @@ const Project = React.memo(({ scrollToBottom }) => {
                             setDirectory(entry.directory);
                         } else if (inputText.startsWith('cd ')) {
                             const projectName = inputText.substring(3);
-                            const foundProject = allProjects.find(
-                                (project) =>
-                                    project.projectName === projectName,
-                            );
-                            entry = { ...entry, cdCheck: true };
-                            if (foundProject) {
-                                entry = {
-                                    ...entry,
-                                    valid: true,
-                                    project: foundProject,
-                                    directory: '/' + entry.command.substring(3),
-                                };
-                                setCurrentProject(foundProject);
-                                setDirectory('/' + entry.command.substring(3));
+
+                            if (slashCount === 1) {
+                                const foundProject = allProjects.find(
+                                    (project) =>
+                                        project.projectName === projectName,
+                                );
+
+                                entry = { ...entry, cdCheck: true };
+                                if (foundProject) {
+                                    entry = {
+                                        ...entry,
+                                        valid: true,
+                                        project: foundProject,
+                                        directory:
+                                            directory +
+                                            '/' +
+                                            entry.command.substring(3),
+                                    };
+                                    setCurrentProject(foundProject);
+                                    setDirectory(
+                                        directory +
+                                            '/' +
+                                            entry.command.substring(3),
+                                    );
+                                }
+                            } else if (slashCount === 0) {
+                                const foundProject = careerData.find(
+                                    (project) =>
+                                        project.company === projectName,
+                                );
+
+                                if (foundProject) {
+                                    setCareerSeq(foundProject.careerSeq);
+                                    entry.project = null;
+                                    entry.valid = true;
+
+                                    entry.count =
+                                        foundProject.projectList.length;
+                                    entry.directory =
+                                        '/' + entry.command.substring(3);
+                                    setDirectory(
+                                        '/' + entry.command.substring(3),
+                                    );
+                                }
                             }
                         }
                 }
@@ -238,6 +275,9 @@ const Project = React.memo(({ scrollToBottom }) => {
                             <ProjectList
                                 allProjects={allProjects}
                                 careerData={careerData}
+                                firstCheck={entry.first}
+                                careerSeq={careerSeq}
+                                count={entry.count}
                             />
                         )
                     ) : entry.cdCheck ? (

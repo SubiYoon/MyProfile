@@ -47,8 +47,6 @@ const PowerShell = () => {
     );
     const educationMemo = useMemo(() => <Education focus={focus} />, []);
 
-    const workHistoryMemo = useMemo(() => <WorkHistory />, []);
-
     return (
         <PowerShellSection>
             <PowerShellWrapper>
@@ -68,14 +66,6 @@ const PowerShell = () => {
                         >
                             <TitleIcon src="/assets/icons/powershellLogo.png" />
                             <TopSpan>education</TopSpan>
-                            <IoCloseOutline />
-                        </TopBox>
-                        <TopBox
-                            $isSelected={selectedComponent === 'workHistory'}
-                            onClick={() => handleBoxClick('workHistory')}
-                        >
-                            <TitleIcon src="/assets/icons/cmd.png" />
-                            <TopSpan>career</TopSpan>
                             <IoCloseOutline />
                         </TopBox>
                         <TopIcon src="/assets/icons/powershell.png" />
@@ -106,7 +96,6 @@ const PowerShell = () => {
                 <ComponentsBox id="container">
                     {selectedComponent === 'project' && projectsMemo}
                     {selectedComponent === 'education' && educationMemo}
-                    {selectedComponent === 'workHistory' && workHistoryMemo}
                 </ComponentsBox>
             </PowerShellWrapper>
         </PowerShellSection>
