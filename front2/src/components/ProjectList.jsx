@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     ProjectListWrapper,
     TitleBox,
@@ -22,6 +22,7 @@ const ProjectList = ({
     careerSeq,
     count,
 }) => {
+    console.log('커리어데이터', careerData);
     return (
         <ProjectListWrapper>
             <TitleBox>
@@ -30,34 +31,36 @@ const ProjectList = ({
                 </ProjectTextSpan>
             </TitleBox>
             {firstCheck
-                ? careerData.map((careerItem) => (
-                      <CareerBox key={careerItem.careerSeq}>
-                          <CompanyDay>
-                              {careerItem.in} ~{' '}
-                              {careerItem.out ? careerItem.out : 'ing'}
-                          </CompanyDay>
-                          <ProjectTextSpan>
-                              {careerItem.inLevel}
-                          </ProjectTextSpan>
-                          <ContentLink
-                              href={careerItem.companyUrl}
-                              target="_blank"
-                          >
-                              {careerItem.companyUrl}
-                          </ContentLink>
-                          <CompanyBox>
-                              <CompanyImageBox>
-                                  <CompanyImage
-                                      src={`/static/logo/${careerItem.companyLogo}`}
-                                  />
-                              </CompanyImageBox>
-                              <ProjectNameBox>
-                                  {careerItem.company}
-                              </ProjectNameBox>
-                              /
-                          </CompanyBox>
-                      </CareerBox>
-                  ))
+                ? [...careerData]
+                      .sort((a, b) => new Date(b.in) - new Date(a.in))
+                      .map((careerItem) => (
+                          <CareerBox key={careerItem.careerSeq}>
+                              <CompanyDay>
+                                  {careerItem.in} ~{' '}
+                                  {careerItem.out ? careerItem.out : 'ing'}
+                              </CompanyDay>
+                              <ProjectTextSpan>
+                                  {careerItem.inLevel}
+                              </ProjectTextSpan>
+                              <ContentLink
+                                  href={careerItem.companyUrl}
+                                  target="_blank"
+                              >
+                                  {careerItem.companyUrl}
+                              </ContentLink>
+                              <CompanyBox>
+                                  <CompanyImageBox>
+                                      <CompanyImage
+                                          src={`/static/logo/${careerItem.companyLogo}`}
+                                      />
+                                  </CompanyImageBox>
+                                  <ProjectNameBox>
+                                      {careerItem.company}
+                                  </ProjectNameBox>
+                                  /
+                              </CompanyBox>
+                          </CareerBox>
+                      ))
                 : allProjects
                       .filter(
                           (item) =>
