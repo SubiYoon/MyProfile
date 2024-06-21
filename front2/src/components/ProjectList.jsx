@@ -22,7 +22,6 @@ const ProjectList = ({
     careerSeq,
     count,
 }) => {
-    console.log('커리어데이터', careerData);
     return (
         <ProjectListWrapper>
             <TitleBox>
