@@ -71,7 +71,6 @@ const ErrorWrapper = styled(motion.div)`
     min-height: 680px;
     height: 100%;
     color: rgb(0, 0, 2);
-    font-family: 'Pretendard';
     padding: 2% 0 2% 0;
     background-color: black;
     border-radius: 16px;
@@ -161,7 +160,6 @@ const BlinkingErrorText = styled.div`
     display: flex;
     height: 100%;
     position: relative;
-
     left: -2px;
     color: white;
 `;

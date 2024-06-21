@@ -150,7 +150,7 @@ const Top = styled.div`
 const TopIcon = styled.img`
     position: absolute;
     right: 1%;
-    top: 30%;
+    top: 24%;
     height: 22px;
     border: none;
     @media screen and (max-width: 768px) {
@@ -160,7 +160,7 @@ const TopIcon = styled.img`
 `;
 
 const TopSpan = styled.span`
-    margin: 0 40px 4px 8px;
+    margin: 0 40px 0 8px;
     @media screen and (max-width: 768px) {
         margin: 0 20px 0 4px;
     }
@@ -240,7 +240,6 @@ const BlinkingErrorText = styled.div`
     display: flex;
     height: 100%;
     position: relative;
-
     left: -2px;
     color: white;
 `;
@@ -301,8 +300,8 @@ const HelpToolTip = styled.div`
 
 const HelpIconWrapper = styled.div`
     position: absolute;
-    right: 11%;
-    top: 24%;
+    right: 14%;
+    top: 26%;
     margin-left: auto;
     margin-right: 10px;
     &:hover ${HelpToolTip} {
