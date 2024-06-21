@@ -300,7 +300,10 @@ const Project = React.memo(({ scrollToBottom }) => {
                 setConsoleText={setConsoleText}
                 handleKeyDown={handleKeyDown}
                 name={allProjects[0]?.alias}
+                careerSeq={careerSeq}
                 directory={directory}
+                countSlashes={countSlashes}
+                currentProject={currentProject}
             />
         </ProjectWrapper>
     );
