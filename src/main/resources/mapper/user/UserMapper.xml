@@ -46,4 +46,23 @@
         FROM MY_PROFILE
         WHERE ALIAS = #{alias}
     </select>
+    <update id="editProfileImage">
+        UPDATE MY_PROFILE
+        SET IMAGE = #{imageName}
+        WHERE ALIAS = #{alias}
+    </update>
+    <update id="updateProfile">
+        update my_profile
+        set name = #{name},
+            alias = #{alias},
+            addr = #{addr},
+            addr_detail = #{addrDetail},
+            git_hub = #{gitHub},
+            blog = #{blog},
+            email = #{email},
+            main_content = #{mainContent[0]} || '||' || #{mainContent[1]},
+            simple_introduce_myself = #{shortIntro},
+            detail_introduce_myself = #{longIntro}
+        where alias = #{originAlias}
+    </update>
 </mapper>

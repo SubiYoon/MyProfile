@@ -1,5 +1,6 @@
 package profile.introduce.myself.utility;
 
+import jakarta.annotation.Nullable;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -21,9 +22,9 @@ public class FileUtil {
      * @param multipartFile
      * @param path
      */
-    public static void saveFile(MultipartFile multipartFile, String path) {
+    public static String saveFile(MultipartFile multipartFile, String path) {
         String fileName = multipartFile.getOriginalFilename();
-        String[] slitFileName = multipartFile.getOriginalFilename().split(".");
+        String[] slitFileName = fileName.split("[.]");
         File file = new File(path);
         if(!file.exists()){
             file.mkdirs();
@@ -47,6 +48,68 @@ public class FileUtil {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        return file.getName();
+    }
+
+    /**
+     * 파일의 이름을 변경하여 저장한다. 네 번째 인자를 넣지 않으면 확장자는 변경되지 않는다.
+     * @param multipartFile multipartFile
+     * @param path 저장할 경로
+     * @param name 변경할 이름
+     * @param extenstion [nullalbe] 확장자
+     * @param isNested 중복파일 있을 시 true로 설정하면 ${name}(i).${extension} 방식으로 생성되고 false시 덮어 씌웁니다.
+     */
+    public static String saveFileChageName(MultipartFile multipartFile, String path, String name, @Nullable String extenstion, boolean isNested) {
+        String[] splitFileName = multipartFile.getOriginalFilename().split("[.]");
+        File file = new File(path);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+
+        FileOutputStream fos;
+        try {
+            byte[] fileBytes = multipartFile.getBytes();
+
+            // 확장자가 지정되지 않을시에 동작
+            if(ItemCheck.isEmpty(extenstion)){
+                file = new File(path + name + "." + splitFileName[1] );
+                if(isNested){
+                    for(int i=1; ; i++){
+                        if(file.exists()){
+                            file = new File(path + name + "(" + i + ")" + "." +splitFileName[1]);
+                        } else {
+                            fos = new FileOutputStream(file.getAbsolutePath());
+                            break;
+                        }
+                    }
+                } else {
+                    fos = new FileOutputStream(file.getAbsolutePath());
+                }
+            // 확장자가 지정되었을 경우 동작
+            } else {
+                file = new File(path + name + "." + extenstion);
+                if(isNested){
+                    for(int i=1; ; i++){
+                        if(file.exists()){
+                            file = new File(path + name + "(" + i + ")" + "." + extenstion);
+                        } else {
+                            fos = new FileOutputStream(file.getAbsolutePath());
+                            break;
+                        }
+                    }
+                } else {
+                    fos = new FileOutputStream(file.getAbsolutePath());
+                }
+            }
+
+            fos.write(fileBytes);
+            fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return file.getName();
     }
 
     /**

@@ -1,12 +1,14 @@
 <script setup>
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { server } from '@/api/index.js'
 import { useAuthStore } from '@/stores/auth.js'
+import Router from '@/router/index.js'
 
 const auth = useAuthStore().user
 
 const user = reactive({
     photo: '',
+    image: [],
     name: '',
     alias: '',
     addr: '',
@@ -27,6 +29,17 @@ const toggleEdit = () => {
 }
 
 const saveChanges = () => {
+    server
+        .put(`/api/name/${auth.alias}`, { params: userForm })
+        .then(result => {
+            if (result.data.result === 'success') {
+                alert('저장되었습니다.')
+                Router.go(0)
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
     Object.assign(user, userForm)
     console.log('Saved user info:', user)
     isEditing.value = false
@@ -38,7 +51,26 @@ const cancelEdit = () => {
 }
 
 const imageChage = () => {
-    // 이미지 업로드 and 이전 이미지 삭제 로직 필요.
+    if (user.image.size > 10240000) {
+        alert('업로드 최대 사이즈는 10MB입니다.\r\n다른 이미지를 선택해주세요.')
+    } else {
+        server
+            .put(
+                `/api/name/${auth.alias}/profileImage`,
+                { profileImage: user.image },
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                },
+            )
+            .then(result => {
+                userForm.photo = `/static/profile/${auth.alias}/${result.data.image}?v`
+            })
+            .catch(error => {
+                alert(error.message)
+            })
+    }
 }
 
 onMounted(() => {
@@ -46,19 +78,17 @@ onMounted(() => {
         let authInfo = result.data.profile
 
         console.log(authInfo)
-        user.photo = `/static/profile/${authInfo.image}`
+        user.photo = `/static/profile/${auth.alias}/${authInfo.image}`
         user.name = authInfo.name
         user.alias = authInfo.alias
         user.addr = authInfo.addr
-        user.addrDetail = authInfo.addr
+        user.addrDetail = authInfo.addrDetail
         user.gitHub = authInfo.gitHub
         user.blog = authInfo.blog
         user.email = authInfo.email
         user.shortIntro = authInfo.simpleIntroduceMyself
         user.longIntro = authInfo.detailIntroduceMyself
         user.mainContent = authInfo.mainContent.split('||')
-
-        console.log(user.mainContent)
 
         Object.assign(userForm, user)
     })
@@ -70,12 +100,11 @@ onMounted(() => {
             <q-card-section>
                 <div class="row items-center">
                     <q-avatar size="100px" class="q-mr-md">
-                        <img :src="userForm.photo" alt="profileImg" />
+                        <q-img :src="userForm.photo" />
                     </q-avatar>
-                    <q-input type="file" v-if="isEditing" v-model="userForm.photo" label="프로필 이미지" />
+                    <q-file type="file" v-if="isEditing" v-model="user.image" label="프로필 이미지" @update:model-value="imageChage" />
                 </div>
             </q-card-section>
-
             <q-card-section>
                 <q-list>
                     <q-item>
@@ -156,6 +185,7 @@ onMounted(() => {
                             <q-editor
                                 height="300px"
                                 v-if="!isEditing"
+                                :content-style="{ fontSize: '1rem' }"
                                 readonly
                                 v-model="user.longIntro"
                                 name="contents"
@@ -165,76 +195,11 @@ onMounted(() => {
                             <q-editor
                                 height="300px"
                                 v-if="isEditing"
-                                content-style="fontSize: 1rem"
+                                :content-style="{ fontSize: '1rem' }"
                                 v-model="userForm.longIntro"
                                 name="contents"
                                 :dense="$q.screen.lt.md"
-                                :toolbar="
-                                    isEditing
-                                        ? [
-                                              [
-                                                  {
-                                                      label: $q.lang.editor.align,
-                                                      icon: $q.iconSet.editor.align,
-                                                      fixedLabel: true,
-                                                      list: 'only-icons',
-                                                      options: ['left', 'center', 'right', 'justify'],
-                                                  },
-                                              ],
-                                              ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-                                              ['token', 'hr', 'link', 'custom_btn'],
-                                              ['print', 'fullscreen'],
-                                              [
-                                                  {
-                                                      label: $q.lang.editor.formatting,
-                                                      icon: $q.iconSet.editor.formatting,
-                                                      list: 'no-icons',
-                                                      options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code'],
-                                                  },
-                                                  {
-                                                      label: $q.lang.editor.fontSize,
-                                                      icon: $q.iconSet.editor.fontSize,
-                                                      fixedLabel: true,
-                                                      fixedIcon: true,
-                                                      list: 'no-icons',
-                                                      options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7'],
-                                                  },
-                                                  {
-                                                      label: $q.lang.editor.defaultFont,
-                                                      icon: $q.iconSet.editor.font,
-                                                      fixedIcon: true,
-                                                      list: 'no-icons',
-                                                      options: [
-                                                          'default_font',
-                                                          'arial',
-                                                          'arial_black',
-                                                          'comic_sans',
-                                                          'courier_new',
-                                                          'impact',
-                                                          'lucida_grande',
-                                                          'times_new_roman',
-                                                          'verdana',
-                                                      ],
-                                                  },
-                                                  'removeFormat',
-                                              ],
-                                              ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
-
-                                              ['undo', 'redo'],
-                                              ['viewsource'],
-                                          ]
-                                        : []
-                                "
-                                :fonts="{
-                                    arial: 'Arial',
-                                    arial_black: 'Arial Black',
-                                    comic_sans: 'Comic Sans MS',
-                                    courier_new: 'Courier New',
-                                    impact: 'Impact',
-                                    lucida_grande: 'Lucida Grande',
-                                    times_new_roman: 'Times New Roman',
-                                    verdana: 'Verdana',
-                                }"
+                                :toolbar="[]"
                             />
                         </q-item-section>
                     </q-item>
