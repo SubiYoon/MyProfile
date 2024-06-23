@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        FileUtil.saveFileChageName(profileImage, staticPath + "profile/" + alias + "/", alias, null, false);
+        FileUtil.saveFileChageName(profileImage, staticPath + "/profile/" + alias + "/", alias, null, false);
 
         return userMapper.editProfileImage(alias, alias + "." + profileImage.getOriginalFilename().split("[.]")[1]);
     }

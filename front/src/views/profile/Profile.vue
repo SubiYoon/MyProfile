@@ -19,6 +19,8 @@ const user = reactive({
     shortIntro: '',
     longIntro: '',
     mainContent: [],
+    mainContentFirst: '',
+    mainContentSecond: '',
 })
 
 const userForm = reactive({ ...user })
@@ -65,7 +67,9 @@ const imageChage = () => {
                 },
             )
             .then(result => {
-                userForm.photo = `/static/profile/${auth.alias}/${result.data.image}?v`
+                if (result.data.image) {
+                    userForm.photo = `/static/profile/${auth.alias}/${result.data.image}`
+                }
             })
             .catch(error => {
                 alert(error.message)
@@ -88,7 +92,8 @@ onMounted(() => {
         user.email = authInfo.email
         user.shortIntro = authInfo.simpleIntroduceMyself
         user.longIntro = authInfo.detailIntroduceMyself
-        user.mainContent = authInfo.mainContent.split('||')
+        user.mainContentFirst = authInfo.mainContent?.split('||')[0]
+        user.mainContentSecond = authInfo.mainContent?.split('||')[1]
 
         Object.assign(userForm, user)
     })
@@ -109,7 +114,7 @@ onMounted(() => {
                 <q-list>
                     <q-item>
                         <q-item-section>
-                            <q-item-label v-if="!isEditing">이름</q-item-label>
+                            <q-item-label>이름</q-item-label>
                             <q-item-label v-if="!isEditing">{{ user.name }}</q-item-label>
                             <q-input v-if="isEditing" v-model="userForm.name" />
                         </q-item-section>
@@ -128,6 +133,14 @@ onMounted(() => {
                             <q-item-label>주소</q-item-label>
                             <q-item-label v-if="!isEditing">{{ user.addr }}</q-item-label>
                             <q-input v-if="isEditing" v-model="userForm.addr" />
+                        </q-item-section>
+                    </q-item>
+
+                    <q-item>
+                        <q-item-section>
+                            <q-item-label>상세 주소</q-item-label>
+                            <q-item-label v-if="!isEditing">{{ user.addrDetail }}</q-item-label>
+                            <q-input v-if="isEditing" v-model="userForm.addrDetail" />
                         </q-item-section>
                     </q-item>
 
@@ -158,8 +171,8 @@ onMounted(() => {
                     <q-item>
                         <q-item-section>
                             <q-item-label>메인페이지 첫째줄</q-item-label>
-                            <q-item-label v-if="!isEditing">{{ user.mainContent[0] }}</q-item-label>
-                            <q-input v-if="isEditing" v-model="userForm.mainContent[0]" />
+                            <q-item-label v-if="!isEditing">{{ user?.mainContent[0] }}</q-item-label>
+                            <q-input v-if="isEditing" v-model="userForm.mainContentFirst" />
                         </q-item-section>
                     </q-item>
 
@@ -167,7 +180,7 @@ onMounted(() => {
                         <q-item-section>
                             <q-item-label>메인페이지 둘째줄</q-item-label>
                             <q-item-label v-if="!isEditing">{{ user.mainContent[1] }}</q-item-label>
-                            <q-input v-if="isEditing" v-model="userForm.mainContent[1]" />
+                            <q-input v-if="isEditing" v-model="userForm.mainContentSecond" />
                         </q-item-section>
                     </q-item>
 

@@ -60,7 +60,7 @@
             git_hub = #{gitHub},
             blog = #{blog},
             email = #{email},
-            main_content = #{mainContent[0]} || '||' || #{mainContent[1]},
+            main_content = #{mainContentFirst} || '||' || #{mainContentSecond},
             simple_introduce_myself = #{shortIntro},
             detail_introduce_myself = #{longIntro}
         where alias = #{originAlias}
