@@ -22,7 +22,7 @@
         </encoder>
         <!-- 해당 패턴 네이밍으로 이전 파일이 기록됨 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/logs/myProfile.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>/logs/myProfile/myProfile.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- 한 파일의 최대 용량 -->
                 <maxFileSize>100MB</maxFileSize>
