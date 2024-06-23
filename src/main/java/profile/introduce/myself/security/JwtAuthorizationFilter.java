@@ -84,6 +84,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             objectMapper.writeValue(response.getWriter(), tokenErrorTrace(e));
 
+            Cookie jwt = new Cookie("PROFILE-JWT", null);
+            jwt.setMaxAge(0);
+            jwt.setPath("/");
+            response.addCookie(jwt);
         }
     }
 
