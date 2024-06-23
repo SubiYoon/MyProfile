@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public Integer editProfileImage(String alias, MultipartFile profileImage) {
         log.debug("사용자 [[ " + alias + " ]] 프로필 이미지 변경 시도");
 
-        File profileImageDir = new File(staticPath + "/images/profile/" + alias);
+        File profileImageDir = new File("src/main/resources/static/profile/" + alias);
 
         if(profileImageDir.exists() && profileImageDir.isDirectory()){
             try {
