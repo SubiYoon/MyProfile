@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { server } from '@/api/index.js'
 import { useAuthStore } from '@/stores/auth.js'
 import { useRouter } from 'vue-router'
+import { $alert } from '@/ui/notify.js'
 
 const id = ref('')
 const pwd = ref('')
@@ -21,12 +22,12 @@ function login() {
             router.push('/profile')
         })
         .catch(data => {
-            alert(data.response.data.failMessage)
+            $alert(data.response.data.failMessage)
         })
 }
 
 function regist() {
-    alert('아직 구현되지 않은 기능입니다.')
+    $alert('아직 구현되지 않은 기능입니다.')
     // router.push('/regist')
 }
 </script>

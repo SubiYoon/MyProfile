@@ -3,28 +3,12 @@ import { RouterView } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
 import { ref } from 'vue'
 import { server } from '@/api/index.js'
-import router from '@/router/index.js'
 
 const authStore = useAuthStore()
 
 const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
     leftDrawerOpen.value = !leftDrawerOpen.value
-}
-
-function logout() {
-    server
-        .post('/api/logout', {})
-        .then(data => {
-            if (data.data.result === 'success') {
-                authStore.deleteUser()
-                alert('로그아웃 되었습니다.')
-                router.push('/login')
-            }
-        })
-        .catch(data => {
-            alert(data.response.data.message)
-        })
 }
 
 const menus = ref([])
@@ -40,7 +24,7 @@ server.get('/api/menu/admin').then(data => {
             <q-toolbar>
                 <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"></q-btn>
                 <q-toolbar-title> My Profile </q-toolbar-title>
-                <q-btn v-if="authStore.user.isSignedin" icon="logout" @click="logout" />
+                <q-btn v-if="authStore.user.isSignedin" flat round dense icon="logout" @click="authStore.logout()" />
             </q-toolbar>
         </q-header>
 

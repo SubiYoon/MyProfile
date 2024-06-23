@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth.js'
+import { $alert } from '@/ui/notify.js'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,8 +69,9 @@ router.beforeEach(async (to, from) => {
                     return
                 } else {
                     // 로그인 안되어 있을 때
-                    alert('로그인이 필요합니다.')
-                    return { name: 'login' }
+                    $alert('로그인이 필요합니다.').then(() => {
+                        return { name: 'login' }
+                    })
                 }
                 // 로그인 인증이 필요없는 url
             } else {
@@ -87,8 +89,9 @@ router.beforeEach(async (to, from) => {
             }
             // 이동하려는 페이지가 router 목록에 존재하지 않는 경우
         } else if (router.getRoutes()[i].path !== to.path && i === router.getRoutes().length - 1) {
-            alert('잘못된 접근입니다.')
-            return isLoginCheck(userStore)
+            $alert('잘못된 접근입니다.').then(() => {
+                return isLoginCheck(userStore)
+            })
         }
     }
 })

@@ -3,6 +3,7 @@ import { onMounted, reactive, ref } from 'vue'
 import { server } from '@/api/index.js'
 import { useAuthStore } from '@/stores/auth.js'
 import Router from '@/router/index.js'
+import { $alert } from '@/ui/notify.js'
 
 const auth = useAuthStore().user
 
@@ -35,8 +36,9 @@ const saveChanges = () => {
         .put(`/api/name/${auth.alias}`, { params: userForm })
         .then(result => {
             if (result.data.result === 'success') {
-                alert('저장되었습니다.')
-                Router.go(0)
+                $alert('저장되었습니다.\r\n"www.devstat.app/test"에 접속해 확인해보세요!').then(() => {
+                    Router.go(0)
+                })
             }
         })
         .catch(error => {
@@ -54,7 +56,7 @@ const cancelEdit = () => {
 
 const imageChage = () => {
     if (user.image.size > 10240000) {
-        alert('업로드 최대 사이즈는 10MB입니다.\r\n다른 이미지를 선택해주세요.')
+        $alert('업로드 최대 사이즈는 10MB입니다.\r\n다른 이미지를 선택해주세요.')
     } else {
         server
             .put(
@@ -72,7 +74,7 @@ const imageChage = () => {
                 }
             })
             .catch(error => {
-                alert(error.message)
+                $alert(error.message)
             })
     }
 }
@@ -171,7 +173,7 @@ onMounted(() => {
                     <q-item>
                         <q-item-section>
                             <q-item-label>메인페이지 첫째줄</q-item-label>
-                            <q-item-label v-if="!isEditing">{{ user?.mainContent[0] }}</q-item-label>
+                            <q-item-label v-if="!isEditing">{{ user?.mainContentFirst }}</q-item-label>
                             <q-input v-if="isEditing" v-model="userForm.mainContentFirst" />
                         </q-item-section>
                     </q-item>
@@ -179,7 +181,7 @@ onMounted(() => {
                     <q-item>
                         <q-item-section>
                             <q-item-label>메인페이지 둘째줄</q-item-label>
-                            <q-item-label v-if="!isEditing">{{ user.mainContent[1] }}</q-item-label>
+                            <q-item-label v-if="!isEditing">{{ user.mainContentSecond }}</q-item-label>
                             <q-input v-if="isEditing" v-model="userForm.mainContentSecond" />
                         </q-item-section>
                     </q-item>

@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { server } from '@/api/index.js'
+import router from '@/router/index.js'
+import { $alert } from '@/ui/notify.js'
 
 const USER_DEFAULT_VALUE = {
     name: '',
@@ -16,6 +19,8 @@ export const useAuthStore = defineStore(
             ...USER_DEFAULT_VALUE,
         })
 
+        watch(user.value.expireTime, () => {})
+
         const isSignedin = computed(() => user.value.isSignedin)
 
         async function setUser(token) {
@@ -31,11 +36,31 @@ export const useAuthStore = defineStore(
         //TODO: 차후 token expire reset시키는 기능 추가 예정
         async function expireTimeRefresh() {}
 
+        async function sessionRefresh() {
+            user.value.expireTime = 6 * 60 * 60
+        }
+
+        async function logout() {
+            server
+                .post('/api/logout', {})
+                .then(data => {
+                    if (data.data.result === 'success') {
+                        deleteUser()
+                        $alert('로그아웃 되었습니다.').then(() => {
+                            router.push('/login')
+                        })
+                    }
+                })
+                .catch(data => {
+                    $alert(data.response.data.message)
+                })
+        }
+
         async function deleteUser() {
             user.value = { ...USER_DEFAULT_VALUE }
         }
 
-        return { user, isSignedin, setUser, deleteUser, expireTimeRefresh }
+        return { user, isSignedin, setUser, sessionRefresh, deleteUser, logout, expireTimeRefresh }
     },
     {
         persist: true,
