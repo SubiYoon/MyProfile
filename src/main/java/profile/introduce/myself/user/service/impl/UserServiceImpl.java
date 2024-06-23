@@ -3,6 +3,7 @@ package profile.introduce.myself.user.service.impl;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import profile.introduce.myself.base.ParamMap;
@@ -22,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Value("${custom.static.path}")
+    String staticPath;
 
     @Override
     public ProfileVo getProfile(String alias) {
@@ -50,7 +54,7 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        FileUtil.saveFileChageName(profileImage, "src/main/resources/static/profile/" + alias + "/", alias, null, false);
+        FileUtil.saveFileChageName(profileImage, staticPath + "profile/" + alias + "/", alias, null, false);
 
         return userMapper.editProfileImage(alias, alias + "." + profileImage.getOriginalFilename().split("[.]")[1]);
     }

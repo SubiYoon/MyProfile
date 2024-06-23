@@ -59,7 +59,7 @@ public class UserController {
 
         Map<String, Object> image = new HashMap<>();
 
-        userService.editProfileImage(alias,profileImage);
+        userService.editProfileImage(alias, profileImage);
 
         image.put("image", alias + "." + profileImage.getOriginalFilename().split("[.]")[1]);
 

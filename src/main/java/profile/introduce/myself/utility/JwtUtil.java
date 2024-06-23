@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-@PropertySource("classpath:application-security.properties")
+@PropertySource("/application-security.properties")
 public class JwtUtil {
     //JWT secretKey
     @Value("${jwtSecretKey}")
