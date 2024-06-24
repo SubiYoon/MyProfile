@@ -4,8 +4,6 @@ import axiosInstance from '../../axiosInstance.js';
 
 const DetailModal = ({ detailSeq, userGb }) => {
     const [detailData, setDetailData] = useState();
-    const [imagePaths, setImagePaths] = useState([]);
-    const [maxImages, setMaxImages] = useState(10);
 
     useEffect(() => {
         const projectDetailData = async () => {
@@ -14,35 +12,6 @@ const DetailModal = ({ detailSeq, userGb }) => {
                     `/api/project/${userGb}/${detailSeq}`,
                 );
                 setDetailData(response.data.projectDetailList);
-
-                const imageName =
-                    response.data.projectDetailList?.image.split('.')[0];
-
-                if (imageName) {
-                    const paths = [];
-
-                    const fetchImagePaths = async () => {
-                        const requests = [];
-                        for (let i = 1; i <= maxImages; i++) {
-                            const detailImage = `${imageName}${i}`;
-                            const imagePath = `/static/detail/${imageName}/${detailImage}.png`;
-
-                            requests.push(
-                                axiosInstance
-                                    .get(imagePath, {})
-                                    .then((response) => {
-                                        if (response.status === 200) {
-                                            paths.push(imagePath);
-                                        }
-                                    })
-                                    .catch((error) => {}),
-                            );
-                        }
-                        await Promise.all(requests);
-                        setImagePaths(paths);
-                    };
-                    await fetchImagePaths();
-                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
