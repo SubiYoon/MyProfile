@@ -1,4 +1,3 @@
-import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import ReactModal from 'react-modal';
