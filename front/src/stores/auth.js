@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { server } from '@/api/index.js'
 import router from '@/router/index.js'
 import { $alert } from '@/ui/notify.js'
@@ -18,8 +18,6 @@ export const useAuthStore = defineStore(
         const user = ref({
             ...USER_DEFAULT_VALUE,
         })
-
-        watch(user.value.expireTime, () => {})
 
         const isSignedin = computed(() => user.value.isSignedin)
 
