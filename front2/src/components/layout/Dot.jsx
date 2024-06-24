@@ -96,7 +96,18 @@ const Dot = ({ onMenuClick }) => {
                 </DotBox>
             </DotContainer>
             <ModeDotContainer>
-                <ModeTitle>change mode</ModeTitle>
+                <ModeTitle
+                    initial={{ opacity: 0, scale: 1 }}
+                    animate={{ opacity: 1, scale: 1.2 }}
+                    transition={{
+                        duration: 0.8,
+                        delay: 0.4,
+                        ease: [0, 0.71, 0.2, 1.01],
+                        repeat: Infinity,
+                    }}
+                >
+                    change mode
+                </ModeTitle>
                 <ModeDots
                     onClick={() => {
                         modeChange();
@@ -258,7 +269,7 @@ const ModeDots = styled(motion.div)`
     }
 `;
 
-const ModeTitle = styled.div`
+const ModeTitle = styled(motion.div)`
     color: white;
     margin-bottom: 10%;
 `;
