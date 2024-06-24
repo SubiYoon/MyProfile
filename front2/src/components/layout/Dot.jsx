@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../axiosInstance.js';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentPageState, modeState } from '@/recoil.js';
 import { motion } from 'framer-motion';
 import { MdDeveloperBoard } from 'react-icons/md';
@@ -12,7 +12,7 @@ import { CgProfile } from 'react-icons/cg';
 import { PiStudentBold } from 'react-icons/pi';
 const Dot = ({ onMenuClick }) => {
     const [menuData, setMenuData] = useState([]);
-    const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+    const currentPage = useRecoilValue(currentPageState);
     const [mode, setMode] = useRecoilState(modeState);
 
     const componentsMap = {
@@ -131,7 +131,7 @@ const DotContainer = styled.div`
     z-index: 20;
     @media screen and (max-width: 768px) {
         width: 100%;
-        top: 0%;
+        top: 0;
         right: 28%;
     }
 `;
@@ -187,20 +187,10 @@ const Dots = styled(motion.div)`
         width: 20px;
         height: 20px;
         margin-top: 8%;
-        margin-bottom: 0%;
+        margin-bottom: 0;
     }
 `;
 const IconBox = styled(motion.div)``;
-
-const Icon = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    &:hover {
-        cursor: pointer;
-        transform: scale(1.1);
-    }
-`;
 
 const ClickableDots = styled(Dots)`
     pointer-events: auto; /* 클릭 이벤트 활성화 */
@@ -246,7 +236,7 @@ const ModeDotContainer = styled.div`
     justify-content: center;
     @media screen and (max-width: 768px) {
         width: 100%;
-        top: 0%;
+        top: 0;
         left: 10%;
     }
 `;
@@ -265,7 +255,7 @@ const ModeDots = styled(motion.div)`
         width: 20px;
         height: 20px;
         margin-top: 8%;
-        margin-bottom: 0%;
+        margin-bottom: 0;
     }
 `;
 
