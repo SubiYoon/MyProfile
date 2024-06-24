@@ -8,10 +8,7 @@ import dotenv from 'dotenv'; // import dotenv
 
 export default ({ mode }) => {
     dotenv.config({ path: `.env.${mode}` });
-    // console.log('env', mode);
     const apiURL = process.env.VITE_API_URL;
-
-    console.log('apiURL', apiURL);
 
     return defineConfig({
         plugins: [viteReact(), vitePluginSvgr()],
