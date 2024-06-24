@@ -30,3 +30,8 @@ export const educationState = atom({
     key: 'educationState', //교육이력 정보 업데이트
     default: null,
 });
+
+export const modeState = atom({
+    key: 'modeState',
+    default: 'basic', //디폴트 기본
+});

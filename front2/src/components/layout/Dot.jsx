@@ -2,20 +2,24 @@ import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../axiosInstance.js';
 import { useRecoilState } from 'recoil';
-import { currentPageState } from '@/recoil.js';
+import { currentPageState, modeState } from '@/recoil.js';
 import { motion } from 'framer-motion';
-import { ImProfile } from 'react-icons/im';
+import { MdDeveloperBoard } from 'react-icons/md';
+import { MdDeveloperBoardOff } from 'react-icons/md';
 import { IoHome } from 'react-icons/io5';
 import { GoProjectRoadmap } from 'react-icons/go';
 import { CgProfile } from 'react-icons/cg';
+import { PiStudentBold } from 'react-icons/pi';
 const Dot = ({ onMenuClick }) => {
     const [menuData, setMenuData] = useState([]);
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+    const [mode, setMode] = useRecoilState(modeState);
 
     const componentsMap = {
         Profile: Profile,
         Career: Career,
         Home: Home,
+        Education: mode !== 'dev' ? Education : null,
     };
 
     useEffect(() => {
@@ -71,17 +75,37 @@ const Dot = ({ onMenuClick }) => {
         });
     };
 
+    const modeChange = () => {
+        if (mode === 'dev') {
+            setMode('basic');
+        } else {
+            setMode('dev');
+        }
+    };
+
     return (
-        <DotContainer>
-            <DotBox>
-                <IconBox
-                    nitial={{ y: 0 }} // 초기 위치
-                    animate={{ y: [0, -8, 0] }} // 움직임 설정
-                    transition={{ duration: 1, repeat: Infinity }}
-                ></IconBox>
-                {dotButtons()}
-            </DotBox>
-        </DotContainer>
+        <>
+            <DotContainer>
+                <DotBox>
+                    <IconBox
+                        nitial={{ y: 0 }} // 초기 위치
+                        animate={{ y: [0, -8, 0] }} // 움직임 설정
+                        transition={{ duration: 1, repeat: Infinity }}
+                    ></IconBox>
+                    {dotButtons()}
+                </DotBox>
+            </DotContainer>
+            <ModeDotContainer>
+                <ModeDots
+                    onClick={() => {
+                        modeChange();
+                    }}
+                >
+                    {mode === 'dev' ? <DevMode /> : <BasicMode />}
+                </ModeDots>
+                <MenuButton>{mode}</MenuButton>
+            </ModeDotContainer>
+        </>
     );
 };
 
@@ -92,7 +116,6 @@ const DotContainer = styled.div`
     top: 34%;
     right: 3%;
     width: 10%;
-    font-family: 'Freesentation';
     z-index: 20;
     @media screen and (max-width: 768px) {
         width: 100%;
@@ -180,9 +203,53 @@ const Profile = styled(CgProfile)`
     ${iconStyle}
 `;
 
+const Education = styled(PiStudentBold)`
+    ${iconStyle}
+`;
+
 const Career = styled(GoProjectRoadmap)`
     ${iconStyle}
 `;
 const Home = styled(IoHome)`
     ${iconStyle}
+`;
+
+const DevMode = styled(MdDeveloperBoard)`
+    ${iconStyle}
+`;
+
+const BasicMode = styled(MdDeveloperBoardOff)`
+    ${iconStyle}
+`;
+
+const ModeDotContainer = styled.div`
+    position: fixed;
+    top: 42%;
+    left: 2%;
+    width: 5%;
+    z-index: 20;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        top: 0%;
+        left: 10%;
+    }
+`;
+const ModeDots = styled(motion.div)`
+    display: flex;
+    width: 40px;
+    height: 30px;
+    margin-top: 30%;
+    margin-bottom: 10%;
+    color: ${({ $currentPage, $num }) =>
+        $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.5);
+    }
+    @media screen and (max-width: 768px) {
+        width: 20px;
+        height: 20px;
+        margin-top: 8%;
+        margin-bottom: 0%;
+    }
 `;
