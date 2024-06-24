@@ -9,9 +9,6 @@ import {
     StackImg,
     StackListSpan,
 } from '@/components/Styled/ProjectStyledComponents.jsx';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { AiFillCloseCircle } from 'react-icons/ai';
 
 const ProjectDetails = ({ project }) => {
     if (!project) return null;

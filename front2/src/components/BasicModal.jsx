@@ -1,16 +1,11 @@
 import { styled } from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance.js';
-import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
-import { motion } from 'framer-motion';
 
 const DetailModal = ({ detailSeq, userGb }) => {
     const [detailData, setDetailData] = useState();
     const [imagePaths, setImagePaths] = useState([]);
     const [maxImages, setMaxImages] = useState(10);
-
-    const [imageCount, setImageCount] = useState(1);
-    const [countGb, setCountGb] = useState(false);
 
     useEffect(() => {
         const projectDetailData = async () => {

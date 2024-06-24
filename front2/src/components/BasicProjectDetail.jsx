@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { color, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import ReactModal from 'react-modal';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import BasicModal from '@/components/BasicModal.jsx';
