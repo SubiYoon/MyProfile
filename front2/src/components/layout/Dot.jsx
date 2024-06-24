@@ -96,14 +96,15 @@ const Dot = ({ onMenuClick }) => {
                 </DotBox>
             </DotContainer>
             <ModeDotContainer>
+                <ModeTitle>change mode</ModeTitle>
                 <ModeDots
                     onClick={() => {
                         modeChange();
                     }}
                 >
-                    {mode === 'dev' ? <DevMode /> : <BasicMode />}
+                    {mode !== 'dev' ? <DevMode /> : <BasicMode />}
                 </ModeDots>
-                <MenuButton>{mode}</MenuButton>
+                <MenuButton>{mode !== 'dev' ? 'dev' : 'basic'}</MenuButton>
             </ModeDotContainer>
         </>
     );
@@ -225,9 +226,13 @@ const BasicMode = styled(MdDeveloperBoardOff)`
 const ModeDotContainer = styled.div`
     position: fixed;
     top: 42%;
-    left: 2%;
-    width: 5%;
+    left: 1%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 6%;
     z-index: 20;
+    align-items: center;
+    justify-content: center;
     @media screen and (max-width: 768px) {
         width: 100%;
         top: 0%;
@@ -236,10 +241,9 @@ const ModeDotContainer = styled.div`
 `;
 const ModeDots = styled(motion.div)`
     display: flex;
-    width: 40px;
+    width: 100%;
     height: 30px;
-    margin-top: 30%;
-    margin-bottom: 10%;
+    margin-bottom: 4%;
     color: ${({ $currentPage, $num }) =>
         $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
     &:hover {
@@ -252,4 +256,9 @@ const ModeDots = styled(motion.div)`
         margin-top: 8%;
         margin-bottom: 0%;
     }
+`;
+
+const ModeTitle = styled.div`
+    color: white;
+    margin-bottom: 10%;
 `;

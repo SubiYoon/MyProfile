@@ -45,7 +45,7 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
         const colorMap = {
             1: 'black',
             2: 'black',
-            3: mode === 'dev' ? 'darkGray' : 'beige',
+            3: 'darkGray',
             4: 'darkGray',
         };
 

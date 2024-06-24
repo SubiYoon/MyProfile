@@ -28,7 +28,11 @@ const ProjectSemiDetail = ({ item, scrollToBottom }) => {
                 <DetailHeaderBox>
                     <span> {item.detailActTitle}</span>
                 </DetailHeaderBox>
-                <DetailContentBox>{item.detailActCont}</DetailContentBox>
+                <DetailContentBox
+                    dangerouslySetInnerHTML={{
+                        __html: item.detailActCont,
+                    }}
+                />
             </AboutContainer>
         </ProjectSemiDetailWrapper>
     );

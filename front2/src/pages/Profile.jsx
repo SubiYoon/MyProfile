@@ -31,15 +31,13 @@ const Profile = React.memo(() => {
     // 스킬 정보
     const stackData = useRecoilValue(stackState);
 
+    console.log('프로필0', profileData);
+
     if (!profileData || !stackData) {
         return <h2>Loading...</h2>;
     }
 
-    const htmlString = renderToString(
-        <ProfileContentBox>
-            {profileData.detailIntroduceMyself}
-        </ProfileContentBox>,
-    );
+    const htmlString = profileData.detailIntroduceMyself;
 
     return (
         <ProfileWrapper>
@@ -53,7 +51,9 @@ const Profile = React.memo(() => {
             <AboutContainer>
                 <ImgBox>
                     <PhotoBox>
-                        <Photo src={`/static/profile/${profileData.image}`} />
+                        <Photo
+                            src={`/static/profile/${profileData.alias}/${profileData.image}`}
+                        />
                     </PhotoBox>
                 </ImgBox>
                 <AboutBox>
@@ -63,7 +63,6 @@ const Profile = React.memo(() => {
                     <ProfileContentBox
                         dangerouslySetInnerHTML={{ __html: htmlString }}
                     />
-
                     <NameBox>
                         <ProfileTitleSpan>name:</ProfileTitleSpan>
                         <span>{profileData.name}</span>
