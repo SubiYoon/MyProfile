@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../../axiosInstance.js';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentPageState, modeState } from '@/recoil.js';
 import { motion } from 'framer-motion';
 import { MdDeveloperBoard } from 'react-icons/md';
@@ -12,7 +12,7 @@ import { CgProfile } from 'react-icons/cg';
 import { PiStudentBold } from 'react-icons/pi';
 const Dot = ({ onMenuClick }) => {
     const [menuData, setMenuData] = useState([]);
-    const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+    const currentPage = useRecoilValue(currentPageState);
     const [mode, setMode] = useRecoilState(modeState);
 
     const componentsMap = {
@@ -96,14 +96,26 @@ const Dot = ({ onMenuClick }) => {
                 </DotBox>
             </DotContainer>
             <ModeDotContainer>
+                <ModeTitle
+                    initial={{ opacity: 0, scale: 1 }}
+                    animate={{ opacity: 1, scale: 1.2 }}
+                    transition={{
+                        duration: 0.8,
+                        delay: 0.4,
+                        ease: [0, 0.71, 0.2, 1.01],
+                        repeat: Infinity,
+                    }}
+                >
+                    change mode
+                </ModeTitle>
                 <ModeDots
                     onClick={() => {
                         modeChange();
                     }}
                 >
-                    {mode === 'dev' ? <DevMode /> : <BasicMode />}
+                    {mode !== 'dev' ? <DevMode /> : <BasicMode />}
                 </ModeDots>
-                <MenuButton>{mode}</MenuButton>
+                <MenuButton>{mode !== 'dev' ? 'dev' : 'basic'}</MenuButton>
             </ModeDotContainer>
         </>
     );
@@ -119,7 +131,7 @@ const DotContainer = styled.div`
     z-index: 20;
     @media screen and (max-width: 768px) {
         width: 100%;
-        top: 0%;
+        top: 0;
         right: 28%;
     }
 `;
@@ -175,20 +187,10 @@ const Dots = styled(motion.div)`
         width: 20px;
         height: 20px;
         margin-top: 8%;
-        margin-bottom: 0%;
+        margin-bottom: 0;
     }
 `;
 const IconBox = styled(motion.div)``;
-
-const Icon = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    &:hover {
-        cursor: pointer;
-        transform: scale(1.1);
-    }
-`;
 
 const ClickableDots = styled(Dots)`
     pointer-events: auto; /* 클릭 이벤트 활성화 */
@@ -225,21 +227,24 @@ const BasicMode = styled(MdDeveloperBoardOff)`
 const ModeDotContainer = styled.div`
     position: fixed;
     top: 42%;
-    left: 2%;
-    width: 5%;
+    left: 1%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 6%;
     z-index: 20;
+    align-items: center;
+    justify-content: center;
     @media screen and (max-width: 768px) {
         width: 100%;
-        top: 0%;
+        top: 0;
         left: 10%;
     }
 `;
 const ModeDots = styled(motion.div)`
     display: flex;
-    width: 40px;
+    width: 100%;
     height: 30px;
-    margin-top: 30%;
-    margin-bottom: 10%;
+    margin-bottom: 4%;
     color: ${({ $currentPage, $num }) =>
         $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
     &:hover {
@@ -250,6 +255,11 @@ const ModeDots = styled(motion.div)`
         width: 20px;
         height: 20px;
         margin-top: 8%;
-        margin-bottom: 0%;
+        margin-bottom: 0;
     }
+`;
+
+const ModeTitle = styled(motion.div)`
+    color: white;
+    margin-bottom: 10%;
 `;

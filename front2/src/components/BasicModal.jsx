@@ -1,16 +1,9 @@
 import { styled } from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axiosInstance.js';
-import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
-import { motion } from 'framer-motion';
 
 const DetailModal = ({ detailSeq, userGb }) => {
     const [detailData, setDetailData] = useState();
-    const [imagePaths, setImagePaths] = useState([]);
-    const [maxImages, setMaxImages] = useState(10);
-
-    const [imageCount, setImageCount] = useState(1);
-    const [countGb, setCountGb] = useState(false);
 
     useEffect(() => {
         const projectDetailData = async () => {
@@ -19,35 +12,6 @@ const DetailModal = ({ detailSeq, userGb }) => {
                     `/api/project/${userGb}/${detailSeq}`,
                 );
                 setDetailData(response.data.projectDetailList);
-
-                const imageName =
-                    response.data.projectDetailList?.image.split('.')[0];
-
-                if (imageName) {
-                    const paths = [];
-
-                    const fetchImagePaths = async () => {
-                        const requests = [];
-                        for (let i = 1; i <= maxImages; i++) {
-                            const detailImage = `${imageName}${i}`;
-                            const imagePath = `/static/detail/${imageName}/${detailImage}.png`;
-
-                            requests.push(
-                                axiosInstance
-                                    .get(imagePath, {})
-                                    .then((response) => {
-                                        if (response.status === 200) {
-                                            paths.push(imagePath);
-                                        }
-                                    })
-                                    .catch((error) => {}),
-                            );
-                        }
-                        await Promise.all(requests);
-                        setImagePaths(paths);
-                    };
-                    await fetchImagePaths();
-                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -67,16 +31,11 @@ const DetailModal = ({ detailSeq, userGb }) => {
                         </DetailProjectImageWrapper>
                     </ModalImgBox>
                     <ModalFontBox>
-                        <ModalCont>
-                            {detailData?.detailActCont
-                                .split('.')
-                                .map((sentence, index, array) => (
-                                    <div key={index}>
-                                        {sentence.trim()}
-                                        {index !== array.length - 1 && '.'}
-                                    </div>
-                                ))}
-                        </ModalCont>
+                        <ModalCont
+                            dangerouslySetInnerHTML={{
+                                __html: detailData?.detailActCont,
+                            }}
+                        />
                     </ModalFontBox>
                 </ModalWrapper>
             ) : null}

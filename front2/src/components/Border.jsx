@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { currentPageState, modeState } from '@/recoil.js';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Home from '@/pages/Home.jsx';
 import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
@@ -45,7 +45,7 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
         const colorMap = {
             1: 'black',
             2: 'black',
-            3: mode === 'dev' ? 'darkGray' : 'beige',
+            3: 'darkGray',
             4: 'darkGray',
         };
 
