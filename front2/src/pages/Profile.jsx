@@ -30,6 +30,8 @@ const Profile = React.memo(() => {
     // 스킬 정보
     const stackData = useRecoilValue(stackState);
 
+    console.log('프로필0', profileData);
+
     if (!profileData || !stackData) {
         return <h2>Loading...</h2>;
     }
