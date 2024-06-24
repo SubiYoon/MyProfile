@@ -81,7 +81,11 @@ const ProjectDetails = ({ project }) => {
                     </CategoryBox>
                 ))}
             </StackContainer>
-            <span>{project.projectContributeRate}</span>
+            <span
+                dangerouslySetInnerHTML={{
+                    __html: project.projectContributeRate,
+                }}
+            />
         </ProjectDetailContainer>
     );
 };

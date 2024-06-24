@@ -67,16 +67,11 @@ const DetailModal = ({ detailSeq, userGb }) => {
                         </DetailProjectImageWrapper>
                     </ModalImgBox>
                     <ModalFontBox>
-                        <ModalCont>
-                            {detailData?.detailActCont
-                                .split('.')
-                                .map((sentence, index, array) => (
-                                    <div key={index}>
-                                        {sentence.trim()}
-                                        {index !== array.length - 1 && '.'}
-                                    </div>
-                                ))}
-                        </ModalCont>
+                        <ModalCont
+                            dangerouslySetInnerHTML={{
+                                __html: detailData?.detailActCont,
+                            }}
+                        />
                     </ModalFontBox>
                 </ModalWrapper>
             ) : null}
