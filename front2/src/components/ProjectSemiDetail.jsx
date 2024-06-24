@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { styled } from 'styled-components';
 import {
-    ProjectSemiDetailWrapper,
-    ImgBox,
-    Photo,
     AboutContainer,
     DetailContentBox,
     DetailHeaderBox,
+    ImgBox,
+    Photo,
+    ProjectSemiDetailWrapper,
 } from '@/components/Styled/ProjectStyledComponents.jsx';
+
 const ProjectSemiDetail = ({ item, scrollToBottom }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
 

@@ -1,29 +1,28 @@
 import React from 'react';
 import {
+    AboutBox,
+    AboutContainer,
+    BottomContainer,
+    ImgBox,
+    NameBox,
+    Photo,
+    PhotoBox,
+    ProfileContentBox,
+    ProfileHeaderBox,
+    ProfileLink,
+    ProfileTitleSpan,
     ProfileTopContainer,
     ProfileWrapper,
+    RightContainer,
     RoundButtonGreen,
     RoundButtonRed,
     RoundButtonYellow,
-    TopIcon,
-    AboutContainer,
-    ImgBox,
-    PhotoBox,
-    Photo,
-    ProfileHeaderBox,
-    AboutBox,
-    ProfileContentBox,
-    NameBox,
-    ProfileTitleSpan,
-    ProfileLink,
     SkillsContainer,
-    BottomContainer,
-    RightContainer,
+    TopIcon,
 } from '@/components/Styled/ProfileStyledComponents.jsx';
 import { useRecoilValue } from 'recoil';
-import { stackState, profileState } from '@/recoil.js';
+import { profileState, stackState } from '@/recoil.js';
 import Skills from '@/pages/Skills.jsx';
-import { renderToString } from 'react-dom/server';
 
 const Profile = React.memo(() => {
     // 프로필 정보
