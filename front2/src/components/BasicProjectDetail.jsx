@@ -42,18 +42,6 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
         setDetailTitle(item.detailActTitle);
     };
 
-    const closeModal = () => {
-        setDetailSeq(null);
-        setDetailTitle(null);
-    };
-    const maxLength = 84;
-    const truncateText = (text, maxLength) => {
-        if (text.length > maxLength) {
-            return text.substring(0, maxLength) + '...';
-        }
-        return text;
-    };
-
     return (
         <>
             <DetailProjectContainer>
@@ -163,7 +151,7 @@ export default DetailProject;
 
 const DetailProjectContainer = styled.div`
     color: black;
-    padding: 4% 0% 2% 0%;
+    padding: 4% 0 2% 0;
 `;
 
 const StackContainer = styled.div`
@@ -174,12 +162,12 @@ const StackContainer = styled.div`
     display: flex;
     background-color: ${({ theme }) => theme.backgroundColors.lightBlack};
     border-radius: 12px;
-    padding: 1% 1% 0% 1%;
+    padding: 1% 1% 0 1%;
 `;
 
 const TitleBox = styled(motion.div)`
     width: 100%;
-    padding: 0% 0% 0.4% 1%;
+    padding: 0 0 0.4% 1%;
     position: absolute;
     text-align: left;
     top: -40px;
@@ -271,7 +259,7 @@ const DetailBox = styled.div`
     background-color: ${({ theme }) => theme.backgroundColors.beige};
     border-radius: 12px;
     width: 47.5%;
-    margin: 0% 0% 1% 1%;
+    margin: 0 0 1% 1%;
     padding: 1% 0 1% 1%;
     display: flex;
 `;
