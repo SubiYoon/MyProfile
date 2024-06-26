@@ -25,8 +25,6 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
         return groups;
     }, [clickProjectItem]);
 
-    console.log('클릭', clickProjectItem);
-
     // 카테고리 정렬
     const sortedCategories = useMemo(() => {
         return Object.keys(stackGroups).sort((a, b) => {
@@ -102,12 +100,6 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
                                         <DtailTitleFont>
                                             {item.detailActTitle}
                                         </DtailTitleFont>
-                                        <DtailContentFont>
-                                            {/*{truncateText(*/}
-                                            {/*    item.detailActCont,*/}
-                                            {/*    maxLength,*/}
-                                            {/*)}*/}
-                                        </DtailContentFont>
                                     </DetailTitleBox>
                                 </DetailBox>
                             ),
