@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { careerState, currentPageState } from '@/recoil.js';
+import { careerState } from '@/recoil.js';
 import { styled } from 'styled-components';
 import { MdOutlineComputer } from 'react-icons/md';
 import { motion } from 'framer-motion';
