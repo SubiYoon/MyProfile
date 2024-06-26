@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import { careerState, currentPageState } from '@/recoil.js';
+import { careerState } from '@/recoil.js';
 import { styled } from 'styled-components';
 import { MdOutlineComputer } from 'react-icons/md';
 import { motion } from 'framer-motion';
@@ -8,7 +8,6 @@ import BasicProjectDetail from '@/components/BasicProjectDetail.jsx';
 
 const Project = React.memo(({ urlGb }) => {
     const careerData = useRecoilValue(careerState);
-    const currentPage = useRecoilValue(currentPageState);
 
     const [activeProject, setActiveProject] = useState();
     const [clickProjectItem, setClickProjectItem] = useState();
@@ -33,8 +32,6 @@ const Project = React.memo(({ urlGb }) => {
         .sort(
             (a, b) => parseEndDate(b.projectTerm) - parseEndDate(a.projectTerm),
         );
-
-    console.log('클릭 프로젝트 아이템', allProjects);
 
     useEffect(() => {
         if (clickProjectItem && activeProject) {
@@ -217,9 +214,9 @@ const LineTop = styled(motion.div)`
     justify-content: center;
     align-items: center;
     color: black;
-    top: 0%;
+    top: 0;
     border-radius: 12px;
-    left: 0%;
+    left: 0;
 `;
 
 const CompanyInfo = styled.div`
@@ -231,11 +228,11 @@ const CompanyName = styled.p`
     margin-top: 4%;
     text-align: left;
     font-weight: bolder;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 `;
 
 const CompanyInOut = styled.p`
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 4%;
     font-size: ${({ theme }) => theme.fonts.smallFontSize};
 `;
