@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     TitleBox,
     ProjectTopContainer,
@@ -23,7 +23,6 @@ const ConsoleInput = ({
     currentProject,
 }) => {
     const [suggestions] = useState(['ll', 'cd', 'clear']);
-    const [detailTitle, setDetailTitle] = useState([]);
     const [matchedCommands, setMatchedCommands] = useState([]);
     const [detailMatchedCommands, setDetailMatchCommands] = useState([]);
     const [currentMatchIndex, setCurrentMatchIndex] = useState(0);

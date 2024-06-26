@@ -285,12 +285,6 @@ const DtailTitleFont = styled.div`
     margin-bottom: 6%;
 `;
 
-const DtailContentFont = styled.div`
-    text-align: left;
-    padding: 0 6% 0 6%;
-    font-size: ${({ theme }) => theme.fonts.smallFontSize};
-`;
-
 const DetailProjectImage = styled.img`
     border-radius: 12px;
     width: 100%;
