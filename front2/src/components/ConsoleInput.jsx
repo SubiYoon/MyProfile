@@ -25,11 +25,10 @@ const ConsoleInput = ({
     const [suggestions] = useState(['ll', 'cd', 'clear']);
     const [detailTitle, setDetailTitle] = useState([]);
     const [matchedCommands, setMatchedCommands] = useState([]);
+    const [detailMatchedCommands, setDetailMatchCommands] = useState([]);
     const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
 
     const careerData = useRecoilValue(careerState);
-
-    console.log('currentProject', currentProject);
 
     const handleTabPress = (event) => {
         if (event.key === 'Tab') {
@@ -73,15 +72,27 @@ const ConsoleInput = ({
                         .filter((company) => company.startsWith(partialInput));
                 }
 
-                if (arrayTitle.length > 0) {
-                    setMatchedCommands(arrayTitle);
+                // if (arrayTitle.length > 0) {
+                //     setMatchedCommands(arrayTitle);
+                //     setCurrentMatchIndex(0);
+                //     setConsoleText('cd ' + arrayTitle[0]);
+                // } else {
+                //     const nextIndex =
+                //         (currentMatchIndex + 1) % matchedCommands.length;
+                //     setCurrentMatchIndex(nextIndex);
+                //     setConsoleText(matchedCommands[nextIndex]);
+                // }
+
+                //if 값 수정해야함
+                if (detailMatchedCommands.length === 0) {
+                    setDetailMatchCommands(arrayTitle);
                     setCurrentMatchIndex(0);
                     setConsoleText('cd ' + arrayTitle[0]);
                 } else {
                     const nextIndex =
-                        (currentMatchIndex + 1) % matchedCommands.length;
+                        (currentMatchIndex + 1) % detailMatchedCommands.length;
                     setCurrentMatchIndex(nextIndex);
-                    setConsoleText(matchedCommands[nextIndex]);
+                    setConsoleText('cd ' + detailMatchedCommands[nextIndex]);
                 }
 
                 event.preventDefault();
@@ -115,6 +126,7 @@ const ConsoleInput = ({
         if (consoleText === '') {
             setMatchedCommands([]);
             setCurrentMatchIndex(0);
+            setDetailMatchCommands([]);
         }
     }, [consoleText]);
     return (

@@ -34,8 +34,6 @@ const Project = React.memo(({ urlGb }) => {
             (a, b) => parseEndDate(b.projectTerm) - parseEndDate(a.projectTerm),
         );
 
-    console.log('클릭 프로젝트 아이템', allProjects);
-
     useEffect(() => {
         if (clickProjectItem && activeProject) {
             setIsLoading(false); // 로딩 상태 해제
