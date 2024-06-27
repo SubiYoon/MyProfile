@@ -4,6 +4,7 @@ import { server } from '@/api/index.js'
 import { useAuthStore } from '@/stores/auth.js'
 import Router from '@/router/index.js'
 import { $alert } from '@/ui/notify.js'
+import { setModel } from '@/utils/core/dataUtils.js'
 
 const auth = useAuthStore().user
 
@@ -17,8 +18,8 @@ const user = reactive({
     gitHub: '',
     blog: '',
     email: '',
-    shortIntro: '',
-    longIntro: '',
+    simpleIntroduceMyself: '',
+    detailIntroduceMyself: '',
     mainContent: [],
     mainContentFirst: '',
     mainContentSecond: '',
@@ -45,7 +46,6 @@ const saveChanges = () => {
             console.log(error)
         })
     Object.assign(user, userForm)
-    console.log('Saved user info:', user)
     isEditing.value = false
 }
 
@@ -70,7 +70,7 @@ const imageChage = () => {
             )
             .then(result => {
                 if (result.data.image) {
-                    userForm.photo = `/static/profile/${auth.alias}/${result.data.image}`
+                    userForm.photo = `/static/profile/${auth.alias}/${result.data.image}?v2`
                 }
             })
             .catch(error => {
@@ -83,17 +83,9 @@ onMounted(() => {
     server.get(`/api/name/${auth.alias}`).then(result => {
         let authInfo = result.data.profile
 
-        console.log(authInfo)
+        setModel(user, authInfo)
+
         user.photo = `/static/profile/${auth.alias}/${authInfo.image}`
-        user.name = authInfo.name
-        user.alias = authInfo.alias
-        user.addr = authInfo.addr
-        user.addrDetail = authInfo.addrDetail
-        user.gitHub = authInfo.gitHub
-        user.blog = authInfo.blog
-        user.email = authInfo.email
-        user.shortIntro = authInfo.simpleIntroduceMyself
-        user.longIntro = authInfo.detailIntroduceMyself
         user.mainContentFirst = authInfo.mainContent?.split('||')[0]
         user.mainContentSecond = authInfo.mainContent?.split('||')[1]
 
@@ -107,7 +99,7 @@ onMounted(() => {
             <q-card-section>
                 <div class="row items-center">
                     <q-avatar size="100px" class="q-mr-md">
-                        <q-img :src="userForm.photo" />
+                        <q-img loading-show-delay="1" :src="userForm.photo" />
                     </q-avatar>
                     <q-file type="file" v-if="isEditing" v-model="user.image" label="프로필 이미지" @update:model-value="imageChage" />
                 </div>
@@ -189,8 +181,8 @@ onMounted(() => {
                     <q-item>
                         <q-item-section>
                             <q-item-label>한줄 소개</q-item-label>
-                            <q-item-label v-if="!isEditing">{{ user.shortIntro }}</q-item-label>
-                            <q-input v-if="isEditing" v-model="userForm.shortIntro" />
+                            <q-item-label v-if="!isEditing">{{ user.simpleIntroduceMyself }}</q-item-label>
+                            <q-input v-if="isEditing" v-model="userForm.simpleIntroduceMyself" />
                         </q-item-section>
                     </q-item>
 
@@ -202,7 +194,7 @@ onMounted(() => {
                                 v-if="!isEditing"
                                 :content-style="{ fontSize: '1rem' }"
                                 readonly
-                                v-model="user.longIntro"
+                                v-model="user.detailIntroduceMyself"
                                 name="contents"
                                 :dense="$q.screen.lt.md"
                                 :toolbar="[]"
@@ -211,7 +203,7 @@ onMounted(() => {
                                 height="300px"
                                 v-if="isEditing"
                                 :content-style="{ fontSize: '1rem' }"
-                                v-model="userForm.longIntro"
+                                v-model="userForm.detailIntroduceMyself"
                                 name="contents"
                                 :dense="$q.screen.lt.md"
                                 :toolbar="[]"
