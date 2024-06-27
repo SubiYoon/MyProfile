@@ -61,8 +61,8 @@
             blog = #{blog},
             email = #{email},
             main_content = #{mainContentFirst} || '||' || #{mainContentSecond},
-            simple_introduce_myself = #{shortIntro},
-            detail_introduce_myself = #{longIntro}
+            simple_introduce_myself = #{simpleIntroduceMyself},
+            detail_introduce_myself = #{detailIntroduceMyself}
         where alias = #{originAlias}
     </update>
 </mapper>
