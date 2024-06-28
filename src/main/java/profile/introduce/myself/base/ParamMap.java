@@ -1,8 +1,10 @@
 package profile.introduce.myself.base;
 
+import lombok.NonNull;
+
 import java.util.*;
 
-public class ParamMap implements Map {
+public class ParamMap implements Map<String, Object> {
 
     Map<String, Object> useParams = new LinkedHashMap<>();
 
@@ -29,23 +31,41 @@ public class ParamMap implements Map {
         return paramMap;
     }
 
-    public Object get(String key) {
+    /**
+     * key값을 이용하여 데이터를 가져옴
+     * @param key 데이터의 key값
+     * @return Object
+     */
+    @Override
+    public Object get(Object key) {
         return useParams.get(key);
     }
 
+    /**
+     * key값을 이용하여 원본데이터를 가져옴
+     * @param key 데이터의 key값
+     * @return Object
+     */
     public Object getOriginal(String key) {
         return original.get(key);
     }
 
-    public void put(String key, Object value) {
+    /**
+     * key값을 이용하여 새로운 데이터를 추가 or 수정함
+     * @param key 데이터의 key값.
+     * @return Map
+     */
+    @Override
+    public Object put(String key, Object value) {
         useParams.put(key, value);
+        return useParams;
     }
 
     protected Map<String, Object> getUseParams() {
         return useParams;
     }
 
-    protected Map<String, Object> getParams() {
+    protected Map<String, Object> getOriginalParams() {
         return original;
     }
 
@@ -59,61 +79,52 @@ public class ParamMap implements Map {
 
     @Override
     public int size() {
-        return 0;
+        return useParams.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return useParams.isEmpty();
     }
 
     @Override
     public boolean containsKey(Object key) {
-        return false;
+        return useParams.containsKey(key);
     }
 
     @Override
     public boolean containsValue(Object value) {
-        return false;
-    }
-
-    @Override
-    public Object get(Object key) {
-        return null;
-    }
-
-    @Override
-    public Object put(Object key, Object value) {
-        return null;
+        return useParams.containsValue(value);
     }
 
     @Override
     public Object remove(Object key) {
+        useParams.put((String)key, null);
         return null;
     }
 
     @Override
-    public void putAll(Map m) {
-
+    public void putAll(Map<? extends String, ?> m) {
+        useParams.putAll(m);
     }
 
     @Override
     public void clear() {
-
+        useParams.clear();
     }
 
     @Override
     public Set keySet() {
-        return Set.of();
+        return Set.of(useParams);
     }
 
     @Override
     public Collection values() {
-        return List.of();
+        return List.of(useParams);
     }
 
     @Override
-    public Set<Entry> entrySet() {
-        return Set.of();
+    public Set<Entry<String, Object>> entrySet() {
+        return Set.of((Entry<String, Object>) useParams);
     }
 }
