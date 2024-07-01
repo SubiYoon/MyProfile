@@ -50,7 +50,7 @@ const ProjectList = ({
                               <CompanyBox>
                                   <CompanyImageBox>
                                       <CompanyImage
-                                          src={`/static/career/${careerItem.companyLogo}`}
+                                          src={`/static/images/career/${careerItem.companyLogo}`}
                                       />
                                   </CompanyImageBox>
                                   <ProjectNameBox>
@@ -85,7 +85,7 @@ const ProjectList = ({
                                           <CompanyBox>
                                               <CompanyImageBox>
                                                   <CompanyImage
-                                                      src={`/static/career/${careerItem.companyLogo}`}
+                                                      src={`/static/images/career/${careerItem.companyLogo}`}
                                                   />
                                               </CompanyImageBox>
                                               <ProjectTextSpan>

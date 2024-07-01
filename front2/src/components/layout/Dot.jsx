@@ -9,6 +9,7 @@ import { MdDeveloperBoardOff } from 'react-icons/md';
 import { IoHome } from 'react-icons/io5';
 import { GoProjectRoadmap } from 'react-icons/go';
 import { CgProfile } from 'react-icons/cg';
+import { PiStudentBold } from 'react-icons/pi';
 const Dot = ({ onMenuClick }) => {
     const [menuData, setMenuData] = useState([]);
     const currentPage = useRecoilValue(currentPageState);

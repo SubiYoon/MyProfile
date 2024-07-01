@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { currentPageState } from '@/recoil.js';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { currentPageState, modeState } from '@/recoil.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import Home from '@/pages/Home.jsx';
 import Profile from '@/pages/Profile.jsx';
 import Dot from '@/components/layout/Dot.jsx';
 import PowerShell from '@/pages/PowerShell.jsx';
+import BasicProject from '@/pages/BasicProject.jsx';
+import BasicEducation from '@/pages/BasicEducation.jsx';
 
 const Border = React.forwardRef(({ urlGb }, ref) => {
     const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
@@ -15,16 +17,29 @@ const Border = React.forwardRef(({ urlGb }, ref) => {
         useState(null);
     const prevPageRef = useRef(currentPage);
     const outerDivRef = useRef(null);
+    const mode = useRecoilValue(modeState);
 
     const pageContents = [
         { id: 1, component: Home },
         { id: 2, component: Profile },
-        { id: 3, component: PowerShell },
     ];
 
-    const sectionRefs = Array.from({ length: pageContents.length }, () =>
-        useRef(null),
-    );
+    if (mode === 'dev') {
+        pageContents.push({ id: 3, component: PowerShell });
+    } else {
+        pageContents.push({ id: 3, component: BasicProject });
+        pageContents.push({ id: 4, component: BasicEducation });
+    }
+
+    const sectionRefs = useRef([]);
+
+    useEffect(() => {
+        if (sectionRefs.current.length !== pageContents.length) {
+            sectionRefs.current = Array(pageContents.length)
+                .fill()
+                .map((_, i) => sectionRefs.current[i] || React.createRef());
+        }
+    }, [pageContents.length]);
 
     useEffect(() => {
         const colorMap = {

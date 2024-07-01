@@ -49,7 +49,7 @@ const Profile = React.memo(() => {
                 <ImgBox>
                     <PhotoBox>
                         <Photo
-                            src={`/static/profile/${profileData.alias}/${profileData.image}`}
+                            src={`/static/images/profile/${profileData.alias}/${profileData.image}`}
                         />
                     </PhotoBox>
                 </ImgBox>

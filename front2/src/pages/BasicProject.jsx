@@ -94,7 +94,7 @@ const Project = React.memo(({ urlGb }) => {
                                 >
                                     <CompanyImageBox>
                                         <CompanyImage
-                                            src={`/static/career/${filteredCareerItem.companyLogo}`}
+                                            src={`/static/images/career/${filteredCareerItem.companyLogo}`}
                                         />
                                     </CompanyImageBox>
                                     <CompanyInfo>
