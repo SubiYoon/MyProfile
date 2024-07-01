@@ -53,7 +53,7 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
                             {stackGroups[category].map((item) => (
                                 <StackBox key={item.stackSeq}>
                                     <StackImg
-                                        src={`/static/stack/${item.stackImage}`}
+                                        src={`/static/images/stack/${item.stackImage}`}
                                     />
                                     <StackList>{item.stackName}</StackList>
                                 </StackBox>
@@ -88,7 +88,7 @@ const DetailProject = React.memo(({ clickProjectItem, userGb }) => {
                                         }}
                                     >
                                         <DetailProjectImage
-                                            src={`/static/detail/${item.image}`}
+                                            src={`/static/images/detail/${item.image}`}
                                         />
                                         {hoveredImage === index && (
                                             <DetailProjectClick>

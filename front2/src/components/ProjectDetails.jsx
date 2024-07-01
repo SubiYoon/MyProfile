@@ -67,7 +67,7 @@ const ProjectDetails = ({ project }) => {
                             <StackBox key={item.stackSeq || Math.random()}>
                                 {Object.keys(item).includes('stackImage') ? (
                                     <StackImg
-                                        src={`/static/stack/${item.stackImage}`}
+                                        src={`/static/images/stack/${item.stackImage}`}
                                     />
                                 ) : (
                                     <GapDiv></GapDiv>

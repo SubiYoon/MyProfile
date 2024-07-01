@@ -145,7 +145,7 @@ const Skills = React.memo(() => {
                             }}
                         >
                             <StackImage
-                                src={`/static/stack/${item.stackImage}`}
+                                src={`/static/images/stack/${item.stackImage}`}
                             />
                             <SkillNameP>{item.stackName}</SkillNameP>
                         </SkillBox>

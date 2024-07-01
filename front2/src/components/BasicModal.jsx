@@ -26,7 +26,7 @@ const DetailModal = ({ detailSeq, userGb }) => {
                     <ModalImgBox>
                         <DetailProjectImageWrapper>
                             <DetailProjectImage
-                                src={`/static/detail/${detailData.image}`}
+                                src={`/static/images/detail/${detailData.image}`}
                             />
                         </DetailProjectImageWrapper>
                     </ModalImgBox>

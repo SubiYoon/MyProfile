@@ -20,7 +20,7 @@ const ProjectSemiDetail = ({ item, scrollToBottom }) => {
         <ProjectSemiDetailWrapper>
             <ImgBox>
                 <Photo
-                    src={`/static/detail/${item.image}`}
+                    src={`/static/images/detail/${item.image}`}
                     onLoad={handleImageLoad}
                 />
             </ImgBox>
