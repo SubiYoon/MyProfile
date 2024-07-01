@@ -61,7 +61,7 @@ const Education = React.memo(() => {
                                 </EducationTitle>
                                 <EducationLogoImgBox>
                                     <EducationLogoImg
-                                        src={`/static/logo/${eudData.eduCompanyLogo}`}
+                                        src={`/static/education/${eudData.eduCompanyLogo}`}
                                     />
                                 </EducationLogoImgBox>
                                 <EducationDayBox>
