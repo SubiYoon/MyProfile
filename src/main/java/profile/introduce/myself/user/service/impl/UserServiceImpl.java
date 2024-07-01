@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public Integer editProfileImage(String alias, MultipartFile profileImage) {
         log.debug("사용자 [[ " + alias + " ]] 프로필 이미지 변경 시도");
 
-        File profileImageDir = new File(staticPath + "/profile/" + alias);
+        File profileImageDir = new File(staticPath + "/images/profile/" + alias);
 
         if(profileImageDir.exists() && profileImageDir.isDirectory()){
             try {
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        FileUtil.saveFileChageName(profileImage, staticPath + "/profile/" + alias + "/", alias, null, false);
+        FileUtil.saveFileChageName(profileImage, staticPath + "/images/profile/" + alias + "/", alias, null, false);
 
         return userMapper.editProfileImage(alias, alias + "." + profileImage.getOriginalFilename().split("[.]")[1]);
     }
