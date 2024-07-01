@@ -26,6 +26,7 @@ const Main = () => {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
+                console.log('url--------------------', urlGb);
                 const response = await axiosInstance.get(`/api/name/${urlGb}`);
                 setProfileData(response.data.profile);
                 setStackData(response.data.stack);
