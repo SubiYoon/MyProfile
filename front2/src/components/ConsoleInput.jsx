@@ -84,9 +84,12 @@ const ConsoleInput = ({
 
                 //if 값 수정해야함
                 if (detailMatchedCommands.length === 0) {
-                    setDetailMatchCommands(arrayTitle);
-                    setCurrentMatchIndex(0);
-                    setConsoleText('cd ' + arrayTitle[0]);
+                    //매치 되는게 없을 경우 ll 후 나오는 상세 제목이 나온다.
+                    if (arrayTitle.length > 0) {
+                        setDetailMatchCommands(arrayTitle);
+                        setCurrentMatchIndex(0);
+                        setConsoleText('cd ' + arrayTitle[0]);
+                    }
                 } else {
                     const nextIndex =
                         (currentMatchIndex + 1) % detailMatchedCommands.length;

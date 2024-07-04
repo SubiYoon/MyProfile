@@ -260,6 +260,7 @@ const ModeDots = styled(motion.div)`
 `;
 
 const ModeTitle = styled(motion.div)`
+    white-space: nowrap; // 줄바꿈 방지
     color: white;
     margin-bottom: 10%;
 `;
