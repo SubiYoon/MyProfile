@@ -113,9 +113,9 @@ const Dot = ({ onMenuClick }) => {
                         modeChange();
                     }}
                 >
-                    {mode !== 'dev' ? <DevMode /> : <BasicMode />}
+                    {mode === 'dev' ? <DevMode /> : <BasicMode />}
                 </ModeDots>
-                <MenuButton>{mode !== 'dev' ? 'dev' : 'basic'}</MenuButton>
+                <MenuButton>{mode}</MenuButton>
             </ModeDotContainer>
         </>
     );
