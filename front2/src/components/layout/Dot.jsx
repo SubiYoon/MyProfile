@@ -138,7 +138,7 @@ const DotContainer = styled.div`
 
 const MenuButton = styled.span`
     display: ${({ $currentPage, $num }) =>
-        $currentPage === $num ? 'block' : 'none'};
+            $currentPage === $num ? 'block' : 'none'};
     align-items: center;
     background-color: transparent;
     color: white;
@@ -146,11 +146,11 @@ const MenuButton = styled.span`
     font-size: ${({ theme }) => theme.fonts.mainFontSize};
     text-shadow: 8px 8px 4px rgba(230, 27, 57, 0.8);
     transform: translateY(
-        ${({ $currentPage, $num }) => ($currentPage === $num ? '0' : '20px')}
+            ${({ $currentPage, $num }) => ($currentPage === $num ? '0' : '20px')}
     );
     transition:
-        opacity 0.5s ease,
-        transform 0.5s ease;
+            opacity 0.5s ease,
+            transform 0.5s ease;
     @media screen and (max-width: 768px) {
         font-size: ${({ theme }) => theme.fonts.mobile.mainFontSize};
         margin-top: 8%;
@@ -175,7 +175,7 @@ const Dots = styled(motion.div)`
     margin-top: 30%;
     margin-bottom: 30%;
     color: ${({ $currentPage, $num }) =>
-        $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
+            $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -246,7 +246,7 @@ const ModeDots = styled(motion.div)`
     height: 30px;
     margin-bottom: 4%;
     color: ${({ $currentPage, $num }) =>
-        $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
+            $currentPage === $num ? 'rgba(230, 27, 57, 1)' : 'white'};
     &:hover {
         cursor: pointer;
         transform: scale(1.5);
@@ -260,6 +260,7 @@ const ModeDots = styled(motion.div)`
 `;
 
 const ModeTitle = styled(motion.div)`
+    white-space: nowrap; // 줄바꿈 방지
     color: white;
     margin-bottom: 10%;
 `;

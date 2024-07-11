@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     TitleBox,
     ProjectTopContainer,
@@ -12,16 +12,16 @@ import { useRecoilValue } from 'recoil';
 import { careerState } from '@/recoil.js';
 
 const ConsoleInput = ({
-    inputRef,
-    consoleText = '', // 기본값 설정
-    setConsoleText,
-    handleKeyDown,
-    directory,
-    name,
-    careerSeq,
-    countSlashes,
-    currentProject,
-}) => {
+                          inputRef,
+                          consoleText = '', // 기본값 설정
+                          setConsoleText,
+                          handleKeyDown,
+                          directory,
+                          name,
+                          careerSeq,
+                          countSlashes,
+                          currentProject,
+                      }) => {
     const [suggestions] = useState(['ll', 'cd', 'clear']);
     const [matchedCommands, setMatchedCommands] = useState([]);
     const [detailMatchedCommands, setDetailMatchCommands] = useState([]);
@@ -84,9 +84,12 @@ const ConsoleInput = ({
 
                 //if 값 수정해야함
                 if (detailMatchedCommands.length === 0) {
-                    setDetailMatchCommands(arrayTitle);
-                    setCurrentMatchIndex(0);
-                    setConsoleText('cd ' + arrayTitle[0]);
+                    //매치 되는게 없을 경우 ll 후 나오는 상세 제목이 나온다.
+                    if (arrayTitle.length > 0) {
+                        setDetailMatchCommands(arrayTitle);
+                        setCurrentMatchIndex(0);
+                        setConsoleText('cd ' + arrayTitle[0]);
+                    }
                 } else {
                     const nextIndex =
                         (currentMatchIndex + 1) % detailMatchedCommands.length;
