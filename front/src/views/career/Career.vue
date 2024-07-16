@@ -47,7 +47,7 @@ const imageChage = () => {
             )
             .then(result => {
                 if (result.data.image) {
-                    careerForm.photo = `/static/career/${auth.alias}/${result.data.companyLogo}?v2`
+                    careerForm.photo = `/static/images/career/${auth.alias}/${result.data.companyLogo}?v2`
                 }
             })
             .catch(error => {

@@ -70,7 +70,7 @@ const imageChage = () => {
             )
             .then(result => {
                 if (result.data.image) {
-                    userForm.photo = `/static/profile/${auth.alias}/${result.data.image}?v2`
+                    userForm.photo = `/static/images/profile/${auth.alias}/${result.data.image}?v2`
                 }
             })
             .catch(error => {
@@ -85,7 +85,7 @@ onMounted(() => {
 
         setModel(user, authInfo)
 
-        user.photo = `/static/profile/${auth.alias}/${authInfo.image}`
+        user.photo = `/static/images/profile/${auth.alias}/${authInfo.image}`
         user.mainContentFirst = authInfo.mainContent?.split('||')[0]
         user.mainContentSecond = authInfo.mainContent?.split('||')[1]
 
